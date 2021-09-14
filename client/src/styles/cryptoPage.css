@@ -1,0 +1,76 @@
+.crypto-page-container {
+    width: 100%;
+    background-color: #121212;
+    padding-bottom: 5rem;
+    color: #fff;
+}
+
+.crypto-page-container-light {
+    background-color: #fff;
+    color: #000;
+}
+
+.company-chart-container {
+    width: 86%;
+    padding-top: 3rem;
+}
+
+.company-chart-container h1 {
+    font-size: 2.9rem;
+}
+
+.asset-price {
+    margin-top: 1rem;
+    font-size: 2.6rem;
+}
+
+.company-chart-container h1, .company-asset-change{
+    margin-left: 2rem;
+}
+
+.company-asset-change {
+    color: #7bcd77;
+    font-size: 1.8rem;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+}
+
+.company-asset-change-light {
+    color: #41b63c;
+}
+
+.percent-dec {
+    color: #c45145;
+}
+
+.explorer {
+    margin-right: 20px;
+    height: 48%;
+}
+
+.explorer-links {
+    max-width: 100%;
+    height: 60px;
+    overflow: scroll;
+}
+
+.crypto-symbol {
+    display: flex;
+    align-items: center;
+}
+
+.crypto-symbol img {
+    width: 90px;
+    margin-left: 1.8em;
+}
+
+.categories {
+    max-width: 100%;
+    overflow: scroll;
+}
+
+.social {
+    margin-right: 20px;
+}
+
+

@@ -1,0 +1,38 @@
+.row {
+    font-size: 1.1em;
+}
+
+.row img {
+    width: 32px;
+    margin-right: 10px;
+    border-radius: 50%;
+    margin-left: 13px;
+}
+
+.table-ticker {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+ 
+}
+
+.percent-change-inc {
+    color: #7bcd77;
+}
+
+.percent-change-dec {
+    color: #c45145;
+}
+
+.remove {
+    cursor: pointer;
+}
+
+.ticker-light {
+    color: #000000;
+}
+
+.ticker-light:hover {
+    color: #464646
+}

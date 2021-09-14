@@ -1,0 +1,306 @@
+import React, {
+  useState,
+  useEffect,
+  useContext,
+} from "react";
+import { useParams } from "react-router-dom";
+import Chart from "./Chart";
+import CompanyInfo from "./CompanyInfo";
+import BalanceSheet from "./BalanceSheet";
+import IncomeStatement from "./IncomeStatement";
+import CashFlow from "./CashFlow";
+import CompanyNews from "./CompanyNews";
+import Unavailable from "./Unavailable";
+import { ThemeContext } from "../context/themeContext";
+import { numberWithCommas } from "../utils/utils";
+import "../styles/companyPage.css";
+
+const getPriceData = async (symbolId, timeFrame) => {
+
+  /* 
+    
+    Function that gets the current price data and percent price change
+    for a stock.
+
+    Parameters:
+      symbolId (string):
+        Stock ticker/symbol
+      timeFrame (string):
+        Timeframe for which to return price percent change
+        [day, week, month, year]
+    Returns:
+      priceData (object):
+        Object containing current price data and price percent change
+  */
+
+  try {
+    const url = `http://localhost:5000/stocks/current/${symbolId}?interval=${timeFrame}`;
+    const response = await fetch(url);
+    // Handle server error
+    if (response.status === 500) {
+      throw new Error('Something went wrong. Data unavailable')
+    }
+    const priceData = await response.json();
+    return priceData;
+  } catch (error) {
+    console.log(error);
+    return -1
+  }
+  
+};
+
+const getMarketData = async (symbolId, timeFrame) => {
+  /* 
+    Function that gets the price data based on provided timeframe.
+
+    Parameters:
+      symbolId (string):
+        Stock symbol/ticker
+      timeFrame (string):
+        Timeframe for which to return stock price data
+    Returns:
+      data (object):
+        Object containing price data. Contains an array of objects
+        with price information for different time points.
+  */
+  try {
+    const baseUrl = "http://localhost:5000/stocks/prices/";
+    const api = `${symbolId}?period=${timeFrame}`;
+    const response = await fetch(baseUrl + api);
+    if (response.status === 500) {
+      throw new Error('Something went wrong. Data unavailable');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+    return -1;
+  }
+};
+
+const fetchCompanyData = async (symbolId, type) => {
+  /* 
+    Function that gets company data.
+      > Company overview
+      > Income statement
+      > Balance sheet
+      > Cash flow
+    
+    Parameters:
+      symbolId (string):
+        Stock symbol/ticker
+      type (string):
+        Type of information to retrieve
+  
+  */
+  try {
+    const symbol = symbolId.toLowerCase();
+    let url;
+    switch (type) {
+      case "overview":
+        url = `http://localhost:5000/stocks/overview/${symbol}`;
+        break;
+      case "income":
+        url = `http://localhost:5000/stocks/income/${symbol}`;
+        break;
+      case "balance":
+        url = `http://localhost:5000/stocks/balance_sheet/${symbol}`;
+        break;
+      case "cash":
+        url = `http://localhost:5000/stocks/cash_flow/${symbol}`;
+        break;
+      default:
+        break;
+    }
+    const response = await fetch(url);
+
+    if (response.status === 500) {
+      throw new Error('Something went wrong. Data unavailable')
+    }
+
+    const data = await response.json();
+
+    if (type === "overview") {
+      return { overview: data.data };
+    }
+
+    if (type === "income") {
+      return { income: data.data };
+    }
+
+    if (type === "balance") {
+      return { balance: data.data };
+    }
+
+    if (type === "cash") {
+      return { cash: data.data };
+    }
+  } catch (error) {
+    console.log(error);
+    return -1;
+  }
+};
+
+ const fetchAllCompanyData = async (dataFetches) => {
+  /* 
+    Function to fetch different types of company data all at once.
+
+    Parameters:
+      dataFetches (array):
+        Array of promises (company data fetch requests)
+      Returns:
+        companyData (object):
+          Object containing different types of company data
+
+  */
+   try {
+     const dataArray = await Promise.all(dataFetches);
+     const companyData = {};
+     dataArray.forEach((item) => {
+       const key = Object.keys(item)[0];
+       companyData[key] = item[key];
+     });
+     return companyData
+   } catch (error) {
+     console.log();
+   }
+ };
+
+const CompanyPage = () => {
+  // Component that renders company information
+
+  const { theme } = useContext(ThemeContext);
+  const [timeFrame, setTimeFrame] = useState("day");
+  const [hideX, setHideX] = useState(false);
+  const handleHide = () => setHideX(false);
+  const { symbolId } = useParams();
+  const [company, setCompany] = useState(null);
+  const [price, setPrice] = useState(0);
+  const [change, setChange] = useState(null);
+  const [changePercent, setChangePercent] = useState(null);
+  const [marketData, setMarketData] = useState([]);
+
+  // Class for styling price difference
+  // Green if > 0
+  // Red if < 0
+  const percentClass = changePercent && changePercent < 0 ? "percent-dec" : "";
+
+  useEffect(() => {
+    const fetchData = async (symbolId, timeFrame) => {
+      const priceData = await getPriceData(symbolId, timeFrame);
+      const companyMarketData = await getMarketData(symbolId, timeFrame);
+      console.log(priceData);
+      if (priceData !== -1 && companyMarketData !== -1) {
+          setPrice(priceData.price);
+          setChange(priceData.change);
+          setChangePercent(priceData.changePercent);
+          setMarketData(companyMarketData.assetValue);
+      } else {
+        setPrice(-1);
+      }
+      return;
+    }
+    fetchData(symbolId, timeFrame);
+  }, [timeFrame, symbolId]);
+
+  useEffect(() => {
+    const getCompany = async (symbolId) => {
+       const companyData = await fetchAllCompanyData([
+         fetchCompanyData(symbolId, "overview"),
+         fetchCompanyData(symbolId, "income"),
+         fetchCompanyData(symbolId, "balance"),
+         fetchCompanyData(symbolId, "cash"),
+       ]);
+       setCompany(companyData);
+    }
+    getCompany(symbolId);
+  }, [symbolId]);
+
+
+  if (price === -1) {
+    return <Unavailable param={symbolId} theme={theme}/>
+  }
+
+  return (
+    <div
+      className={`company-page-container ${
+        theme === "light" ? "company-page-container-light" : null
+      }`}
+    >
+      <div className="company-chart-container">
+        <div className="company-symbol">
+          <img
+            src={`https://storage.googleapis.com/iex/api/logos/${symbolId}.png`}
+            alt="company"
+          />
+          {/* <h1>{company ? company.overview.symbol : ""}</h1> */}
+          <h1>{symbolId}</h1>
+        </div>
+        <h1 className="asset-price">
+          ${price ? numberWithCommas(price.toFixed(2)) : 0}
+        </h1>
+        <div
+          className={`company-asset-change ${
+            theme === "light" ? "company-asset-change-light" : null
+          } ${percentClass}`}
+        >
+          <span>
+            {changePercent < 0 ? "-" : ""}$
+            {change ? numberWithCommas(Math.abs(change.toFixed(2))) : 0} (
+            {changePercent ? changePercent.toFixed(2) : 0}%)
+          </span>
+        </div>
+        <div className="balance-history">
+          <div
+            onClick={() => {
+              setHideX(true);
+              setTimeFrame("day");
+            }}
+          >
+            1D
+          </div>
+          <div
+            onClick={() => {
+              setHideX(true);
+              setTimeFrame("week");
+            }}
+          >
+            1W
+          </div>
+          <div
+            onClick={() => {
+              setHideX(true);
+              setTimeFrame("month");
+            }}
+          >
+            1M
+          </div>
+          <div
+            onClick={() => {
+              setHideX(true);
+              setTimeFrame("year");
+            }}
+          >
+            1Y
+          </div>
+        </div>
+        <br />
+        <Chart
+          timeFrame={timeFrame}
+          handle={handleHide}
+          hide={hideX}
+          // isPriceIncreasing={true}
+          priceChange={changePercent}
+          valueData={marketData}
+        />
+      </div>
+      {company ? <CompanyInfo overview={company.overview} /> : null}
+      {company ? <BalanceSheet balance={company.balance} /> : null}
+      {company ? <IncomeStatement income={company.income} /> : null}
+      {company? <CashFlow cash={company.cash}/> : null}
+      <CompanyNews />
+    </div>
+  );
+};
+
+export default CompanyPage;
