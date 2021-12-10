@@ -3,6 +3,7 @@ import { PieChart, Pie, Legend, ResponsiveContainer, Sector } from "recharts";
 import { numberWithCommas } from "../utils/utils";
 
 const PieGraph = ({ portfolio, assetValue, showPercent }) => {
+  // Asset allocation graph component
   const [activeIndex, setActiveIndex] = useState(null);
 
   const onPieEnter = useCallback(
@@ -25,7 +26,6 @@ const PieGraph = ({ portfolio, assetValue, showPercent }) => {
     "#d16b52",
   ];
 
-
   const data = portfolio.map((asset) => {
     const displayValue = showPercent
       ? (asset.value / assetValue) * 100
@@ -37,7 +37,6 @@ const PieGraph = ({ portfolio, assetValue, showPercent }) => {
   });
 
   data.forEach((asset, index) => {
-    // const fillColorIdx = index % colors.length;
     if (index < colors.length) {
       asset.fill = colors[index];
     } else {
@@ -72,13 +71,9 @@ const PieGraph = ({ portfolio, assetValue, showPercent }) => {
             {payload.name}
           </tspan>
           <tspan x={cx} dy={25}>
-            {
-              showPercent?
-              payload.value.toFixed(2) + "%"
-              :
-              "$" + numberWithCommas(payload.value.toFixed(2))
-            }
-            {/* ${numberWithCommas(payload.value.toFixed(2))} */}
+            {showPercent
+              ? payload.value.toFixed(2) + "%"
+              : "$" + numberWithCommas(payload.value.toFixed(2))}
           </tspan>
         </text>
         <Sector

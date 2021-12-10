@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
-import { ThemeContext } from "../context/themeContext";
+import { AppContext } from "../context/appContext";
 import { numberWithCommas } from "../utils/utils";
 import "../styles/assetInfo.css";
 
 const CryptoMarket = ({ data }) => {
   // Market data component
 
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useContext(AppContext);
   const [expand, setExpand] = useState(true);
 
   return (

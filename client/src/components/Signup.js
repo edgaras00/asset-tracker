@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { ThemeContext } from "../context/themeContext";
+import { AppContext } from "../context/appContext";
 import "../styles/signup.css";
 
 const Signup = () => {
@@ -12,7 +12,7 @@ const Signup = () => {
   const [repeatPasswordInput, setRepeatPasswordInput] = useState("");
   const [signUpError, setSignUpError] = useState("");
   const [serverErrors, setServerErrors] = useState(null);
-  const { setUser } = useContext(ThemeContext);
+  const { setUser } = useContext(AppContext);
 
   const signUp = async (event, email, password, repeatPassword) => {
     // Function that sends a POST request to the server to sign up a new user
@@ -27,7 +27,7 @@ const Signup = () => {
       }
       setSignUpError("");
       // API URL and request body / options
-      const url = "http://localhost:3000/user/signup";
+      const url = "/user/signup";
       const signUpBody = {
         email,
         password,
@@ -35,7 +35,6 @@ const Signup = () => {
 
       const options = {
         method: "POST",
-        credentials: "include",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -46,8 +45,8 @@ const Signup = () => {
       const response = await fetch(url, options);
       const responseData = await response.json();
       if (response.ok || response.status === 201) {
-        setUser(responseData.user);
-        localStorage.setItem("user", JSON.stringify(responseData.user));
+        setUser(responseData.data.user);
+        localStorage.setItem("user", JSON.stringify(responseData.data.user));
         return;
       } else {
         setServerErrors(responseData);
@@ -67,7 +66,7 @@ const Signup = () => {
           signUp(event, emailInput, passwordInput, repeatPasswordInput)
         }
       >
-        <h4>delta</h4>
+        <h4>alpha</h4>
         <div className="create-account">
           <h3>Create Your Account</h3>
         </div>

@@ -14,9 +14,9 @@ const ListItem = ({
   value,
   dayChange,
   returnOnInvestment,
-  user,
   name,
-  theme
+  theme,
+  assetID,
 }) => {
   // Component for user's portfolio table rows
 
@@ -25,37 +25,16 @@ const ListItem = ({
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  
-
-  // User asset array
-  let assetArray = [];
-  if (user) {
-    assetArray =
-      type === "stocks"
-        ? user.assets.stockInfo.stocks
-        : user.assets.cryptoInfo.crypto;
-  }
-
-  // Get asset object id (required for selling) and amount
-  const assetObject = assetArray.find((asset) => asset.symbol === ticker);
-  let assetObjectId, totalAmount;
-  if (assetObject) {
-    assetObjectId = assetObject._id;
-    totalAmount = assetObject.amount;
-  }
-  const userId = user._id;
-
   return (
     <tr className="row">
       <RemoveTxn
         isModalOpen={isModalOpen}
         closeModal={closeModal}
         symbol={ticker}
-        assetObjectId={assetObjectId}
-        userId={userId}
+        assetObjectId={assetID}
         type={type}
         name={name}
-        totalAmount={totalAmount}
+        totalAmount={amount}
         cid={cid}
         assetPrice={price}
       />
@@ -68,7 +47,7 @@ const ListItem = ({
         </Link>
       </td>
       {amount ? <td>{numberWithCommas(amount)}</td> : null}
-      <td>${price >= 1000? numberWithCommas(price) : price}</td>
+      <td>${price >= 1000 ? numberWithCommas(price) : price}</td>
       {value ? <td>${numberWithCommas(value.toFixed(2))}</td> : null}
       <td
         className={dayChange >= 0 ? "percent-change-inc" : "percent-change-dec"}

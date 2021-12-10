@@ -1,10 +1,7 @@
 import React from "react";
-import noLogo from "../img/404.jpg";
 import { Link } from "react-router-dom";
 
 const ModalAssetItem = ({
-  // Component for asset search results
-
   theme,
   ticker,
   symbol,
@@ -15,6 +12,8 @@ const ModalAssetItem = ({
   toggleAddingTxn,
   logo,
 }) => {
+  // Component for asset search results
+
   let assetLogo = "";
   let linkToInfo;
   if (type === "stock") {
@@ -23,12 +22,8 @@ const ModalAssetItem = ({
     linkToInfo = `/company/${symbol}`;
   }
   if (type === "crypto" && logo) {
-    // logo = `https://s2.coinmarketcap.com/static/img/coins/64x64/${cmcId}.png`;
     assetLogo = logo;
     linkToInfo = `/crypto/${cid}`;
-  } else if (type === "crypto" && logo === "NA") {
-    linkToInfo = `/crypto/${cid}`;
-    assetLogo = noLogo;
   }
 
   return (

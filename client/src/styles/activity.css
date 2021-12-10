@@ -2,6 +2,8 @@
   background-color: #242424;
   width: 48%;
   min-height: 300px;
+  max-height: 500px;
+  overflow: scroll;
   border-radius: 10px;
   padding-bottom: 40px;
   margin-top: 3rem;
@@ -17,7 +19,6 @@
   width: 100%;
   border-spacing: 0 1.5em;
 }
-
 
 .activity-table td {
   border-bottom: 3px solid rgb(51, 51, 51);
@@ -47,45 +48,43 @@
 }
 
 .date {
-    margin-left: 20px;
-    margin-right: 10px;
-    font-size: 1.3em;
+  margin-left: 20px;
+  margin-right: 10px;
+  font-size: 1.3em;
 }
 
 .month {
-    margin-bottom: 0.5em;
-    font-size: 1.1em;
+  margin-bottom: 0.5em;
+  font-size: 1.1em;
 }
 
 .buy-ico {
-    border: 1px solid rgb(155, 155, 155);
-    margin-left: 15px;
-    width: 3.3em;
-    height: 3.3em;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+  border: 1px solid rgb(155, 155, 155);
+  margin-left: 15px;
+  width: 3.3em;
+  height: 3.3em;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .description {
-    margin-left: 2em;
+  margin-left: 2em;
 }
 
 .display-amount {
-    display: flex;
-    flex-direction: column;
-
+  display: flex;
+  flex-direction: column;
 }
 
 .asset-amount {
-    margin-bottom: 1em;
-    font-size: 1.3em;
+  margin-bottom: 1em;
+  font-size: 1.3em;
 }
 
 .value-usd {
-    font-size: 1.1em;
+  font-size: 1.1em;
 }
 
 .no-activity {

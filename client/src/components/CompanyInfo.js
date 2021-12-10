@@ -1,16 +1,16 @@
 import React, { useState, useContext } from "react";
-import { ThemeContext } from "../context/themeContext";
-import {numberWithCommas} from '../utils/utils';
+import { AppContext } from "../context/appContext";
+import { numberWithCommas } from "../utils/utils";
 import "../styles/assetInfo.css";
 
 const CompanyInfo = ({ overview }) => {
-  const { theme } = useContext(ThemeContext);
+  // Company info component
+  const { theme } = useContext(AppContext);
   const [expandContent, setExpandContent] = useState(false);
   const [expandOverview, setExpandOverview] = useState(false);
 
-
   const moreRows = [
-    <tr key='row1'>
+    <tr key="row1">
       <td>
         <div className="asset-title">EPS</div>
         <div>{overview.eps}</div>
@@ -24,7 +24,7 @@ const CompanyInfo = ({ overview }) => {
         <div>{overview.profitMargin}</div>
       </td>
     </tr>,
-    <tr key='row2'>
+    <tr key="row2">
       <td>
         <div className="asset-title">P/E</div>
         <div>{overview.pe}</div>
@@ -87,35 +87,39 @@ const CompanyInfo = ({ overview }) => {
         <br />
         <table className="asset-table">
           <tbody>
-          <tr>
-            <td>
-              <div className="asset-title">Sector</div>
-              <div>{overview.sector}</div>
-            </td>
-            <td>
-              <div className="asset-title">Industry</div>
-              <div>{overview.industry}</div>
-            </td>
-            <td>
-              <div className="asset-title">Country</div>
-              <div>{overview.country}</div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div className="asset-title">Marketcap</div>
-              <div>{numberWithCommas(overview.marketcap)}</div>
-            </td>
-            <td>
-              <div className="asset-title">Exchange</div>
-              <div>{overview.exchange}</div>
-            </td>
-            <td>
-              <div className="asset-title">Employees</div>
-              <div>{overview.employees? numberWithCommas(overview.employees) : 'No data'}</div>
-            </td>
-          </tr>
-          {expandOverview ? moreRows : null}
+            <tr>
+              <td>
+                <div className="asset-title">Sector</div>
+                <div>{overview.sector}</div>
+              </td>
+              <td>
+                <div className="asset-title">Industry</div>
+                <div>{overview.industry}</div>
+              </td>
+              <td>
+                <div className="asset-title">Country</div>
+                <div>{overview.country}</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div className="asset-title">Marketcap</div>
+                <div>{numberWithCommas(overview.marketcap)}</div>
+              </td>
+              <td>
+                <div className="asset-title">Exchange</div>
+                <div>{overview.exchange}</div>
+              </td>
+              <td>
+                <div className="asset-title">Employees</div>
+                <div>
+                  {overview.employees
+                    ? numberWithCommas(overview.employees)
+                    : "No data"}
+                </div>
+              </td>
+            </tr>
+            {expandOverview ? moreRows : null}
           </tbody>
         </table>
       </div>

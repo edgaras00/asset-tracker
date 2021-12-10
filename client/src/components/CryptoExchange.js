@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
-import { ThemeContext } from "../context/themeContext";
+import { AppContext } from "../context/appContext";
 import { numberWithCommas } from "../utils/utils";
 import "../styles/assetInfo.css";
 
 const CryptoExchange = ({ data }) => {
   // Component that renders the crypto exchange information table
 
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useContext(AppContext);
   const [expand, setExpand] = useState(false);
 
   // Table rows
@@ -21,7 +21,7 @@ const CryptoExchange = ({ data }) => {
           }`}
           key={item.name + index}
         >
-          <td classname='test'>
+          <td className="test">
             <a href={item.url} rel="noopener noreferrer" target="_blank">
               {item.name}
             </a>

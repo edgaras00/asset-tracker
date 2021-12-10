@@ -4,34 +4,23 @@ import Chart from "./Chart";
 import CryptoMarket from "./CryptoMarket";
 import CryptoExchange from "./CryptoExchange";
 import CompanyNews from "./CompanyNews";
-import Unavailable from './Unavailable';
-import { ThemeContext } from "../context/themeContext";
+import Unavailable from "./Unavailable";
+import { AppContext } from "../context/appContext";
 import { numberWithCommas } from "../utils/utils";
 import "../styles/cryptoPage.css";
 import "../styles/assetInfo.css";
 
 const fetchPriceData = async (cId, timeFrame) => {
-  /* 
-    Function that gets crypto price data for different time intervals
-    (daily, weekly, monthly, yearly). Used for plotting the price chart 
-
-    Parameters:
-      cId (string):
-        CoinGecko cryptocurrency id
-      timeFrame (string) [day, week, month, year]:
-        Time interval for which to retrieve price data
-      Returns:
-        data (object):
-          Object containing array with price data objects
-  */
   try {
-    const url = `http://localhost:5000/crypto/prices/${cId}?interval=${timeFrame}`;
+    const url = `/crypto/prices/${cId}?interval=${timeFrame}`;
     const response = await fetch(url);
+
     if (response.status === 500) {
-      throw new Error('Something went wrong. Data unavailable');
+      throw new Error("Something went wrong. Data unavailable");
     }
+
     const data = await response.json();
-    return data;
+    return data.data;
   } catch (error) {
     console.log(error);
     return -1;
@@ -39,27 +28,16 @@ const fetchPriceData = async (cId, timeFrame) => {
 };
 
 const getCurrentPrice = async (cId, timeFrame) => {
-  /* 
-    Function that gets the current price of the crypto asset.
-
-    Parameters:
-      cId (string):
-        CoinGecko crypto id
-      timeFrame (string):
-        Timeframe for which to retrieve price data
-    Returns:
-      data (object):
-        Object containing the currenct price and percent change for
-        the provided timeframe
-  */
   try {
-    const baseUrl = "http://localhost:5000/crypto/current/";
+    const baseUrl = "/crypto/current/";
     const api = `${cId}?interval=${timeFrame}`;
 
     const response = await fetch(baseUrl + api);
+
     if (response.status === 500) {
-      throw new Error('Something went wrong. Data is not available');
+      throw new Error("Something went wrong. Data is not available");
     }
+
     const data = await response.json();
     return data;
   } catch (error) {
@@ -69,27 +47,16 @@ const getCurrentPrice = async (cId, timeFrame) => {
 };
 
 const fetchCryptoData = async (cId) => {
-  /* 
-    Function that gets crypto asset metadata
-
-    Parameters:
-      cId (string):
-        CoinGecko cryptocurrency id
-    Returns:
-      metadata.cryptoData (object):
-        Object containing information about the cryptocurrency
-        (description, market data, blockchain explorers)
-  */
   try {
-    const metadataUrl = `http://localhost:5000/crypto/data/${cId}`;
+    const metadataUrl = `/crypto/data/${cId}`;
     const metaResponse = await fetch(metadataUrl);
-    
+
     // Handle server error
     if (metaResponse.status === 500) {
-      throw new Error('Something went wrong. Data is not available.');
+      throw new Error("Something went wrong. Data is not available.");
     }
     const metadata = await metaResponse.json();
-    return metadata.cryptoData;
+    return metadata.data;
   } catch (error) {
     console.log(error);
     return -1;
@@ -100,7 +67,7 @@ const CryptoPage = () => {
   // Component that displays information about a particular crypto asset
 
   // Set up component state
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useContext(AppContext);
   // Display price info for different time intervals
   // daily, weekly, monthly, yearly
   const [timeFrame, setTimeFrame] = useState("day");
@@ -111,7 +78,6 @@ const CryptoPage = () => {
   const [marketData, setMarketData] = useState([]);
   const [hideX, setHideX] = useState(false);
   const handleHide = () => setHideX(false);
-  // const [increasing, setIncreasing] = useState(true);
   const { cId } = useParams();
 
   const priceChangeClass = priceChange && priceChange < 0 ? "percent-dec" : "";
@@ -120,7 +86,7 @@ const CryptoPage = () => {
     const getCryptoInfo = async (cId) => {
       const cryptoData = await fetchCryptoData(cId);
       setCryptoData(cryptoData);
-    }
+    };
     getCryptoInfo(cId);
   }, [cId]);
 
@@ -129,27 +95,24 @@ const CryptoPage = () => {
       const cryptoMarketData = await fetchPriceData(cId, timeFrame);
       const priceData = await getCurrentPrice(cId, timeFrame);
       if (priceData !== -1 && cryptoMarketData !== -1) {
-          let assetPrice = priceData.assetValue[cId].usd;
-          if (assetPrice >= 1000) {
-            assetPrice = numberWithCommas(priceData.assetValue[cId].usd)
-          }
-          // let assetPrice = numberWithCommas(priceData.assetValue[cId].usd);
-          const percentChange =
-            timeFrame === "day"
-              ? priceData.assetValue[cId].usd_24h_change
-              : priceData.assetValue.percentChange;
-          setMarketData(cryptoMarketData.assetValue);
-          setPriceChange(percentChange);
-          setPrice(assetPrice);
+        let assetPrice = priceData.data[cId].usd;
+        if (assetPrice >= 1000) {
+          assetPrice = numberWithCommas(priceData.data[cId].usd);
+        }
+        const percentChange =
+          timeFrame === "day"
+            ? priceData.data[cId].usd_24h_change
+            : priceData.data.percentChange;
+        setMarketData(cryptoMarketData.assetValue);
+        setPriceChange(percentChange);
+        setPrice(assetPrice);
       }
-    
- 
     };
     fetchMarketData(cId, timeFrame);
   }, [cId, timeFrame]);
 
   if (price === -1 || marketData === -1 || cryptoData === -1) {
-    return <Unavailable param={cId} theme={theme}/>
+    return <Unavailable param={cId} theme={theme} />;
   }
 
   // Blockchain explorer info
@@ -277,7 +240,6 @@ const CryptoPage = () => {
         <div className="company-info-content">
           {expandContent ? (
             <p>
-              {/* {cryptoData ? cryptoData.description : ""} */}
               {cryptoData ? (
                 <span
                   dangerouslySetInnerHTML={{ __html: cryptoData.description }}
@@ -408,7 +370,7 @@ const CryptoPage = () => {
           </div>
           <div className="info-row crypto-category">
             <div>Category</div>
-            <div className='info-row categories'>{categories}</div>
+            <div className="info-row categories">{categories}</div>
           </div>
         </div>
       </div>

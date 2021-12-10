@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
-import { ThemeContext } from "../context/themeContext";
+import { AppContext } from "../context/appContext";
 import "../styles/newsItem.css";
 
 const NewsItem = (props) => {
-  const { theme } = useContext(ThemeContext);
+  // Component for a news item
+
+  const { theme } = useContext(AppContext);
 
   const lightThemeClass =
     props.type === "market" ? "article-light" : "company-article-light";

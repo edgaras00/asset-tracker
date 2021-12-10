@@ -1,11 +1,12 @@
 import React, { useState, useContext } from "react";
 import news from "../news.json";
 import NewsItem from "./NewsItem";
-import { ThemeContext } from "../context/themeContext";
+import { AppContext } from "../context/appContext";
 import "../styles/companyNews.css";
 
 const CompanyNews = () => {
-  const { theme } = useContext(ThemeContext);
+  // Company news component
+  const { theme } = useContext(AppContext);
   const [expand, setExpand] = useState(true);
 
   const data = news.articles;

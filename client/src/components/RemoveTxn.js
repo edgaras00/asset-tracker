@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import Modal from "react-modal";
-import { ThemeContext } from "../context/themeContext";
-import {getDateString} from '../utils/utils';
+import { AppContext } from "../context/appContext";
+import { getDateString } from "../utils/utils";
 
 const RemoveTxn = ({
   isModalOpen,
@@ -9,10 +9,7 @@ const RemoveTxn = ({
   symbol,
   assetObjectId,
   type,
-  userId,
-  name,
   assetPrice,
-  cid,
   totalAmount,
 }) => {
   // Component for removing / selling assets
@@ -22,12 +19,12 @@ const RemoveTxn = ({
   const [price, setPrice] = useState(assetPrice);
   const [quantity, setQuantity] = useState(0);
   const [txnDate, setTxnDate] = useState(dateStr);
-  const { theme, setUser } = useContext(ThemeContext);
+  const { theme, setUser } = useContext(AppContext);
   const txnAssetType = type === "stocks" ? "stock" : "crypto";
 
   const saveTxn = async (
     event,
-    userId,
+    // userId,
     type,
     assetObjectId,
     price,
@@ -40,7 +37,7 @@ const RemoveTxn = ({
       const sellingAll = totalAmount === Number(quantity) ? true : false;
       // Transaction object
       const txnObject = {
-        id: userId,
+        // id: userId,
         [type]: {
           objectId: assetObjectId,
           symbol: symbol,
@@ -48,6 +45,7 @@ const RemoveTxn = ({
         },
         price: Number(price),
         date: txnDate,
+        savedTimestamp: Date.now(),
         sellingAll,
       };
       // Request options
@@ -58,14 +56,14 @@ const RemoveTxn = ({
         },
         body: JSON.stringify(txnObject),
       };
-      const url = `http://localhost:5000/user/sell/${userId}`;
+      const url = "http://localhost:5000/user/sell";
       const response = await fetch(url, options);
       if (!response.ok) {
         console.log("error");
         return;
       }
       const data = await response.json();
-      setUser(data.result.updatedUser);
+      setUser(data.data.updatedUser);
       setPrice(0);
       setQuantity(0);
       closeModal();
@@ -96,15 +94,7 @@ const RemoveTxn = ({
           theme === "light" ? "add-txn-form-light" : null
         }`}
         onSubmit={(e) =>
-          saveTxn(
-            e,
-            userId,
-            txnAssetType,
-            assetObjectId,
-            price,
-            quantity,
-            totalAmount
-          )
+          saveTxn(e, txnAssetType, assetObjectId, price, quantity, totalAmount)
         }
       >
         <div className="exit-transaction">

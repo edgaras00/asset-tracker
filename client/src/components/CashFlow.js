@@ -1,10 +1,11 @@
 import React, { useState, useContext } from "react";
-import { ThemeContext } from "../context/themeContext";
+import { AppContext } from "../context/appContext";
 import { numberWithCommas } from "../utils/utils";
 import "../styles/assetInfo.css";
 
 const CashFlow = ({ cash }) => {
-  const { theme } = useContext(ThemeContext);
+  // Component for company's cash flow data
+  const { theme } = useContext(AppContext);
   const [expand, setExpand] = useState(false);
   return (
     <div

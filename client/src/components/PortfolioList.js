@@ -7,7 +7,6 @@ const PortfolioList = ({ portfolio, assetType, user, theme }) => {
   // Component that renders the user's asset list/table
 
   // Set up component state
-
   // Search / add asset modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   // Sort asset list/table by property
@@ -60,7 +59,7 @@ const PortfolioList = ({ portfolio, assetType, user, theme }) => {
   if (portfolio) {
     rows = sortedPort.map((item, index) => (
       <ListItem
-        key={index + item.amount}
+        key={index + item.amount + item.value}
         cid={item.cid}
         type={assetType}
         ticker={item.symbol}
@@ -70,9 +69,10 @@ const PortfolioList = ({ portfolio, assetType, user, theme }) => {
         value={item.value}
         dayChange={item.dayChange}
         returnOnInvestment={item.roi}
-        user={user}
+        // user={user}
         name={item.name}
         theme={theme}
+        assetID={item.id}
       />
     ));
   }

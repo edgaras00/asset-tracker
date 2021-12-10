@@ -8,7 +8,6 @@ const Navbar = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   const navbarTopSecondClass = isHovered ? "nav-top-hover" : null;
-  // const svgStroke = isHovered ? "#888888" : "#bbbbbb";
   let svgClass = isHovered ? "hov-svg" : "reg-svg";
 
   return (
@@ -30,7 +29,6 @@ const Navbar = () => {
             height="25"
             viewBox="0 0 24 24"
             fill="none"
-            // stroke={svgStroke}
             strokeWidth="3"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -38,7 +36,6 @@ const Navbar = () => {
             <path d="M18 15l-6-6-6 6" />
           </svg>
         </div>
-        {/* <span>Support</span> */}
       </div>
       {isHovered ? (
         <div

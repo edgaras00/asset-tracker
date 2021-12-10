@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { ThemeContext } from "../context/themeContext";
+import { AppContext } from "../context/appContext";
 import { Link } from "react-router-dom";
 import "../styles/login.css";
 
@@ -9,7 +9,7 @@ const Login = () => {
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [authError, setAuthError] = useState(null);
-  const { setUser } = useContext(ThemeContext);
+  const { setUser } = useContext(AppContext);
 
   const handleLogin = async (event, email, password) => {
     // Function that logins the user
@@ -35,8 +35,8 @@ const Login = () => {
         setAuthError(data.errors.authorizationError);
         return;
       }
-      setUser(data.user);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      setUser(data.data.user);
+      localStorage.setItem("user", JSON.stringify(data.data.user));
       return;
     } catch (error) {
       console.log(error);

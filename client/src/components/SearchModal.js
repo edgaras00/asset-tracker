@@ -2,15 +2,15 @@ import React, { useState, useContext } from "react";
 import Modal from "react-modal";
 import ModalAssetItem from "./ModalAssetItem";
 import AddTxn from "./AddTxn";
-import { ThemeContext } from "../context/themeContext";
+import { AppContext } from "../context/appContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "../styles/searchModal.css";
 
-const SearchModal = ({ isModalOpen, closeModal, user, setUser }) => {
+const SearchModal = ({ isModalOpen, closeModal }) => {
   // Modal component to search for assets
 
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useContext(AppContext);
   const searchIcon = <FontAwesomeIcon icon={faSearch} />;
 
   const [search, setSearch] = useState("");
@@ -28,11 +28,10 @@ const SearchModal = ({ isModalOpen, closeModal, user, setUser }) => {
     try {
       const endpoint = assetType === "stock" ? "stocks" : "crypto";
       if (event.keyCode === 13) {
-        let url = `http://localhost:5000/${endpoint}/search?query=${search}`;
+        let url = `/${endpoint}/search?query=${search}`;
         const response = await fetch(url);
         const data = await response.json();
-        console.log(data.results);
-        setSearchData(data.results);
+        setSearchData(data.data);
       }
     } catch (error) {
       console.log(error);
@@ -81,8 +80,6 @@ const SearchModal = ({ isModalOpen, closeModal, user, setUser }) => {
         <AddTxn
           type={selectedType}
           asset={selectedAsset}
-          userId={user._id}
-          setUser={setUser}
           setAddingTxn={setAddingTxn}
           closeModal={closeModal}
           setSearchData={setSearchData}
@@ -100,7 +97,6 @@ const SearchModal = ({ isModalOpen, closeModal, user, setUser }) => {
               theme === "light" ? "close-modal-btn-light" : null
             }`}
           >
-            {/* <button onClick={closeModal}>X</button> */}
             <div
               className={`close-button ${
                 theme === "light" ? "close-button-light" : null

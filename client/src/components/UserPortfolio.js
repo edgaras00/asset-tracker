@@ -1,73 +1,55 @@
 import React, { useState, useContext, useEffect } from "react";
 import PortfolioList from "./PortfolioList";
 import MarketNews from "./MarketNews";
-import { ThemeContext } from "../context/themeContext";
+import { AppContext } from "../context/appContext";
 import { numberWithCommas } from "../utils/utils";
 import PieGraph from "./PieGraph";
 import Activity from "./Activity";
 import "../styles/userPortfolio.css";
 
-const getPortfolio = async (assets, type) => {
-  /* 
-    Async function to get a user's portfolio value data.
-
-    Parameters:
-      assets:
-        User asset object.
-      type:
-        Asset type (string): 'stocks' | 'crypto'
-    Returns:
-      Object containing asset portfolio value data:
-        {
-          totalValue: total asset value (Number)
-          isPriceIncrease: is price increasing (Bool)
-          roi: Percent return on investment (Number)
-          cost: Total asset cost (Number)
-        }
-  
-  */
+const getTxnHistory = async (type) => {
   try {
-    // Prepare for server request
-    // Stock req query params take in an asset list in symbol:amount:cost format
-    let assetsArr = assets.stockInfo.stocks.map(
-      (stock) => `${stock.symbol}:${stock.amount}:${stock.cost}`
-    );
-    let cost = assets.stockInfo.cost;
-    if (type === "crypto") {
-      // Crypto query params take in an asset list in cid:amount:cost format
-      // cid: Coingecko id for specific crypto
-      assetsArr = assets.cryptoInfo.crypto.map(
-        (crypto) => `${crypto.cid}:${crypto.amount}:${crypto.cost}`
-      );
-      cost = assets.cryptoInfo.cost;
-    }
-    // Join array into a single string
-    // Default: stock data
-    const symbols = assetsArr.join(",");
-    let url = `http://localhost:5000/stocks/current_batch?stocks=${symbols}`;
+    let url = "/stocks/history";
 
-    // If crypto
     if (type === "crypto") {
-      url = `http://localhost:5000/crypto/current_batch?coins=${symbols}`;
+      url = "/crypto/history";
     }
 
-    // Server request
+    const response = await fetch(url);
+    const txnHistoryData = await response.json();
+
+    return txnHistoryData.data.txnHistory;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getPortfolio = async (type) => {
+  try {
+    let url = "/stocks/portfolio";
+
+    if (type === "crypto") {
+      url = "/crypto/portfolio";
+    }
+
     const response = await fetch(url);
     const data = await response.json();
 
-    // Calculate total asset value, roi, and determine if price is increasing
-    let totalValue = 0;
-    data.assets.forEach((asset) => (totalValue += asset.value));
-    const roi = ((totalValue - cost) / cost) * 100;
-    const isPriceIncrease = roi >= 0;
-    const portfolio = data.assets;
+    const portfolio = data.data.assets;
+
+    if (portfolio.length === 0) {
+      return;
+    }
+
+    const { totalValue, totalROI, totalCost } = data.data;
+    const isPriceIncrease = totalROI >= 0;
 
     return {
       totalValue,
       isPriceIncrease,
-      roi,
+      roi: totalROI,
       portfolio,
-      cost,
+      cost: totalCost,
     };
   } catch (error) {
     console.log(error);
@@ -86,45 +68,40 @@ const UserPortfolio = () => {
   const [portfolio, setPortfolio] = useState([]);
   const [increasing, setIncreasing] = useState(true);
   const [showGraphPercent, setShowGraphPercent] = useState(false);
-  const { theme, user } = useContext(ThemeContext);
+  const [txnActivity, setTxnActivity] = useState([]);
+
+  const { theme, user } = useContext(AppContext);
 
   // Class for different theme styles
   const colorClassInc = theme === "light" ? "percent-inc-light" : "percent-inc";
 
   // Update user and portfolio state data
   useEffect(() => {
-    const setupData = async (user, assetType) => {
+    const setupData = async (assetType) => {
       localStorage.setItem("user", JSON.stringify(user));
-      const dataObj = await getPortfolio(user.assets, assetType);
-      setAssetValue(dataObj.totalValue);
-      setIncreasing(dataObj.isPriceIncrease);
-      setPercentGain(dataObj.roi);
-      setPortfolio(dataObj.portfolio);
-      setAssetCost(dataObj.cost);
+      const assetData = await getPortfolio(assetType);
+      if (!assetData) {
+        setPortfolio([]);
+        setAssetValue(0);
+        setAssetCost(0);
+        setPercentGain(null);
+        return;
+      }
+      setAssetValue(assetData.totalValue);
+      setIncreasing(assetData.isPriceIncrease);
+      setPercentGain(assetData.roi);
+      setPortfolio(assetData.portfolio);
+      setAssetCost(assetData.cost);
     };
 
-    if (assetType === "stocks") {
-      if (user && user.assets.stockInfo.stocks.length > 0) {
-        setupData(user, assetType);
-        return;
-      }
-      setPortfolio([]);
-      setAssetValue(0);
-      setAssetCost(0);
-      setPercentGain(null);
-    }
+    const setupTxnHistoryData = async (assetType) => {
+      const txnHistory = await getTxnHistory(assetType);
+      setTxnActivity(txnHistory);
+    };
 
-    if (assetType === "crypto") {
-      if (user && user.assets.cryptoInfo.crypto.length > 0) {
-        setupData(user, assetType);
-        return;
-      }
-      setPortfolio([]);
-      setAssetValue(0);
-      setAssetCost(0);
-      setPercentGain(null);
-    }
-  }, [user, assetType]);
+    setupData(assetType);
+    setupTxnHistoryData(assetType);
+  }, [assetType, user]);
 
   return (
     <div
@@ -192,7 +169,6 @@ const UserPortfolio = () => {
       >
         <PortfolioList
           portfolio={portfolio}
-          user={user}
           assetType={assetType}
           setPortfolio={setPortfolio}
           theme={theme}
@@ -230,11 +206,7 @@ const UserPortfolio = () => {
       <div className={`title ${theme === "light" ? "title-light" : null}`}>
         <h1>Activity</h1>
       </div>
-      <Activity
-        txnHistory={user.txnHistory}
-        assetType={assetType}
-        theme={theme}
-      />
+      <Activity txnHistory={txnActivity} assetType={assetType} theme={theme} />
       <div className={`title ${theme === "light" ? "title-light" : null}`}>
         <h1>News</h1>
       </div>

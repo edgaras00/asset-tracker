@@ -8,7 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { ThemeContext } from "../context/themeContext";
+import { AppContext } from "../context/appContext";
 import "../styles/tooltip.css";
 
 const CustomTooltip = ({ active, payload, label }) => {
@@ -27,7 +27,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 const Chart = ({ timeFrame, valueData, priceChange, hide }) => {
   // Price chart component
 
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useContext(AppContext);
 
   // Set up styles for different themes
   const colorInc = theme === "light" ? "#41b63c" : "#7bcd77";
@@ -100,7 +100,6 @@ const Chart = ({ timeFrame, valueData, priceChange, hide }) => {
           fontSize={13}
           fontWeight={800}
           tick={{ fill: tickFill }}
-          // tick={{ fill: hide ? null : tickFill }}
           interval={timeFrame === "day" ? null : "preserveEnd"}
           tickFormatter={(time, index) => formatX(time, index)}
         />

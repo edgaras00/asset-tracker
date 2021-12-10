@@ -1,10 +1,11 @@
 import React, { useState, useContext } from "react";
-import { ThemeContext } from "../context/themeContext";
-import {numberWithCommas} from '../utils/utils';
+import { AppContext } from "../context/appContext";
+import { numberWithCommas } from "../utils/utils";
 import "../styles/assetInfo.css";
 
 const IncomeStatement = ({ income }) => {
-  const { theme } = useContext(ThemeContext);
+  // Income statement component
+  const { theme } = useContext(AppContext);
   const [expand, setExpand] = useState(false);
 
   return (
