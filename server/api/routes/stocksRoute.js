@@ -17,6 +17,7 @@ router.get(
   stocksController.getCurrentPrice
 );
 
+// Get stock portfolio
 router.get(
   "/portfolio",
   authController.protectRoute,
@@ -30,6 +31,7 @@ router.get(
   stocksController.getPricesOnInterval
 );
 
+// Get stock transaction history
 router.get(
   "/history",
   authController.protectRoute,
@@ -50,6 +52,7 @@ router.get(
   stocksController.getIncome
 );
 
+// Get balance sheet for a company
 router.get(
   "/balance/:symbol",
   authController.protectRoute,
