@@ -13,9 +13,16 @@ const UserNav = () => {
   const lightMode = <FontAwesomeIcon icon={faSun} />;
   const darkMode = <FontAwesomeIcon icon={faMoon} />;
 
-  const logout = () => {
-    localStorage.removeItem("user");
-    setUser(null);
+  const logout = async () => {
+    try {
+      localStorage.removeItem("user");
+      setUser(null);
+      const response = await fetch("/user/logout");
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

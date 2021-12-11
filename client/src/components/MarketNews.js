@@ -5,6 +5,18 @@ import "../styles/marketNews.css";
 
 const MarketNews = () => {
   // Component that holds links to market news articles
+
+  // const [newsData, setNewsData] = useState([]);
+
+  // useEffect(() => {
+  //   const getNewsData = async () => {
+  //     const response = await fetch('/news');
+  //     const newsData = await response.json();
+
+  //     setNewsData(newsdata);
+  //   }
+  // }, []);
+
   const data = news.articles;
   const newsItems = data.slice(0, 5).map((article) => {
     return (

@@ -28,6 +28,7 @@ exports.getCurrentPrice = catchAsync(async (req, res, next) => {
   const endpoint = `/${symbol}/quote?token=${IEX_API}`;
   // Fetch data
   const result = await fetch(baseUrl + endpoint);
+
   assetNotFound(result, next);
 
   const data = await result.json();

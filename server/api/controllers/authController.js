@@ -125,3 +125,12 @@ exports.protectRoute = catchAsync(async (req, res, next) => {
   req.user = user;
   next();
 });
+
+exports.logout = catchAsync(async (req, res, next) => {
+  // Log out user
+  // "Delete" JWT cookie
+  res.cookie("jwt", "", { maxAge: 1 });
+  res
+    .status(200)
+    .json({ status: "Success", message: "User logged out successfully" });
+});

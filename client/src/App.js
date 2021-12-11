@@ -24,7 +24,7 @@ const App = () => {
         </Route>
         <Route path="/login">
           {user ? (
-            <Redirect to="/user" />
+            <Redirect to="/portfolio" />
           ) : (
             <div>
               <Navbar />
@@ -34,7 +34,7 @@ const App = () => {
         </Route>
         <Route path="/signup">
           {user ? (
-            <Redirect to="/user" />
+            <Redirect to="/portfolio" />
           ) : (
             <div>
               <Navbar />
@@ -42,7 +42,7 @@ const App = () => {
             </div>
           )}
         </Route>
-        <Route path="/user">
+        <Route path="/portfolio">
           <UserNav />
           {user ? <UserPortfolio /> : <Redirect to="/login" />}
         </Route>

@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import PortfolioList from "./PortfolioList";
 import MarketNews from "./MarketNews";
 import { AppContext } from "../context/appContext";
-import { numberWithCommas } from "../utils/utils";
+import { numberWithCommas, handleAuthDataError } from "../utils/utils";
 import PieGraph from "./PieGraph";
 import Activity from "./Activity";
 import "../styles/userPortfolio.css";
@@ -18,9 +18,17 @@ const getTxnHistory = async (type) => {
     const response = await fetch(url);
     const txnHistoryData = await response.json();
 
+    // Handle failed GET requests
+    if (response.status !== 200) {
+      if (response.status === 401) {
+        handleAuthDataError(txnHistoryData);
+      }
+    }
+
     return txnHistoryData.data.txnHistory;
   } catch (error) {
-    console.log(error);
+    if (error.name === "authError") return "authError";
+    return;
   }
 };
 
@@ -33,12 +41,20 @@ const getPortfolio = async (type) => {
     }
 
     const response = await fetch(url);
+
     const data = await response.json();
+
+    // Handle failed GET requests
+    if (response.status !== 200) {
+      if (response.status === 401) {
+        handleAuthDataError(data);
+      }
+    }
 
     const portfolio = data.data.assets;
 
     if (portfolio.length === 0) {
-      return;
+      return [];
     }
 
     const { totalValue, totalROI, totalCost } = data.data;
@@ -53,6 +69,8 @@ const getPortfolio = async (type) => {
     };
   } catch (error) {
     console.log(error);
+    if (error.name === "authError") return "authError";
+    return;
   }
 };
 
@@ -70,7 +88,7 @@ const UserPortfolio = () => {
   const [showGraphPercent, setShowGraphPercent] = useState(false);
   const [txnActivity, setTxnActivity] = useState([]);
 
-  const { theme, user } = useContext(AppContext);
+  const { theme, user, setUser } = useContext(AppContext);
 
   // Class for different theme styles
   const colorClassInc = theme === "light" ? "percent-inc-light" : "percent-inc";
@@ -80,7 +98,14 @@ const UserPortfolio = () => {
     const setupData = async (assetType) => {
       localStorage.setItem("user", JSON.stringify(user));
       const assetData = await getPortfolio(assetType);
-      if (!assetData) {
+
+      if (assetData === "authError") {
+        localStorage.removeItem("user");
+        setUser(null);
+        return;
+      }
+
+      if (assetData.length === 0) {
         setPortfolio([]);
         setAssetValue(0);
         setAssetCost(0);
@@ -96,12 +121,18 @@ const UserPortfolio = () => {
 
     const setupTxnHistoryData = async (assetType) => {
       const txnHistory = await getTxnHistory(assetType);
+
+      if (txnHistory === "authError") {
+        localStorage.removeItem("user");
+        setUser(null);
+        return;
+      }
       setTxnActivity(txnHistory);
     };
 
     setupData(assetType);
     setupTxnHistoryData(assetType);
-  }, [assetType, user]);
+  }, [assetType, user, setUser]);
 
   return (
     <div

@@ -9,6 +9,9 @@ router.post("/signup", authController.signup);
 // User login
 router.post("/login", authController.login);
 
+// User logout
+router.get("/logout", authController.logout);
+
 // Update user assets
 // Buy
 router.put("/buy", authController.protectRoute, userController.userBuy);

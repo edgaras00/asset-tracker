@@ -8,7 +8,7 @@ import CashFlow from "./CashFlow";
 import CompanyNews from "./CompanyNews";
 import Unavailable from "./Unavailable";
 import { AppContext } from "../context/appContext";
-import { numberWithCommas } from "../utils/utils";
+import { numberWithCommas, handleAuthDataError } from "../utils/utils";
 import "../styles/companyPage.css";
 
 const getPriceData = async (symbolId, timeFrame) => {
@@ -17,11 +17,18 @@ const getPriceData = async (symbolId, timeFrame) => {
     const response = await fetch(url);
     // Handle server error
 
-    if (response.status === 500) {
-      throw new Error("Something went wrong. Data unavailable");
-    }
+    // if (response.status === 500) {
+    //   throw new Error("Something went wrong. Data unavailable");
+    // }
 
     const priceData = await response.json();
+
+    if (response.status !== 200) {
+      if (response.status === 401) {
+        handleAuthDataError(priceData);
+      }
+      throw new Error("Something went wrong. Data unavailable");
+    }
 
     return priceData.data;
   } catch (error) {
@@ -36,14 +43,23 @@ const getMarketData = async (symbolId, timeFrame) => {
     const api = `${symbolId}?period=${timeFrame}`;
     const response = await fetch(baseUrl + api);
 
-    if (response.status === 500) {
+    // if (response.status === 500) {
+    //   throw new Error("Something went wrong. Data unavailable");
+    // }
+
+    const data = await response.json();
+
+    if (response.status !== 200) {
+      if (response.status === 401) {
+        handleAuthDataError(data);
+      }
       throw new Error("Something went wrong. Data unavailable");
     }
 
-    const data = await response.json();
     return data.data;
   } catch (error) {
     console.log(error);
+    if (error.name === "authError") return "authError";
     return -1;
   }
 };
@@ -97,6 +113,7 @@ const fetchCompanyData = async (symbolId, type) => {
     }
   } catch (error) {
     console.log(error);
+    if (error.name === "authError") return "authError";
     return -1;
   }
 };
@@ -118,7 +135,7 @@ const fetchAllCompanyData = async (dataFetches) => {
 const CompanyPage = () => {
   // Component that renders company information
 
-  const { theme } = useContext(AppContext);
+  const { theme, setUser } = useContext(AppContext);
   const [timeFrame, setTimeFrame] = useState("day");
   const [hideX, setHideX] = useState(false);
   const handleHide = () => setHideX(false);
@@ -138,6 +155,13 @@ const CompanyPage = () => {
     const fetchData = async (symbolId, timeFrame) => {
       const priceData = await getPriceData(symbolId, timeFrame);
       const companyMarketData = await getMarketData(symbolId, timeFrame);
+
+      if (priceData === "authError" || companyMarketData === "authError") {
+        localStorage.removeItem("user");
+        setUser(null);
+        return;
+      }
+
       if (priceData !== -1 && companyMarketData !== -1) {
         setPrice(priceData.price);
         setChange(priceData.change);
@@ -149,7 +173,7 @@ const CompanyPage = () => {
       return;
     };
     fetchData(symbolId, timeFrame);
-  }, [timeFrame, symbolId]);
+  }, [timeFrame, symbolId, setUser]);
 
   useEffect(() => {
     const getCompany = async (symbolId) => {
@@ -159,6 +183,7 @@ const CompanyPage = () => {
         fetchCompanyData(symbolId, "balance"),
         fetchCompanyData(symbolId, "cash"),
       ]);
+      console.log(companyData);
       setCompany(companyData);
     };
     getCompany(symbolId);
@@ -239,10 +264,10 @@ const CompanyPage = () => {
           valueData={marketData}
         />
       </div>
-      {company ? <CompanyInfo overview={company.overview} /> : null}
+      {/* {company ? <CompanyInfo overview={company.overview} /> : null}
       {company ? <BalanceSheet balance={company.balance} /> : null}
       {company ? <IncomeStatement income={company.income} /> : null}
-      {company ? <CashFlow cash={company.cash} /> : null}
+      {company ? <CashFlow cash={company.cash} /> : null} */}
       <CompanyNews />
     </div>
   );

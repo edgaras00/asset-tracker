@@ -11,3 +11,9 @@ export const getDateString = () => {
     .split("T")[0];
   return dateStr;
 };
+
+export const handleAuthDataError = (obj) => {
+  const error = new Error(obj.message);
+  error.name = "authError";
+  throw error;
+};

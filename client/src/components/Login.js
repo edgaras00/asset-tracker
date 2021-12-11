@@ -18,7 +18,7 @@ const Login = () => {
       setAuthError(null);
 
       // POST request to log in the user
-      const url = "http://localhost:5000/user/login";
+      const url = "/user/login";
       const loginBody = { email, password };
       const options = {
         method: "POST",
