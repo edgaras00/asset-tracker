@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import Modal from "react-modal";
 import { AppContext } from "../context/appContext";
-import { getDateString } from "../utils/utils";
+import { getDateString, handleErrors } from "../utils/utils";
 
 const RemoveTxn = ({
   isModalOpen,
@@ -19,12 +19,11 @@ const RemoveTxn = ({
   const [price, setPrice] = useState(assetPrice);
   const [quantity, setQuantity] = useState(0);
   const [txnDate, setTxnDate] = useState(dateStr);
-  const { theme, setUser } = useContext(AppContext);
+  const { theme, setUser, authErrorLogout } = useContext(AppContext);
   const txnAssetType = type === "stocks" ? "stock" : "crypto";
 
   const saveTxn = async (
     event,
-    // userId,
     type,
     assetObjectId,
     price,
@@ -56,19 +55,25 @@ const RemoveTxn = ({
         },
         body: JSON.stringify(txnObject),
       };
-      const url = "http://localhost:5000/user/sell";
+      const url = "user/sell";
       const response = await fetch(url, options);
-      if (!response.ok) {
-        console.log("error");
-        return;
+
+      if (response.status !== 200) {
+        handleErrors(response);
       }
+
       const data = await response.json();
+
       setUser(data.data.updatedUser);
       setPrice(0);
       setQuantity(0);
       closeModal();
     } catch (error) {
       console.log(error);
+      if (error.name === "authError") {
+        authErrorLogout();
+        return;
+      }
     }
   };
 

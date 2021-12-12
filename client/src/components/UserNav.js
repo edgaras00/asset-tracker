@@ -27,7 +27,7 @@ const UserNav = () => {
 
   return (
     <div className={`user-nav ${theme === "light" ? "user-nav-light" : null}`}>
-      <Link className="logo" to="/user">
+      <Link className="logo" to="/portfolio">
         alpha
       </Link>
       <div className="user-nav-right">

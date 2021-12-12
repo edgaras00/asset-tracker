@@ -43,7 +43,23 @@ const Signup = () => {
       };
       // POST request that signs up and logs in a new user
       const response = await fetch(url, options);
+
+      if (response.status === 500) {
+        throw new Error("Something went wrong. Please try again later.");
+      }
+
       const responseData = await response.json();
+
+      if (response.status !== 201) {
+        if (
+          response.status === 400 &&
+          responseData.message.startsWith("Duplicate")
+        ) {
+          throw new Error("User with this email already exists");
+        }
+        throw new Error("Something went wrong. Please try again later.");
+      }
+
       if (response.ok || response.status === 201) {
         setUser(responseData.data.user);
         localStorage.setItem("user", JSON.stringify(responseData.data.user));
@@ -54,6 +70,7 @@ const Signup = () => {
       }
     } catch (error) {
       console.log(error);
+      setServerErrors(error.message);
     }
   };
 
@@ -80,7 +97,8 @@ const Signup = () => {
             onChange={(event) => setEmailInput(event.target.value)}
           />
           <div className="pass-length">
-            <span>{serverErrors ? serverErrors.errors.email : null}</span>
+            {/* <span>{serverErrors ? serverErrors.errors.email : null}</span> */}
+            <span>{serverErrors ? serverErrors : null}</span>
           </div>
           <br />
           <input

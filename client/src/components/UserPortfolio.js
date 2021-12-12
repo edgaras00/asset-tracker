@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import PortfolioList from "./PortfolioList";
 import MarketNews from "./MarketNews";
 import { AppContext } from "../context/appContext";
-import { numberWithCommas, handleAuthDataError } from "../utils/utils";
+import { numberWithCommas, handleErrors } from "../utils/utils";
 import PieGraph from "./PieGraph";
 import Activity from "./Activity";
 import "../styles/userPortfolio.css";
@@ -16,18 +16,19 @@ const getTxnHistory = async (type) => {
     }
 
     const response = await fetch(url);
-    const txnHistoryData = await response.json();
 
     // Handle failed GET requests
-    if (response.status !== 200) {
-      if (response.status === 401) {
-        handleAuthDataError(txnHistoryData);
-      }
+    if (response.status !== 200 || !response.ok) {
+      handleErrors(response);
     }
+
+    const txnHistoryData = await response.json();
 
     return txnHistoryData.data.txnHistory;
   } catch (error) {
     if (error.name === "authError") return "authError";
+    if (error.name === "notFound") return "notFound";
+    if (error.name === "serverError") return "serverError";
     return;
   }
 };
@@ -42,15 +43,12 @@ const getPortfolio = async (type) => {
 
     const response = await fetch(url);
 
-    const data = await response.json();
-
-    // Handle failed GET requests
-    if (response.status !== 200) {
-      if (response.status === 401) {
-        handleAuthDataError(data);
-      }
+    // Handle errors / failed GET requests
+    if (response.status !== 200 || !response.ok) {
+      handleErrors(response);
     }
 
+    const data = await response.json();
     const portfolio = data.data.assets;
 
     if (portfolio.length === 0) {
@@ -70,6 +68,8 @@ const getPortfolio = async (type) => {
   } catch (error) {
     console.log(error);
     if (error.name === "authError") return "authError";
+    if (error.name === "notFound") return "notFound";
+    if (error.name === "serverError") return "serverError";
     return;
   }
 };
@@ -87,11 +87,21 @@ const UserPortfolio = () => {
   const [increasing, setIncreasing] = useState(true);
   const [showGraphPercent, setShowGraphPercent] = useState(false);
   const [txnActivity, setTxnActivity] = useState([]);
+  const [serverError, setServerError] = useState(0);
 
-  const { theme, user, setUser } = useContext(AppContext);
-
+  const { theme, user, authErrorLogout } = useContext(AppContext);
   // Class for different theme styles
   const colorClassInc = theme === "light" ? "percent-inc-light" : "percent-inc";
+
+  const clearPortfolio = (isError = false) => {
+    if (isError) {
+      setServerError(1);
+    }
+    setPortfolio([]);
+    setAssetValue(0);
+    setAssetCost(0);
+    setPercentGain(null);
+  };
 
   // Update user and portfolio state data
   useEffect(() => {
@@ -100,16 +110,15 @@ const UserPortfolio = () => {
       const assetData = await getPortfolio(assetType);
 
       if (assetData === "authError") {
-        localStorage.removeItem("user");
-        setUser(null);
+        authErrorLogout();
+        return;
+      } else if (assetData === "notFound" || assetData === "serverError") {
+        clearPortfolio(true);
         return;
       }
 
       if (assetData.length === 0) {
-        setPortfolio([]);
-        setAssetValue(0);
-        setAssetCost(0);
-        setPercentGain(null);
+        clearPortfolio(false);
         return;
       }
       setAssetValue(assetData.totalValue);
@@ -123,8 +132,10 @@ const UserPortfolio = () => {
       const txnHistory = await getTxnHistory(assetType);
 
       if (txnHistory === "authError") {
-        localStorage.removeItem("user");
-        setUser(null);
+        authErrorLogout();
+        return;
+      } else if (txnHistory === "notFound" || txnHistory === "serverError") {
+        setTxnActivity([]);
         return;
       }
       setTxnActivity(txnHistory);
@@ -132,7 +143,7 @@ const UserPortfolio = () => {
 
     setupData(assetType);
     setupTxnHistoryData(assetType);
-  }, [assetType, user, setUser]);
+  }, [assetType, user, authErrorLogout]);
 
   return (
     <div
@@ -203,6 +214,7 @@ const UserPortfolio = () => {
           assetType={assetType}
           setPortfolio={setPortfolio}
           theme={theme}
+          serverError={serverError}
         />
       </div>
       {portfolio.length > 0 ? (

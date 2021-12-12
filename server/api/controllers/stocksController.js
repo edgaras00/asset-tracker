@@ -5,6 +5,7 @@ const stockUtils = require("../utils/stockUtils");
 const catchAsync = require("../utils/catchAsync");
 const assetNotFound = require("../utils/assetNotFound");
 const getTxnHistory = require("../utils/getTxnHistory");
+const AppError = require("../utils/appError");
 
 const IEX_API = process.env.IEX_API;
 const AV_API = process.env.AV_API;
@@ -82,10 +83,11 @@ exports.getPortfolio = catchAsync(async (req, res, next) => {
   const baseUrl = "https://sandbox.iexapis.com/stable/stock/market/batch?";
   const query = `types=quote&symbols=${symbols}&token=${IEX_API}`;
 
-  const result = await fetch(baseUrl + query);
+  const response = await fetch(baseUrl + query);
 
-  assetNotFound(result, next);
-  const data = await result.json();
+  assetNotFound(response, next);
+
+  const data = await response.json();
 
   const assets = stocks.map((stock) => {
     const symbol = stock.symbol.toUpperCase();

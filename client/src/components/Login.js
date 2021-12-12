@@ -8,14 +8,14 @@ const Login = () => {
   // Set up login component state and context
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-  const [authError, setAuthError] = useState(null);
+  const [loginError, setLoginError] = useState(null);
   const { setUser } = useContext(AppContext);
 
   const handleLogin = async (event, email, password) => {
     // Function that logins the user
     try {
       event.preventDefault();
-      setAuthError(null);
+      setLoginError(null);
 
       // POST request to log in the user
       const url = "/user/login";
@@ -29,17 +29,26 @@ const Login = () => {
         body: JSON.stringify(loginBody),
       };
       const response = await fetch(url, options);
+
+      if (response.status !== 200) {
+        if (response.status === 401) {
+          const error = new Error("Email or password is incorrect.");
+          error.name = "authError";
+          throw error;
+        } else if (response.status === 500) {
+        }
+        throw new Error("Something went wrong. Please try again later.");
+      }
+
       const data = await response.json();
       // Check if successfull authentication
-      if (!response.ok || !response.status === 200) {
-        setAuthError(data.errors.authorizationError);
-        return;
-      }
+
       setUser(data.data.user);
       localStorage.setItem("user", JSON.stringify(data.data.user));
       return;
     } catch (error) {
       console.log(error);
+      setLoginError(error.message);
     }
   };
 
@@ -69,7 +78,7 @@ const Login = () => {
           />
         </div>
         <br />
-        <span className="error">{authError ? authError : ""}</span>
+        <span className="error">{loginError ? loginError : ""}</span>
         <button disabled={emailInput === "" || passwordInput === ""}>
           Log in
         </button>

@@ -1,4 +1,11 @@
+const AppError = require("../utils/appError");
+
 // Handle errors
+
+const handleDuplicateFieldsDB = () => {
+  const message = `Duplicate field value`;
+  return new AppError(message, 400);
+};
 
 const sendErrorDev = (err, res) => {
   console.log(err);
@@ -26,12 +33,19 @@ const sendErrorProd = (err, res) => {
 };
 
 module.exports = (err, req, res, next) => {
+  console.log(err);
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || "error";
+
+  let error = { ...err };
+  if (err.code === 11000) error = handleDuplicateFieldsDB(error);
+
   if (process.env.NODE_ENV === "development") {
-    sendErrorDev(err, res);
+    sendErrorDev(error, res);
   } else if (process.env.NODE_ENV === "production") {
-    let error = { ...err };
-    if (err.name === "JsonWebTokenError") error = handleJWTError();
-    if (err.name === "TokenExpiredError") error = handleJWTExpiredError();
+    // if (err.name === "JsonWebTokenError") error = handleJWTError();
+    // if (err.name === "TokenExpiredError") error = handleJWTExpiredError();
+    if (err.code === 11000) error = handleDuplicateFieldsDB(err);
     sendErrorProd(error, res);
   }
 };

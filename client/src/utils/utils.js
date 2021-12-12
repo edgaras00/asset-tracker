@@ -17,3 +17,28 @@ export const handleAuthDataError = (obj) => {
   error.name = "authError";
   throw error;
 };
+
+export const handle404Error = () => {
+  const error = new Error("Data not found");
+  error.name = "notFound";
+  throw error;
+};
+
+export const handleErrors = (response) => {
+  let error = new Error("Something went wrong. Please try again later.");
+  error.name = "serverError";
+
+  if (response.status === 401) {
+    error = new Error("Please log in to get access.");
+    error.name = "authError";
+    throw error;
+  }
+
+  if (response.status === 404) {
+    error = new Error("Data not found.");
+    error.name = "notFound";
+    throw error;
+  }
+
+  throw error;
+};

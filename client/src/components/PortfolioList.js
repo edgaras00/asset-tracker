@@ -3,7 +3,7 @@ import ListItem from "./ListItem";
 import SearchModal from "./SearchModal";
 import "../styles/portfolioList.css";
 
-const PortfolioList = ({ portfolio, assetType, user, theme }) => {
+const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
   // Component that renders the user's asset list/table
 
   // Set up component state
@@ -142,10 +142,23 @@ const PortfolioList = ({ portfolio, assetType, user, theme }) => {
         </table>
       ) : (
         <span className="no-assets">
-          <h2>
+          {serverError ? (
+            <span className="no-assets">
+              Something went wrong. Could not get data. Please try again later
+            </span>
+          ) : (
+            <span>
+              <h2>
+                You do not own any{" "}
+                {assetType === "stocks" ? "stocks" : "crypto"}
+              </h2>
+              <h2>Click "Add Asset" to add a new asset</h2>
+            </span>
+          )}
+          {/* <h2>
             You do not own any {assetType === "stocks" ? "stocks" : "crypto"}
           </h2>
-          <h2>Click "Add Asset" to add a new asset</h2>
+          <h2>Click "Add Asset" to add a new asset</h2> */}
         </span>
       )}
     </div>

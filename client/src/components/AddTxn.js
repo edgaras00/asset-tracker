@@ -1,21 +1,37 @@
-import React, { useState, useContext, useEffect } from "react";
-import { getDateString } from "../utils/utils";
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+  useRef,
+} from "react";
+import { getDateString, handleErrors } from "../utils/utils";
 import { AppContext } from "../context/appContext";
 
 const getCurrentPrice = async (type, id) => {
   // Function to get the current price of the asset
+  try {
+    let url = `/crypto/current/${id}`;
+    if (type === "stock") {
+      url = `/stocks/current/${id}`;
+    }
+    const response = await fetch(url);
 
-  let url = `/crypto/current/${id}`;
-  if (type === "stock") {
-    url = `/stocks/current/${id}`;
-  }
-  const response = await fetch(url);
-  const priceData = await response.json();
+    if (response.status !== 200) {
+      handleErrors(response);
+    }
 
-  if (type === "stock") {
-    return priceData.data.price;
+    const priceData = await response.json();
+
+    if (type === "stock") {
+      return priceData.data.price;
+    }
+    return priceData.data[id].usd;
+  } catch (error) {
+    console.log(error);
+    if (error.name === "authError") return "authError";
+    if (error.name === "serverError") return "serverError";
   }
-  return priceData.data[id].usd;
 };
 
 const AddTxn = ({
@@ -36,7 +52,8 @@ const AddTxn = ({
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState("");
   const [txnDate, setTxnDate] = useState(dateStr);
-  const { setUser } = useContext(AppContext);
+  const { setUser, authErrorLogout } = useContext(AppContext);
+  const mountedRef = useRef(true);
 
   const saveTxn = async (event, type, asset, price, quantity) => {
     // Async function to save a buy transaction
@@ -68,9 +85,8 @@ const AddTxn = ({
 
       const response = await fetch(url, options);
 
-      if (!response.ok) {
-        console.log("error");
-        return;
+      if (response.status !== 200) {
+        handleErrors(response);
       }
 
       const data = await response.json();
@@ -84,27 +100,57 @@ const AddTxn = ({
       closeModal();
     } catch (error) {
       console.log(error);
+      if (error.name === "authError") {
+        authErrorLogout();
+        return;
+      }
     }
   };
 
-  useEffect(() => {
-    const setAssetPrice = async (type) => {
-      // Fetch crypto price data
-      if (type === "crypto") {
-        const cryptoPrice = await getCurrentPrice("crypto", asset.cid);
-        setPrice(cryptoPrice);
-        return;
-      }
+  const fetchCurrentPrice = useCallback(
+    async (type, asset) => {
+      try {
+        if (type === "crypto") {
+          const cryptoPrice = await getCurrentPrice("crypto", asset.cid);
 
-      // Fetch stock price data
-      if (type === "stock") {
-        const stockPrice = await getCurrentPrice("stock", asset.symbol);
-        setPrice(stockPrice);
-        return;
+          if (cryptoPrice === "auth") {
+            authErrorLogout();
+            return;
+          }
+
+          if (!mountedRef.current) return;
+
+          setPrice(cryptoPrice);
+          return;
+        }
+
+        // Fetch stock price data
+        if (type === "stock") {
+          const stockPrice = await getCurrentPrice("stock", asset.symbol);
+
+          if (stockPrice === "auth") {
+            authErrorLogout();
+            return;
+          }
+
+          if (!mountedRef.current) return;
+
+          setPrice(stockPrice);
+          return;
+        }
+      } catch (error) {
+        console.log(error);
       }
+    },
+    [mountedRef, authErrorLogout]
+  );
+
+  useEffect(() => {
+    fetchCurrentPrice(type, asset);
+    return () => {
+      mountedRef.current = false;
     };
-    setAssetPrice(type);
-  }, [asset.cid, asset.symbol, type]);
+  }, [fetchCurrentPrice, asset, type]);
 
   return (
     <form

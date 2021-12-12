@@ -57,7 +57,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 exports.login = catchAsync(async (req, res, next) => {
   // Handle user login
-
   const { email, password } = req.body;
 
   // Check for missing email / password

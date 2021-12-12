@@ -6,7 +6,7 @@ import CryptoExchange from "./CryptoExchange";
 import CompanyNews from "./CompanyNews";
 import Unavailable from "./Unavailable";
 import { AppContext } from "../context/appContext";
-import { numberWithCommas } from "../utils/utils";
+import { numberWithCommas, handleErrors } from "../utils/utils";
 import "../styles/cryptoPage.css";
 import "../styles/assetInfo.css";
 
@@ -15,14 +15,15 @@ const fetchPriceData = async (cId, timeFrame) => {
     const url = `/crypto/prices/${cId}?interval=${timeFrame}`;
     const response = await fetch(url);
 
-    if (response.status === 500) {
-      throw new Error("Something went wrong. Data unavailable");
+    if (response.status !== 200) {
+      handleErrors(response);
     }
 
     const data = await response.json();
     return data.data;
   } catch (error) {
     console.log(error);
+    if (error.name === "authError") return "authError";
     return -1;
   }
 };
@@ -34,31 +35,35 @@ const getCurrentPrice = async (cId, timeFrame) => {
 
     const response = await fetch(baseUrl + api);
 
-    if (response.status === 500) {
-      throw new Error("Something went wrong. Data is not available");
+    if (response.status !== 200) {
+      handleErrors(response);
     }
 
     const data = await response.json();
+
     return data;
   } catch (error) {
     console.log(error);
+    if (error.name === "authError") return "authError";
     return -1;
   }
 };
 
 const fetchCryptoData = async (cId) => {
   try {
-    const metadataUrl = `/crypto/data/${cId}`;
-    const metaResponse = await fetch(metadataUrl);
+    const url = `/crypto/data/${cId}`;
+    const response = await fetch(url);
 
-    // Handle server error
-    if (metaResponse.status === 500) {
-      throw new Error("Something went wrong. Data is not available.");
+    if (response.status !== 200) {
+      handleErrors(response);
     }
-    const metadata = await metaResponse.json();
+
+    const metadata = await response.json();
+
     return metadata.data;
   } catch (error) {
     console.log(error);
+    if (error.name === "authError") return "authError";
     return -1;
   }
 };
@@ -67,7 +72,7 @@ const CryptoPage = () => {
   // Component that displays information about a particular crypto asset
 
   // Set up component state
-  const { theme } = useContext(AppContext);
+  const { theme, authErrorLogout } = useContext(AppContext);
   // Display price info for different time intervals
   // daily, weekly, monthly, yearly
   const [timeFrame, setTimeFrame] = useState("day");
@@ -85,15 +90,27 @@ const CryptoPage = () => {
   useEffect(() => {
     const getCryptoInfo = async (cId) => {
       const cryptoData = await fetchCryptoData(cId);
+
+      if (cryptoData === "authError") {
+        authErrorLogout();
+        return;
+      }
+
       setCryptoData(cryptoData);
     };
     getCryptoInfo(cId);
-  }, [cId]);
+  }, [cId, authErrorLogout]);
 
   useEffect(() => {
     const fetchMarketData = async (cId, timeFrame) => {
       const cryptoMarketData = await fetchPriceData(cId, timeFrame);
       const priceData = await getCurrentPrice(cId, timeFrame);
+
+      if (cryptoMarketData === "authError" || priceData === "authError") {
+        authErrorLogout();
+        return;
+      }
+
       if (priceData !== -1 && cryptoMarketData !== -1) {
         let assetPrice = priceData.data[cId].usd;
         if (assetPrice >= 1000) {
@@ -109,7 +126,7 @@ const CryptoPage = () => {
       }
     };
     fetchMarketData(cId, timeFrame);
-  }, [cId, timeFrame]);
+  }, [cId, timeFrame, authErrorLogout]);
 
   if (price === -1 || marketData === -1 || cryptoData === -1) {
     return <Unavailable param={cId} theme={theme} />;

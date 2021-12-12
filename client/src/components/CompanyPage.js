@@ -8,7 +8,7 @@ import CashFlow from "./CashFlow";
 import CompanyNews from "./CompanyNews";
 import Unavailable from "./Unavailable";
 import { AppContext } from "../context/appContext";
-import { numberWithCommas, handleAuthDataError } from "../utils/utils";
+import { numberWithCommas, handleErrors } from "../utils/utils";
 import "../styles/companyPage.css";
 
 const getPriceData = async (symbolId, timeFrame) => {
@@ -17,22 +17,15 @@ const getPriceData = async (symbolId, timeFrame) => {
     const response = await fetch(url);
     // Handle server error
 
-    // if (response.status === 500) {
-    //   throw new Error("Something went wrong. Data unavailable");
-    // }
-
-    const priceData = await response.json();
-
     if (response.status !== 200) {
-      if (response.status === 401) {
-        handleAuthDataError(priceData);
-      }
-      throw new Error("Something went wrong. Data unavailable");
+      handleErrors(response);
     }
+    const priceData = await response.json();
 
     return priceData.data;
   } catch (error) {
     console.log(error);
+    if (error.name === "authError") return "authError";
     return -1;
   }
 };
@@ -43,18 +36,11 @@ const getMarketData = async (symbolId, timeFrame) => {
     const api = `${symbolId}?period=${timeFrame}`;
     const response = await fetch(baseUrl + api);
 
-    // if (response.status === 500) {
-    //   throw new Error("Something went wrong. Data unavailable");
-    // }
+    if (response.status !== 200) {
+      handleErrors(response);
+    }
 
     const data = await response.json();
-
-    if (response.status !== 200) {
-      if (response.status === 401) {
-        handleAuthDataError(data);
-      }
-      throw new Error("Something went wrong. Data unavailable");
-    }
 
     return data.data;
   } catch (error) {
@@ -90,8 +76,8 @@ const fetchCompanyData = async (symbolId, type) => {
     }
     const response = await fetch(url);
 
-    if (response.status === 500) {
-      throw new Error("Something went wrong. Data unavailable");
+    if (response.status !== 200) {
+      handleErrors(response);
     }
 
     const data = await response.json();
@@ -121,6 +107,9 @@ const fetchCompanyData = async (symbolId, type) => {
 const fetchAllCompanyData = async (dataFetches) => {
   try {
     const dataArray = await Promise.all(dataFetches);
+    if (dataArray.includes("authError")) {
+      return "authError";
+    }
     const companyData = {};
     dataArray.forEach((item) => {
       const key = Object.keys(item)[0];
@@ -135,21 +124,29 @@ const fetchAllCompanyData = async (dataFetches) => {
 const CompanyPage = () => {
   // Component that renders company information
 
-  const { theme, setUser } = useContext(AppContext);
+  const { theme, authErrorLogout } = useContext(AppContext);
+  const { symbolId } = useParams();
+
   const [timeFrame, setTimeFrame] = useState("day");
   const [hideX, setHideX] = useState(false);
-  const handleHide = () => setHideX(false);
-  const { symbolId } = useParams();
   const [company, setCompany] = useState(null);
   const [price, setPrice] = useState(0);
   const [change, setChange] = useState(null);
   const [changePercent, setChangePercent] = useState(null);
   const [marketData, setMarketData] = useState([]);
 
+  const handleHide = () => setHideX(false);
+
   // Class for styling price difference
   // Green if > 0
   // Red if < 0
   const percentClass = changePercent && changePercent < 0 ? "percent-dec" : "";
+
+  // Fix GOOGLE symbol
+  let symbolClass = "company-symbol";
+  if (symbolClass === "GOOGL") {
+    symbolClass = "company-symbol google";
+  }
 
   useEffect(() => {
     const fetchData = async (symbolId, timeFrame) => {
@@ -157,8 +154,7 @@ const CompanyPage = () => {
       const companyMarketData = await getMarketData(symbolId, timeFrame);
 
       if (priceData === "authError" || companyMarketData === "authError") {
-        localStorage.removeItem("user");
-        setUser(null);
+        authErrorLogout();
         return;
       }
 
@@ -173,7 +169,7 @@ const CompanyPage = () => {
       return;
     };
     fetchData(symbolId, timeFrame);
-  }, [timeFrame, symbolId, setUser]);
+  }, [timeFrame, symbolId, authErrorLogout]);
 
   useEffect(() => {
     const getCompany = async (symbolId) => {
@@ -183,11 +179,16 @@ const CompanyPage = () => {
         fetchCompanyData(symbolId, "balance"),
         fetchCompanyData(symbolId, "cash"),
       ]);
-      console.log(companyData);
+
+      if (companyData === "authError") {
+        authErrorLogout();
+        return;
+      }
+
       setCompany(companyData);
     };
     getCompany(symbolId);
-  }, [symbolId]);
+  }, [symbolId, authErrorLogout]);
 
   if (price === -1) {
     return <Unavailable param={symbolId} theme={theme} />;
@@ -200,7 +201,7 @@ const CompanyPage = () => {
       }`}
     >
       <div className="company-chart-container">
-        <div className="company-symbol">
+        <div className={symbolClass}>
           <img
             src={`https://storage.googleapis.com/iex/api/logos/${symbolId}.png`}
             alt="company"
@@ -264,10 +265,10 @@ const CompanyPage = () => {
           valueData={marketData}
         />
       </div>
-      {/* {company ? <CompanyInfo overview={company.overview} /> : null}
+      {company ? <CompanyInfo overview={company.overview} /> : null}
       {company ? <BalanceSheet balance={company.balance} /> : null}
       {company ? <IncomeStatement income={company.income} /> : null}
-      {company ? <CashFlow cash={company.cash} /> : null} */}
+      {company ? <CashFlow cash={company.cash} /> : null}
       <CompanyNews />
     </div>
   );

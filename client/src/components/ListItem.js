@@ -25,6 +25,12 @@ const ListItem = ({
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  let tickerClass = "table-ticker";
+  // Fix GOOGLE logo
+  if (ticker === "GOOGL") {
+    tickerClass = "table-ticker google";
+  }
+
   return (
     <tr className="row">
       <RemoveTxn
@@ -38,7 +44,7 @@ const ListItem = ({
         cid={cid}
         assetPrice={price}
       />
-      <td className="table-ticker">
+      <td className={tickerClass}>
         <Link to={type === "stocks" ? `/company/${ticker}` : `/crypto/${cid}`}>
           <img src={logo} alt="symbol" />
           <span className={theme === "light" ? "ticker-light" : "ticker"}>

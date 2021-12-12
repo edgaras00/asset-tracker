@@ -25,11 +25,15 @@ const NewsItem = (props) => {
         <div className="news-content">
           <h2>{props.title}</h2>
           <span className="author">{props.author}</span>
-          <h3 className="article-description">{props.description}</h3>
+          {/* <h3 className="article-description">{props.description}</h3> */}
+          <h3
+            className="article-description"
+            dangerouslySetInnerHTML={{ __html: props.description }}
+          ></h3>
           <p>{props.content}</p>
           <div className="source-date">
             <div className="news-source">{props.source}</div>
-            <div>{props.date}</div>
+            <div>{props.date.split("T")[0]}</div>
           </div>
         </div>
         <div className="news-image">

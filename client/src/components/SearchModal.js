@@ -10,7 +10,7 @@ import "../styles/searchModal.css";
 const SearchModal = ({ isModalOpen, closeModal }) => {
   // Modal component to search for assets
 
-  const { theme } = useContext(AppContext);
+  const { theme, authErrorLogout } = useContext(AppContext);
   const searchIcon = <FontAwesomeIcon icon={faSearch} />;
 
   const [search, setSearch] = useState("");
@@ -31,6 +31,14 @@ const SearchModal = ({ isModalOpen, closeModal }) => {
         let url = `/${endpoint}/search?query=${search}`;
         const response = await fetch(url);
         const data = await response.json();
+
+        if (response.status !== 200) {
+          if (response.status === 401) {
+            authErrorLogout();
+            return;
+          }
+        }
+
         setSearchData(data.data);
       }
     } catch (error) {
