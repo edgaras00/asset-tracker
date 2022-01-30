@@ -5,6 +5,7 @@ import { AppContext } from "../context/appContext";
 import { numberWithCommas, handleErrors } from "../utils/utils";
 import PieGraph from "./PieGraph";
 import Activity from "./Activity";
+import SummaryCard from "./SummaryCard";
 import "../styles/userPortfolio.css";
 
 const getTxnHistory = async (type) => {
@@ -91,7 +92,6 @@ const UserPortfolio = () => {
 
   const { theme, user, authErrorLogout } = useContext(AppContext);
   // Class for different theme styles
-  const colorClassInc = theme === "light" ? "percent-inc-light" : "percent-inc";
 
   const clearPortfolio = (isError = false) => {
     if (isError) {
@@ -173,36 +173,26 @@ const UserPortfolio = () => {
       </div>
 
       <div className="portfolio-summary">
-        <div
-          className={`summary-cell ${
-            theme === "light" ? "summary-cell-light" : null
-          }`}
-        >
-          <h3>Value</h3>
-          {assetValue ? (
-            <h1>${numberWithCommas(assetValue.toFixed(2))}</h1>
-          ) : null}
-        </div>
-        <div
-          className={`summary-cell ${
-            theme === "light" ? "summary-cell-light" : null
-          }`}
-        >
-          <h3>Cost</h3>
-          {assetCost ? <h1>{numberWithCommas(assetCost.toFixed(2))}</h1> : null}
-        </div>
-        <div
-          className={`summary-cell ${
-            theme === "light" ? "summary-cell-light" : null
-          }`}
-        >
-          <h3>Total Gain</h3>
-          {percentGain ? (
-            <h1 className={increasing ? colorClassInc : "percent-change-dec"}>
-              {percentGain.toFixed(2)}%
-            </h1>
-          ) : null}
-        </div>
+        <SummaryCard
+          header="Value"
+          value={assetValue ? numberWithCommas(assetValue.toFixed(2)) : null}
+          theme={theme}
+          type="usd"
+        />
+
+        <SummaryCard
+          header="Cost"
+          value={assetCost ? numberWithCommas(assetCost.toFixed(2)) : null}
+          theme={theme}
+          type="usd"
+        />
+        <SummaryCard
+          header="Total Gain"
+          value={percentGain ? percentGain.toFixed(2) : null}
+          theme={theme}
+          type="percent"
+          increasing={increasing}
+        />
       </div>
       <div
         className={`portfolio-container ${
