@@ -6,6 +6,7 @@ import { numberWithCommas, handleErrors } from "../utils/utils";
 import PieGraph from "./PieGraph";
 import Activity from "./Activity";
 import SummaryCard from "./SummaryCard";
+import AssetButton from "./AssetButton";
 import "../styles/userPortfolio.css";
 
 const getTxnHistory = async (type) => {
@@ -152,24 +153,8 @@ const UserPortfolio = () => {
       }`}
     >
       <div className="select-assets">
-        <button
-          className={`stock-button ${
-            theme === "light" ? "stock-btn-light" : null
-          }`}
-          onClick={() => {
-            setAssetType("stocks");
-          }}
-        >
-          Stocks
-        </button>
-        <button
-          className={`crypto-button ${
-            theme === "light" ? "crypto-btn-light" : null
-          }`}
-          onClick={() => setAssetType("crypto")}
-        >
-          Crypto
-        </button>
+        <AssetButton type="stocks" theme={theme} handleClick={setAssetType} />
+        <AssetButton type="crypto" theme={theme} handleClick={setAssetType} />
       </div>
 
       <div className="portfolio-summary">
