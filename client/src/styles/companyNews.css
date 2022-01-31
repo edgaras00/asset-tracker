@@ -1,6 +1,7 @@
 .company-news-container {
   padding: 0 2rem;
   width: 54%;
+  color: rgba(255, 255, 255, 0.87);
 }
 
 .company-news-header {

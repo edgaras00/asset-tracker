@@ -7,9 +7,9 @@
   font-size: 1.3rem;
   font-weight: bold;
   letter-spacing: 0.1rem;
-  /* color: #f7f7f7; */
   color: rgba(255, 255, 255, 0.87);
   text-transform: uppercase;
+  transition: background-color 100ms ease-in;
 }
 
 .stock-button {
