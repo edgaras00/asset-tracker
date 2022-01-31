@@ -8,6 +8,7 @@
   flex-direction: column;
   align-items: center;
   padding-bottom: 40px;
+  padding-top: 1.5rem;
   margin-top: 3rem;
 }
 
@@ -26,7 +27,7 @@
 }
 
 .list-header h2 {
-  margin-left: 2em;
+  margin-left: 2rem;
 }
 
 .list-header button {
@@ -36,8 +37,8 @@
   border-radius: 6px;
   border: none;
   color: #f7f7f7;
-  padding: 0.3rem 1.2rem;
-  font-size: 1.1rem;
+  padding: 0.35rem 1.25rem;
+  font-size: 1rem;
   font-weight: bold;
 }
 
@@ -77,7 +78,7 @@
   width: 100%;
   table-layout: fixed;
   border-spacing: 0 1.5rem;
-  color: #fff;
+  color: rgba(255, 255, 255, 0.87);
 }
 
 .tab-light {
@@ -102,7 +103,7 @@
 
 .port-col {
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .no-asset-cont {

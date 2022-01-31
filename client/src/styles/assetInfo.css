@@ -3,7 +3,7 @@
   background-color: #121212;
   display: flex;
   flex-direction: column;
-  color: #fff;
+  color: rgba(255, 255, 255, 0.87);
   padding: 0 2rem;
 }
 
@@ -34,12 +34,12 @@
 }
 
 .asset-header h2 {
-  font-size: 2.8rem;
+  font-size: 2.27rem;
 }
 
 .asset-header span {
   color: rgb(8, 179, 8);
-  font-size: 1.4rem;
+  font-size: 1.14rem;
   margin-right: 20px;
   cursor: pointer;
 }
@@ -51,7 +51,7 @@
 .asset-table {
   width: 100%;
   border-spacing: 0 1.3rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .market-table,
@@ -74,7 +74,7 @@
 
 .exchange-table-header {
   font-weight: bold;
-  font-size: 1.3rem;
+  font-size: 1.02rem;
 }
 
 .asset-title {
@@ -90,7 +90,7 @@
 .company-info-content {
   width: 88%;
   margin-top: 2rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
   line-height: 1.8rem;
   overflow: scroll;
 }
@@ -104,7 +104,7 @@
 }
 
 .info-row {
-  font-size: 1.4rem;
+  font-size: 1.14rem;
   display: flex;
   margin-bottom: 1rem;
 }

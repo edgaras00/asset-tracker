@@ -1,5 +1,5 @@
 .row {
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .table-ticker {
@@ -14,6 +14,10 @@
   margin-right: 10px;
   border-radius: 50%;
   margin-left: 13px;
+}
+
+.ticker {
+  font-size: 1rem;
 }
 
 .google img {

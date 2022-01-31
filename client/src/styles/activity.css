@@ -7,6 +7,7 @@
   border-radius: 10px;
   padding-bottom: 40px;
   margin-top: 3rem;
+  color: rgba(255, 255, 255, 0.87);
 }
 
 .activity-container-light {
@@ -50,15 +51,15 @@
 .date {
   margin-left: 20px;
   margin-right: 10px;
-  font-size: 1.3rem;
+  font-size: 1.02rem;
 }
 
 .month {
   margin-bottom: 0.5rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
-.buy-ico {
+.buy-icon {
   border: 1px solid rgb(155, 155, 155);
   margin-left: 15px;
   width: 3.3rem;
@@ -71,6 +72,7 @@
 
 .description {
   margin-left: 2rem;
+  font-size: 1rem;
 }
 
 .display-amount {
@@ -80,11 +82,11 @@
 
 .asset-amount {
   margin-bottom: 1rem;
-  font-size: 1.3rem;
+  font-size: 1.02rem;
 }
 
 .value-usd {
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .no-activity {

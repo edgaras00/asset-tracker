@@ -4,10 +4,11 @@
   border: none;
   border-radius: 8px;
   margin-right: 3rem;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: bold;
   letter-spacing: 0.1rem;
-  color: #f7f7f7;
+  /* color: #f7f7f7; */
+  color: rgba(255, 255, 255, 0.87);
   text-transform: uppercase;
 }
 
@@ -21,6 +22,7 @@
 
 .stock-btn-light {
   background-color: #28b63d;
+  color: #fff;
 }
 
 .crypto-button {
@@ -33,4 +35,5 @@
 
 .crypto-btn-light {
   background-color: #7e53e6;
+  color: #fff;
 }

@@ -197,7 +197,7 @@ const UserPortfolio = () => {
             theme === "light" ? "title-light" : null
           } asset-dist`}
         >
-          <h1>Asset Distribution</h1>
+          <h2 className="section-header">Asset Distribution</h2>
           <br />
           {showGraphPercent ? (
             <h3 onClick={() => setShowGraphPercent(false)}>Show USD</h3>
@@ -221,11 +221,11 @@ const UserPortfolio = () => {
         </div>
       ) : null}
       <div className={`title ${theme === "light" ? "title-light" : null}`}>
-        <h1>Activity</h1>
+        <h2 className="section-header">Activity</h2>
       </div>
       <Activity txnHistory={txnActivity} assetType={assetType} theme={theme} />
       <div className={`title ${theme === "light" ? "title-light" : null}`}>
-        <h1>News</h1>
+        <h2 className="section-header">News</h2>
       </div>
       <div className="market-news-container">
         <MarketNews />

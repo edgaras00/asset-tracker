@@ -18,7 +18,7 @@ const ActivityRow = ({ action, date, amount, price, symbol }) => {
             <div className="month">{month.toUpperCase()}</div>
             <div>{day}</div>
           </div>
-          <div className="buy-ico">{action.toUpperCase()}</div>
+          <div className="buy-icon">{action.toUpperCase()}</div>
           <div className="description">
             {action === "Buy" ? `Bought ${symbol}` : `Sold ${symbol}`}
           </div>

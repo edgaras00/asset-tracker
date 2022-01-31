@@ -39,7 +39,7 @@
 .signup-input-wrapper input {
   width: 98%;
   height: 40px;
-  font-size: 1.2rem;
+  font-size: 1rem;
   background-color: #666464;
   border: 2px solid rgb(204, 202, 202);
   color: rgb(255, 253, 253);
@@ -51,7 +51,7 @@
   letter-spacing: 0.2rem;
   margin-bottom: 30px;
   font-family: "Questrial", sans-serif;
-  font-size: 1.8em;
+  font-size: 1.46em;
 }
 
 .signup-form h3 {

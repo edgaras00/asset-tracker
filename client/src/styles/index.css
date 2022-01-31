@@ -1,0 +1,28 @@
+:root {
+  color: #fff;
+  /* font-size: 13px; */
+  /* font-size: 16px; */
+}
+
+*,
+:after,
+:before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+svg:hover {
+  stroke: rgb(168, 168, 168);
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+button:hover {
+  cursor: pointer;
+}

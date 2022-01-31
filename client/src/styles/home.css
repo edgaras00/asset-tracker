@@ -36,7 +36,7 @@
   width: 90vw;
   height: 100vh;
 
-  /* Regulat */
+  /* Regular */
   max-width: 100%;
   height: 520px;
   position: absolute;
@@ -55,13 +55,13 @@
   -moz-background-clip: text;
   -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
-  font-size: 3.8rem;
+  font-size: 3.08rem;
   font-weight: bold;
 }
 
 .typewriter-end {
   color: #fff;
-  font-size: 3.8rem;
+  font-size: 3.08rem;
   font-weight: bold;
 }
 
@@ -78,14 +78,14 @@
 
 .home-text-container h1 {
   color: white;
-  font-size: 3.8rem;
+  font-size: 3.08rem;
   font-weight: bold;
   line-height: 1;
 }
 
 .subtitle {
   color: white;
-  font-size: 2.2rem;
+  font-size: 1.8rem;
   margin-top: 40px;
 }
 
@@ -106,7 +106,7 @@
   justify-content: center;
   font-weight: bold;
   margin-right: 20px;
-  font-size: 1.8rem;
+  font-size: 1.46rem;
 }
 
 .button-container div:hover {
@@ -116,4 +116,5 @@
 
 .source {
   margin-left: 10px;
+  font-size: 1rem;
 }

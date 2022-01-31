@@ -21,8 +21,8 @@
   border: none;
   background-color: #2e2e2e;
   text-align: center;
-  font-size: 1.2rem;
-  color: white;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.87);
 }
 
 .modal-light input {
@@ -42,7 +42,6 @@
 }
 
 .modal-content-light {
-  /* background-color: rgb(255, 255, 255); */
   background-color: rgb(185, 185, 185);
   color: #000000;
 }
@@ -81,8 +80,8 @@
   border-radius: 50%;
   background-color: #464545;
   border: 10px solid #6b49c2;
-  color: rgb(187, 187, 187);
-  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.87);
+  font-size: 1rem;
   font-weight: bold;
   letter-spacing: 1px;
   margin-top: 20px;
@@ -150,7 +149,7 @@
 
 .modal-add {
   margin-right: 2rem;
-  font-size: 2rem;
+  font-size: 1.625rem;
   color: rgb(187, 187, 187);
   cursor: pointer;
 }
@@ -213,7 +212,7 @@
 .txn-action {
   height: 65px;
   width: 40%;
-  font-size: 1.8rem;
+  font-size: 1.462rem;
   text-transform: uppercase;
   word-spacing: 0.4rem;
   display: flex;
@@ -245,7 +244,7 @@
 }
 
 .txn-input span {
-  font-size: 1.3rem;
+  font-size: 1.05rem;
   color: #b6b6b6;
 }
 
@@ -258,7 +257,7 @@
   height: 50px;
   border-radius: 10px;
   margin-bottom: 1rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #dadada;
   background-color: #2e2e2e;
   border: none;
@@ -295,7 +294,7 @@
 .back-button {
   margin-top: 0.9rem;
   margin-left: 1.8rem;
-  font-size: 1.8rem;
+  font-size: 1.462rem;
   cursor: pointer;
 }
 
@@ -347,7 +346,7 @@
 .exit-button,
 .close-button {
   margin-left: 1.3rem;
-  font-size: 2rem;
+  font-size: 1.625rem;
   cursor: pointer;
 }
 

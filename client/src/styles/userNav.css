@@ -1,37 +1,37 @@
 #logout {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .user-nav {
-    width: 100%;
-    height: 60px;
-    font-size: 1.2rem;
-    background-color: #303030;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;   
-    color: rgb(187, 187, 187);
-    padding-bottom: 0.5rem;
+  width: 100%;
+  height: 60px;
+  font-size: 1rem;
+  background-color: #303030;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: rgb(187, 187, 187);
+  padding-bottom: 0.5rem;
 }
 
 .user-nav-light {
-    background-color: #3b5898;
-    color: #ffffff;
+  background-color: #3b5898;
+  color: #ffffff;
 }
 
 .logo {
-    font-size: 2.4rem;
-    letter-spacing: 0.3rem;
-    color: #fff;
-    margin-left: 20px;
-    font-family: 'Questrial', sans-serif;
+  font-size: 1.95rem;
+  letter-spacing: 0.3rem;
+  color: #fff;
+  margin-left: 20px;
+  font-family: "Questrial", sans-serif;
 }
 
 .user-nav-right {
-    width: 10%;
-    display: flex;
-    justify-content: space-between;
-    margin-right: 3.5rem;
-    font-size: 1.3rem;
-    font-weight: bold;
+  width: 10%;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 3.5rem;
+  font-size: 1.03rem;
+  font-weight: bold;
 }

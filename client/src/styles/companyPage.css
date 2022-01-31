@@ -2,7 +2,7 @@
   width: 100%;
   background-color: #121212;
   padding-bottom: 5rem;
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.87);
 }
 
 .company-page-container-light {
@@ -16,12 +16,12 @@
 }
 
 .company-chart-container h1 {
-  font-size: 2.9rem;
+  font-size: 2.35rem;
 }
 
 .asset-price {
   margin-top: 1rem;
-  font-size: 2.6rem;
+  font-size: 2.11rem;
 }
 
 .company-chart-container h1,
@@ -31,7 +31,7 @@
 
 .company-asset-change {
   color: #7bcd77;
-  font-size: 1.8rem;
+  font-size: 1.46rem;
   margin-top: 1rem;
   margin-bottom: 3rem;
 }
