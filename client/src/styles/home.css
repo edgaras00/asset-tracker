@@ -1,7 +1,6 @@
 .home-container {
   width: 100vw;
   max-width: 1440px;
-  /* height: 100vh; */
   min-height: calc(100vh);
   background-color: #000;
   display: flex;

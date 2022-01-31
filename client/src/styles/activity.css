@@ -17,7 +17,7 @@
 
 .activity-table {
   width: 100%;
-  border-spacing: 0 1.5em;
+  border-spacing: 0 1.5rem;
 }
 
 .activity-table td {
@@ -50,19 +50,19 @@
 .date {
   margin-left: 20px;
   margin-right: 10px;
-  font-size: 1.3em;
+  font-size: 1.3rem;
 }
 
 .month {
-  margin-bottom: 0.5em;
-  font-size: 1.1em;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
 }
 
 .buy-ico {
   border: 1px solid rgb(155, 155, 155);
   margin-left: 15px;
-  width: 3.3em;
-  height: 3.3em;
+  width: 3.3rem;
+  height: 3.3rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -70,7 +70,7 @@
 }
 
 .description {
-  margin-left: 2em;
+  margin-left: 2rem;
 }
 
 .display-amount {
@@ -79,15 +79,15 @@
 }
 
 .asset-amount {
-  margin-bottom: 1em;
-  font-size: 1.3em;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
 }
 
 .value-usd {
-  font-size: 1.1em;
+  font-size: 1.1rem;
 }
 
 .no-activity {
   text-align: center;
-  margin-top: 5em;
+  margin-top: 5rem;
 }

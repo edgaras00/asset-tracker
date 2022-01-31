@@ -1,94 +1,94 @@
 .intro-home-wrapper {
-    width: 100vw;
-    max-width: 1440px;
-    min-height: 100vh;
-    background-color: #000;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+  width: 100vw;
+  max-width: 1440px;
+  min-height: 100vh;
+  background-color: #000;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .asset-intro-container {
-    display: flex;
-    flex-direction: row;
-    width: 88%;
-    margin-top: 3em;   
+  display: flex;
+  flex-direction: row;
+  width: 88%;
+  margin-top: 3rem;
 }
 
 .intro-text {
-    font-size: 2.8em;
-    display: flex;
-    align-items: center;
-    width: 40%;
+  font-size: 2.8rem;
+  display: flex;
+  align-items: center;
+  width: 40%;
 }
 
 .asset-intro-container img {
-    width: 54%;
+  width: 54%;
 }
 
 .asset-description {
-    width: 88%;
-    margin-top: 270px;
-    display: flex;
+  width: 88%;
+  margin-top: 270px;
+  display: flex;
 }
 
 .asset-description-text {
-    width: 50%;
+  width: 50%;
 }
 
 .asset-description-text h2 {
-    font-size: 3.6em;
+  font-size: 3.6rem;
 }
 
 .asset-description-text p {
-    font-size: 1.7em;
-    margin-top: 1.2em;
-    color: rgb(189, 189, 189);
+  font-size: 1.7rem;
+  margin-top: 1.2rem;
+  color: rgb(189, 189, 189);
 }
 
 .asset-description img {
-    width: 58%;
+  width: 58%;
 }
 
 .exchange-container {
-    width: 100%;
-    overflow-x: hidden;
-    height: calc(100vh - 80px);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 240px;
+  width: 100%;
+  overflow-x: hidden;
+  height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 240px;
 }
 
 .exchange-container h1 {
-    width: 40%;
-    font-size: 4em;
+  width: 40%;
+  font-size: 4rem;
 }
 
 .exchanges {
-    display: flex;
-    animation-name: move;
-    animation-duration: 60s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    opacity: 0.65;
-    margin-top: 20px;
+  display: flex;
+  animation-name: move;
+  animation-duration: 60s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  opacity: 0.65;
+  margin-top: 20px;
 }
 
 .exchanges img {
-    margin: 0px 30px;
-    height: 80px;
+  margin: 0px 30px;
+  height: 80px;
 }
 
 .stock-ex {
-    height: 55px;
+  height: 55px;
 }
 
 @keyframes move {
-    100% {
-        transform: translateX(-50%);
-    }
+  100% {
+    transform: translateX(-50%);
+  }
 }

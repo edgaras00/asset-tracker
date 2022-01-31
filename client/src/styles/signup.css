@@ -48,7 +48,7 @@
 
 .signup-form h4 {
   color: #fff;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.2rem;
   margin-bottom: 30px;
   font-family: "Questrial", sans-serif;
   font-size: 1.8em;
@@ -66,7 +66,7 @@
   border: 2px solid white;
   color: #fff;
   font-weight: bold;
-  font-size: 1eem;
+  font-size: 1rem;
   margin-bottom: 10px;
 }
 
@@ -114,5 +114,5 @@
 
 .signup-err {
   width: 70%;
-  margin-bottom: 1em;
+  margin-bottom: 1rem;
 }

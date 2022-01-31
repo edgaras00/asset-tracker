@@ -92,7 +92,6 @@ const UserPortfolio = () => {
   const [serverError, setServerError] = useState(0);
 
   const { theme, user, authErrorLogout } = useContext(AppContext);
-  // Class for different theme styles
 
   const clearPortfolio = (isError = false) => {
     if (isError) {
