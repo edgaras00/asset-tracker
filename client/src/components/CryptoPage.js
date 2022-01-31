@@ -135,7 +135,7 @@ const CryptoPage = () => {
   // Blockchain explorer info
   let explorers = [];
   if (cryptoData) {
-    cryptoData.links.blockchain_site.forEach((link, index) => {
+    cryptoData.links.blockchain_site.slice(0, 3).forEach((link, index) => {
       if (link !== "") {
         const explorer = link.split(".com")[0].split("//")[1];
         const capitalized = explorer[0].toUpperCase() + explorer.slice(1);
@@ -298,13 +298,13 @@ const CryptoPage = () => {
         </div>
         <div className="crypto-table">
           <div className="info-row market-cap-rank">
-            <div>Market Cap</div>
+            <div className="info-title">Market Cap</div>
             <div className="crypto-table-val">
               Rank #{cryptoData ? cryptoData.marketRank : ""}
             </div>
           </div>
           <div className="info-row website">
-            <div>Website</div>
+            <div className="info-title">Website</div>
             {cryptoData ? (
               <a
                 className={`crypto-table-val ${
@@ -321,12 +321,12 @@ const CryptoPage = () => {
             )}
           </div>
           <div className="info-row explorers">
-            <div>Explorers</div>
-            <div className="info-row explorer-links">{explorers}</div>
+            <div className="info-title">Explorers</div>
+            <div className="explorer-links">{explorers}</div>
           </div>
           <div className="info-row community">
-            <div>Community</div>
-            <div className="info-row community-links">
+            <div className="info-title">Community</div>
+            <div className="community-links">
               {cryptoData &&
               cryptoData.links.twitter_screen_name &&
               cryptoData.links.twitter_screen_name !== "" ? (
@@ -386,8 +386,8 @@ const CryptoPage = () => {
             </div>
           </div>
           <div className="info-row crypto-category">
-            <div>Category</div>
-            <div className="info-row categories">{categories}</div>
+            <div className="info-title">Category</div>
+            <div className="categories">{categories}</div>
           </div>
         </div>
       </div>

@@ -95,6 +95,14 @@
   overflow: scroll;
 }
 
+.company-info-content a {
+  font-weight: 700;
+}
+
+.company-info-content a:hover {
+  text-decoration: underline;
+}
+
 .content-expand {
   color: rgb(8, 179, 8);
 }
@@ -109,19 +117,24 @@
   margin-bottom: 1rem;
 }
 
+.info-row a {
+  font-weight: 600;
+}
+
+.info-row a:hover {
+  text-decoration: underline;
+}
+
 .info-row div {
   margin-right: 1.4rem;
 }
 
 .crypto-table-val {
-  /* background: #3b3b3b; */
-  background: #9b9b9b;
   padding: 0.1rem 0.8rem;
 }
 
-.crypto-table-val:hover {
-  /* background: #464646; */
-  background: #b9b9b9;
+.info-title {
+  font-weight: 600;
 }
 
 .link-light {
