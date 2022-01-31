@@ -97,10 +97,12 @@ button:focus {
   border-radius: 10px;
   text-transform: uppercase;
   letter-spacing: 0.1rem;
+  color: rgba(255, 255, 255, 0.87);
 }
 
 .title-light {
   background-color: #5970a5;
+  color: #fff;
 }
 
 .asset-dist {

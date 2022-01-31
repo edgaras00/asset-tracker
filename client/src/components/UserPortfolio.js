@@ -200,9 +200,19 @@ const UserPortfolio = () => {
           <h2 className="section-header">Asset Distribution</h2>
           <br />
           {showGraphPercent ? (
-            <h3 onClick={() => setShowGraphPercent(false)}>Show USD</h3>
+            <h3
+              onClick={() => setShowGraphPercent(false)}
+              className="toggle-distribution"
+            >
+              Show USD
+            </h3>
           ) : (
-            <h3 onClick={() => setShowGraphPercent(true)}>Show Percent</h3>
+            <h3
+              onClick={() => setShowGraphPercent(true)}
+              className="toggle-distribution"
+            >
+              Show Percent
+            </h3>
           )}
         </div>
       ) : null}
