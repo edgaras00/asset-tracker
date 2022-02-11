@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/navbar.css";
+import useWindowWidth from "./useWindowWidth";
 
 const Navbar = () => {
   // Navbar component (Homepage)
 
   const [isHovered, setIsHovered] = useState(false);
+  const { width } = useWindowWidth();
 
   const navbarTopSecondClass = isHovered ? "nav-top-hover" : null;
   let svgClass = isHovered ? "hov-svg" : "reg-svg";
 
-  return (
+  return width >= 1000 ? (
     <div className="navbar-container">
       <div className={`navbar-top ${navbarTopSecondClass}`}>
         <Link to="/">
@@ -53,6 +55,20 @@ const Navbar = () => {
       ) : (
         <div className="navbar-bottom navbar-hidden"></div>
       )}
+    </div>
+  ) : (
+    <div className="navbar-container">
+      <div className="navbar-top">
+        <Link to="/">
+          <span id="logo">alpha</span>
+        </Link>
+        <div className="tracker-links">
+          <Link className="link" to="/crypto-intro">
+            Crypto
+          </Link>
+          <Link to="/stock-intro">Stocks</Link>
+        </div>
+      </div>
     </div>
   );
 };

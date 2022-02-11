@@ -89,3 +89,20 @@ a:hover {
   transition: transform 0.3s ease-in-out 0s;
   transform: rotate(180deg);
 }
+
+@media (max-width: 1000px) {
+  .tracker-links {
+    width: 200px;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  #logo {
+    margin-right: 2rem;
+  }
+
+  .tracker-links a {
+    color: #fff;
+    font-size: 1.3rem;
+  }
+}

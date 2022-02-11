@@ -39,7 +39,36 @@ const Home = () => {
           </div>
           <h1>Tracker</h1>
           <br />
-          <h3>
+          <div className="sources">
+            <h3>Powered by:</h3>
+            <span>
+              <a
+                className="source"
+                href="https://iexcloud.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                IEX
+              </a>
+              <a
+                className="source"
+                href="https://coingecko.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                COINGECKO
+              </a>
+              <a
+                className="source"
+                href="https://www.alphavantage.co/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ALPHA VANTAGE
+              </a>
+            </span>
+          </div>
+          {/* <h3>
             Powered by:{" "}
             <a
               className="source"
@@ -65,12 +94,12 @@ const Home = () => {
             >
               ALPHA VANTAGE
             </a>
-          </h3>
+          </h3> */}
         </div>
         <span className="subtitle">One app to track all your investments.</span>
         <div className="button-container">
           <Link to="/signup">
-            <div className="home-buttons">
+            <div className="home-buttons signup-button">
               <span>Sign up</span>
             </div>
           </Link>
