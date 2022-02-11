@@ -116,3 +116,39 @@
   width: 70%;
   margin-bottom: 1rem;
 }
+
+@media (max-width: 800px) {
+  .signup-container {
+    align-items: flex-start;
+  }
+  .signup-form {
+    width: 100%;
+    height: 500px;
+    border: none;
+    padding-bottom: 14px;
+  }
+
+  .signup-form h4 {
+    display: none;
+  }
+
+  .signup-input-wrapper {
+    width: 90%;
+    height: 250px;
+  }
+
+  .signup-input-wrapper input {
+    height: 50px;
+    font-size: 1.1rem;
+  }
+
+  .signup-form button {
+    width: 90%;
+    height: 48px;
+    border-radius: 10px;
+  }
+  .has-account {
+    width: 90%;
+    margin-top: 14px;
+  }
+}

@@ -90,7 +90,7 @@ a:hover {
   transform: rotate(180deg);
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 800px) {
   .tracker-links {
     width: 200px;
     display: flex;
@@ -104,5 +104,11 @@ a:hover {
   .tracker-links a {
     color: #fff;
     font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .tracker-links a {
+    font-size: 1.1rem;
   }
 }
