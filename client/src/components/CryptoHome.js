@@ -8,7 +8,7 @@ import kraken from "../img/kraken.png";
 import kucoin from "../img/kucoin.png";
 import bitfinex from "../img/bitfinex.png";
 import etoro from "../img/etoro.png";
-import gemini from "../img/gemini.png"
+import gemini from "../img/gemini.png";
 
 const CryptoHome = () => {
   return (
@@ -34,7 +34,7 @@ const CryptoHome = () => {
         <br />
       </div>
       <div className="exchange-container">
-        <h1>Crypto tracker with support for various exchanges</h1>
+        <h3>Crypto tracker with support for various exchanges</h3>
         <div className="exchanges">
           <img src={coinbase} alt="exchange" />
           <img src={binance} alt="exchange" />

@@ -1,5 +1,5 @@
 .intro-home-wrapper {
-  width: 100vw;
+  width: 100%;
   /* max-width: 1440px; */
   min-height: 100vh;
   background-color: #000;
@@ -12,7 +12,6 @@
 
 .asset-intro-container {
   display: flex;
-  flex-direction: row;
   width: 88%;
   margin-top: 3rem;
 }
@@ -63,7 +62,7 @@
   margin-top: 240px;
 }
 
-.exchange-container h1 {
+.exchange-container h3 {
   width: 40%;
   font-size: 3.25rem;
 }
@@ -90,5 +89,67 @@
 @keyframes move {
   100% {
     transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 800px) {
+  .asset-intro-container {
+    width: 90%;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .intro-text {
+    width: 92%;
+    font-size: 1.8rem;
+  }
+
+  .asset-intro-container img {
+    width: 100%;
+  }
+
+  .asset-description {
+    width: 90%;
+    margin-top: 50px;
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .asset-description-text {
+    width: 92%;
+  }
+
+  .asset-description-text h2 {
+    font-size: 2.3rem;
+  }
+
+  .asset-description img {
+    width: 90%;
+    margin-top: 2rem;
+  }
+
+  .exchange-container {
+    width: 100%;
+    overflow-x: hidden;
+    height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 50px;
+  }
+
+  .exchange-container h3 {
+    font-size: 2.3rem;
+    width: 80%;
+    text-align: center;
+  }
+
+  .exchanges {
+    margin-top: 0px;
+  }
+
+  .stock-intro {
+    margin: 3rem 0;
   }
 }
