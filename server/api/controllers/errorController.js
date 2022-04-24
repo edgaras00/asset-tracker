@@ -43,8 +43,6 @@ module.exports = (err, req, res, next) => {
   if (process.env.NODE_ENV === "development") {
     sendErrorDev(error, res);
   } else if (process.env.NODE_ENV === "production") {
-    // if (err.name === "JsonWebTokenError") error = handleJWTError();
-    // if (err.name === "TokenExpiredError") error = handleJWTExpiredError();
     if (err.code === 11000) error = handleDuplicateFieldsDB(err);
     sendErrorProd(error, res);
   }

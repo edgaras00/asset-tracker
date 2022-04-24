@@ -1,9 +1,9 @@
 const { promisify } = require("util");
-const User = require("../models/userModel");
 const mongoose = require("mongoose");
-const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/appError");
 const jwt = require("jsonwebtoken");
+const User = require("../models/userModel");
+const AppError = require("../utils/appError");
+const catchAsync = require("../utils/catchAsync");
 
 const signToken = (id) => {
   // Function that creates a JWT
