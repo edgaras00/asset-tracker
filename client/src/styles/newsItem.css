@@ -82,11 +82,13 @@
 }
 
 @media (max-width: 1000px) {
-  .article-link {
+  .article-link,
+  .company-article-link {
     width: 84%;
   }
 
-  .article {
+  .article,
+  .company-article {
     flex-direction: column;
     align-items: center;
   }

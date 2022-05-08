@@ -76,3 +76,9 @@
 .social {
   margin-right: 20px;
 }
+
+@media (max-width: 1000px) {
+  .crypto-symbol img {
+    width: 70px;
+  }
+}

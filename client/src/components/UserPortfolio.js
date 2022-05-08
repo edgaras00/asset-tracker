@@ -220,7 +220,7 @@ const UserPortfolio = () => {
       {portfolio.length > 0 ? (
         <div
           className={`analytics-container ${
-            theme === "light" ? "analytics-container-light" : null
+            theme === "light" ? "analytics-container-light" : ""
           }`}
         >
           <PieGraph

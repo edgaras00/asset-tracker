@@ -140,3 +140,22 @@
 .link-light {
   color: #000;
 }
+
+@media (max-width: 1000px) {
+  .asset-info-container,
+  .crypto-info-container {
+    width: 90%;
+  }
+
+  .asset-header span {
+    font-size: 1rem;
+  }
+
+  .asset-table {
+    font-size: 0.8rem;
+  }
+
+  .exchange-table-row td a {
+    font-size: 0.85rem;
+  }
+}

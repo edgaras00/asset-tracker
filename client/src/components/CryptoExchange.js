@@ -21,7 +21,7 @@ const CryptoExchange = ({ data }) => {
           }`}
           key={item.name + index}
         >
-          <td className="test">
+          <td className="exchange">
             <a href={item.url} rel="noopener noreferrer" target="_blank">
               {item.name}
             </a>

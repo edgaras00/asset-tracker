@@ -194,3 +194,13 @@ button:focus {
 .section-header {
   font-size: 1.8rem;
 }
+
+@media (max-width: 1000px) {
+  .analytics-container {
+    display: none;
+  }
+
+  .asset-dist {
+    display: none;
+  }
+}
