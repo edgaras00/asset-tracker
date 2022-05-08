@@ -1,5 +1,5 @@
 .select-asset-button {
-  width: 13%;
+  width: 150px;
   height: 50px;
   border: none;
   border-radius: 8px;
@@ -36,4 +36,11 @@
 .crypto-btn-light {
   background-color: #7e53e6;
   color: #fff;
+}
+
+@media (max-width: 1000px) {
+  .select-asset-button {
+    width: 110px;
+    font-size: 1.1rem;
+  }
 }

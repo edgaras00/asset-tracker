@@ -1,5 +1,5 @@
 .summary-cell {
-  width: 20%;
+  width: 280px;
   height: 100px;
   display: flex;
   flex-direction: column;
@@ -32,4 +32,11 @@
 
 .percent-change-dec {
   color: #c45145;
+}
+
+@media (max-width: 1000px) {
+  .summary-cell {
+    background: transparent;
+    font-size: 1.1rem;
+  }
 }

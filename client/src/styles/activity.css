@@ -1,6 +1,7 @@
 .activity-container {
   background-color: #242424;
-  width: 48%;
+  /* width: 48%; */
+  width: 620px;
   min-height: 300px;
   max-height: 500px;
   overflow: scroll;
@@ -92,4 +93,10 @@
 .no-activity {
   text-align: center;
   margin-top: 5rem;
+}
+
+@media (max-width: 1000px) {
+  .activity-container {
+    width: 90%;
+  }
 }
