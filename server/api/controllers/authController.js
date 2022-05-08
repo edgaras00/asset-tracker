@@ -33,6 +33,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     password: req.body.password,
   });
 
+  // Hide password
   newUser.password = undefined;
 
   // Create JWT

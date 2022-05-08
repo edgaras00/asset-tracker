@@ -16,15 +16,6 @@ const userSchema = mongoose.Schema({
     required: [true, "Please enter your password"],
     select: false,
   },
-  passwordChangedAt: Date,
-  role: {
-    type: String,
-    enum: ["user", "admin"],
-    default: "user",
-    select: false,
-  },
-  passwordResetToken: String,
-  passwordResetExpires: Date,
   assets: {
     cost: Number,
     stockInfo: {
@@ -86,7 +77,7 @@ const userSchema = mongoose.Schema({
 // Runs before the creation of new user
 userSchema.pre("save", async function (next) {
   // Only run function if password was modified
-  if (!this.isModified("password")) return next();
+  // if (!this.isModified("password")) return next();
 
   // Hash password
   const salt = await bcrypt.genSalt(10);

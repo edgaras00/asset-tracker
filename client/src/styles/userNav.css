@@ -35,3 +35,9 @@
   font-size: 1.03rem;
   font-weight: bold;
 }
+
+@media (max-width: 1000px) {
+  .user-nav-right {
+    width: 20%;
+  }
+}

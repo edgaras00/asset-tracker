@@ -31,7 +31,7 @@ exports.searchCrypto = catchAsync(async (req, res, next) => {
   // Get CoinGecko IDs
   const cIdArray = combinedResults.map((result) => result.cid);
 
-  // Get crypto logos using CoinGecko IDs
+  // Get crypto logos using Coin`Gecko IDs
   const logos = await cryptoUtils.getMultipleLogos(cIdArray);
 
   let finalResults = [];
