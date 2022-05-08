@@ -47,3 +47,17 @@
 .ticker-light:hover {
   color: #464646;
 }
+
+@media (max-width: 1000px) {
+  .row {
+    font-size: 0.75rem;
+  }
+
+  .table-ticker img {
+    width: 24px;
+  }
+
+  .ticker {
+    font-size: 0.8rem;
+  }
+}

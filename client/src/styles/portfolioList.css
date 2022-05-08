@@ -132,4 +132,13 @@
     height: 30px;
     font-size: 0.9rem;
   }
+
+  .tab {
+    border-spacing: 0 0.8rem;
+  }
+
+  .tab td,
+  .tab th {
+    padding-bottom: 5px;
+  }
 }

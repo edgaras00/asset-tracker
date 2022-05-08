@@ -366,3 +366,13 @@
 .close-button-light:hover {
   color: #c4c4c4;
 }
+
+@media (max-width: 1000px) {
+  .modal-content {
+    width: 70%;
+  }
+
+  .add-txn-form {
+    width: 70%;
+  }
+}
