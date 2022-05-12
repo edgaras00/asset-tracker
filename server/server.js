@@ -12,7 +12,8 @@ const app = require("./app");
 
 // Connect to MongoDB
 mongoose.connect(
-  process.env.DB_CONNECT,
+  // process.env.DB_CONNECT,
+  process.env.DB_CONNECT_CLOUD,
   { useUnifiedTopology: true, useNewUrlParser: true },
   () => console.log("Connected to the database")
 );
