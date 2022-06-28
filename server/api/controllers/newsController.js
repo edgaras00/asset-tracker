@@ -9,7 +9,7 @@ const API = process.env.NEWS_API;
 exports.getAllNews = catchAsync(async (req, res) => {
   // API URL
   const baseUrl = "https://newsapi.org/v2/top-headlines";
-  const query = `?country=us&category=business&apiKey=${API}`;
+  const query = `?country=us&category=business&pageSize=10&apiKey=${API}`;
 
   // Get data from the news API
   const result = await fetch(baseUrl + query);
@@ -41,7 +41,7 @@ exports.getAssetNews = catchAsync(async (req, res) => {
   // API URL
   const baseUrl = "https://newsapi.org/v2/everything";
   const queryA = `?from=${from}&to=${today}&counry=us&q=${asset}`;
-  const queryB = `&sortBy=publishedAt&language=en&apiKey=${API}`;
+  const queryB = `&sortBy=publishedAt&language=en&pageSize=10&apiKey=${API}`;
 
   // Fetch asset news data from the API
   const result = await fetch(baseUrl + queryA + queryB);

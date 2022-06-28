@@ -6,7 +6,7 @@ import CryptoExchange from "./CryptoExchange";
 import CompanyNews from "./CompanyNews";
 import Unavailable from "./Unavailable";
 import { AppContext } from "../context/appContext";
-import { numberWithCommas, handleErrors } from "../utils/utils";
+import { numberWithCommas, handleErrors, getAssetNews } from "../utils/utils";
 import "../styles/cryptoPage.css";
 import "../styles/assetInfo.css";
 
@@ -82,6 +82,7 @@ const CryptoPage = () => {
   const [priceChange, setPriceChange] = useState(null);
   const [marketData, setMarketData] = useState([]);
   const [hideX, setHideX] = useState(false);
+  const [asetNews, setAssetNews] = useState([]);
   const handleHide = () => setHideX(false);
   const { cId } = useParams();
 
@@ -89,16 +90,31 @@ const CryptoPage = () => {
 
   useEffect(() => {
     const getCryptoInfo = async (cId) => {
-      const cryptoData = await fetchCryptoData(cId);
+      try {
+        const cryptoData = await fetchCryptoData(cId);
 
-      if (cryptoData === "authError") {
-        authErrorLogout();
-        return;
+        if (cryptoData === "authError") {
+          authErrorLogout();
+          return;
+        }
+        setCryptoData(cryptoData);
+      } catch (error) {
+        console.log(error);
+        setCryptoData(null);
       }
+    };
 
-      setCryptoData(cryptoData);
+    const getNews = async (cId) => {
+      try {
+        const news = await getAssetNews(cId);
+        setAssetNews(news);
+      } catch (error) {
+        console.log(error);
+        setAssetNews([]);
+      }
     };
     getCryptoInfo(cId);
+    getNews(cId);
   }, [cId, authErrorLogout]);
 
   useEffect(() => {
@@ -393,7 +409,7 @@ const CryptoPage = () => {
       </div>
       {cryptoData ? <CryptoMarket data={cryptoData} /> : null}
       {cryptoData ? <CryptoExchange data={cryptoData} /> : null}
-      <CompanyNews />
+      <CompanyNews newsData={asetNews} />
     </div>
   );
 };

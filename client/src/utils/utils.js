@@ -42,3 +42,17 @@ export const handleErrors = (response) => {
 
   throw error;
 };
+
+export const getAssetNews = async (symbol) => {
+  try {
+    const response = await fetch(`/news/${symbol}`);
+    if (!response.ok) {
+      throw new Error("Could not get news data");
+    }
+    const newsData = await response.json();
+    return newsData.data.data.articles;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};

@@ -1,17 +1,18 @@
 import React, { useState, useContext } from "react";
-import news from "../news.json";
+// import news from "../news.json";
 import NewsItem from "./NewsItem";
 import { AppContext } from "../context/appContext";
 import "../styles/companyNews.css";
 
-const CompanyNews = () => {
+const CompanyNews = ({ newsData }) => {
   // Company news component
   const { theme } = useContext(AppContext);
   const [expand, setExpand] = useState(true);
 
-  const data = news.articles;
+  // const data = news.articles;
 
-  const newsItems = data.slice(0, 5).map((article, index) => {
+  // const newsItems = data.slice(0, 5).map((article, index) => {
+  const newsItems = newsData.map((article, index) => {
     return (
       <NewsItem
         key={index + article.title}

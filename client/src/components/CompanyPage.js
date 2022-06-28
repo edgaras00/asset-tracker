@@ -8,7 +8,7 @@ import CashFlow from "./CashFlow";
 import CompanyNews from "./CompanyNews";
 import Unavailable from "./Unavailable";
 import { AppContext } from "../context/appContext";
-import { numberWithCommas, handleErrors } from "../utils/utils";
+import { numberWithCommas, handleErrors, getAssetNews } from "../utils/utils";
 import "../styles/companyPage.css";
 
 const getPriceData = async (symbolId, timeFrame) => {
@@ -134,6 +134,7 @@ const CompanyPage = () => {
   const [change, setChange] = useState(null);
   const [changePercent, setChangePercent] = useState(null);
   const [marketData, setMarketData] = useState([]);
+  const [assetNews, setAssetNews] = useState([]);
 
   const handleHide = () => setHideX(false);
 
@@ -173,21 +174,32 @@ const CompanyPage = () => {
 
   useEffect(() => {
     const getCompany = async (symbolId) => {
-      const companyData = await fetchAllCompanyData([
-        fetchCompanyData(symbolId, "overview"),
-        fetchCompanyData(symbolId, "income"),
-        fetchCompanyData(symbolId, "balance"),
-        fetchCompanyData(symbolId, "cash"),
-      ]);
+      try {
+        const companyData = await fetchAllCompanyData([
+          fetchCompanyData(symbolId, "overview"),
+          fetchCompanyData(symbolId, "income"),
+          fetchCompanyData(symbolId, "balance"),
+          fetchCompanyData(symbolId, "cash"),
+        ]);
 
-      if (companyData === "authError") {
-        authErrorLogout();
-        return;
+        if (companyData === "authError") {
+          authErrorLogout();
+          return;
+        }
+
+        setCompany(companyData);
+      } catch (error) {
+        console.log(error);
       }
-
-      setCompany(companyData);
     };
+
+    const getNews = async (symbolId) => {
+      const news = await getAssetNews(symbolId);
+      setAssetNews(news);
+    };
+
     getCompany(symbolId);
+    getNews(symbolId);
   }, [symbolId, authErrorLogout]);
 
   if (price === -1) {
@@ -269,7 +281,7 @@ const CompanyPage = () => {
       {company ? <BalanceSheet balance={company.balance} /> : null}
       {company ? <IncomeStatement income={company.income} /> : null}
       {company ? <CashFlow cash={company.cash} /> : null}
-      <CompanyNews />
+      <CompanyNews newsData={assetNews} />
     </div>
   );
 };
