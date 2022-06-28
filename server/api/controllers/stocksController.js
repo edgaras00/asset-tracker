@@ -186,9 +186,10 @@ exports.getPricesOnInterval = catchAsync(async (req, res, next) => {
 
 // Gwt company overview data
 exports.getOverview = catchAsync(async (req, res, next) => {
+  const symbol = req.params.symbol;
   const baseUrl = "https://www.alphavantage.co/query?";
-  // const query = `function=OVERVIEW&symbol=${symbol}&apikey=${AV_API}`;
-  const query = `function=OVERVIEW&symbol=IBM&apikey=demo`;
+  const query = `function=OVERVIEW&symbol=${symbol}&apikey=${AV_API}`;
+  // const query = `function=OVERVIEW&symbol=IBM&apikey=demo`;
 
   // Fetch data
   const result = await fetch(baseUrl + query);
@@ -220,8 +221,10 @@ exports.getOverview = catchAsync(async (req, res, next) => {
 
 // Company income statement
 exports.getIncome = catchAsync(async (req, res, next) => {
+  const symbol = req.params.symbol;
   const baseUrl = "https://www.alphavantage.co/query?";
-  const query = `function=INCOME_STATEMENT&symbol=IBM&apikey=demo`;
+  // const query = `function=INCOME_STATEMENT&symbol=IBM&apikey=demo`;
+  const query = `function=INCOME_STATEMENT&symbol=${symbol}&apikey=${AV_API}`;
 
   const result = await fetch(baseUrl + query);
   assetNotFound(result, next);
@@ -240,14 +243,17 @@ exports.getIncome = catchAsync(async (req, res, next) => {
 
 // Company balance sheet requests
 exports.getBalance = catchAsync(async (req, res, next) => {
+  const symbol = req.params.symbol;
   const baseUrl = "https://www.alphavantage.co/query?";
-  const query = `function=BALANCE_SHEET&symbol=IBM&apikey=demo`;
+  // const query = `function=BALANCE_SHEET&symbol=IBM&apikey=demo`;
+  const query = `function=BALANCE_SHEET&symbol=${symbol}&apikey=${AV_API}`;
 
   const result = await fetch(baseUrl + query);
   assetNotFound(result, next);
   const data = await result.json();
 
   const quarterlyReport = data.quarterlyReports[0];
+
   const balanceSheetData = {
     fiscalDateEnding: quarterlyReport.fiscalDateEnding,
     assets: {
@@ -291,8 +297,10 @@ exports.getBalance = catchAsync(async (req, res, next) => {
 
 // Company cash flow
 exports.getCash = catchAsync(async (req, res, next) => {
+  const symbol = req.params.symbol;
   const baseUrl = "https://www.alphavantage.co/query?";
-  const query = `function=CASH_FLOW&symbol=IBM&apikey=demo`;
+  // const query = `function=CASH_FLOW&symbol=IBM&apikey=demo`;
+  const query = `function=CASH_FLOW&symbol=${symbol}&apikey=${AV_API}`;
 
   const result = await fetch(baseUrl + query);
   assetNotFound(result, next);

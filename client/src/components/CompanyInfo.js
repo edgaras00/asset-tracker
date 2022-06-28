@@ -13,7 +13,7 @@ const CompanyInfo = ({ overview }) => {
     <tr key="row1">
       <td>
         <div className="asset-title">EPS</div>
-        <div>{overview.eps}</div>
+        <div>{overview.eps ? overview.eps : ""}</div>
       </td>
       <td>
         <div className="asset-title">ROE</div>
