@@ -26,14 +26,10 @@ app.use("/stocks", stocksRouter);
 app.use("/news", newsRouter);
 app.use("/user", userRouter);
 
-app.use(
-  express.static(path.join(__dirname, "/<front end app folder name>/build"))
-);
+app.use(express.static(path.join(__dirname, "/client/build")));
 
 app.get("*", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, "/<front end app folder name>/build", "index.html")
-  );
+  res.sendFile(path.join(__dirname, "/client/build", "index.html"));
 });
 
 app.all("*", (req, res, next) => {
