@@ -1,9 +1,10 @@
 const express = require("express");
-const cryptoRouter = require("./api/routes/cryptoRoute");
-const stocksRouter = require("./api/routes/stocksRoute");
-const newsRouter = require("./api/routes/newsRoute");
-const userRouter = require("./api/routes/userRoute");
-const errorHandler = require("./api/controllers/errorController");
+const path = require("path");
+const cryptoRouter = require("./routes/cryptoRoute");
+const stocksRouter = require("./routes/stocksRoute");
+const newsRouter = require("./routes/newsRoute");
+const userRouter = require("./routes/userRoute");
+const errorHandler = require(".//controllers/errorController");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
@@ -24,6 +25,16 @@ app.use("/crypto", cryptoRouter);
 app.use("/stocks", stocksRouter);
 app.use("/news", newsRouter);
 app.use("/user", userRouter);
+
+app.use(
+  express.static(path.join(__dirname, "/<front end app folder name>/build"))
+);
+
+app.get("*", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "/<front end app folder name>/build", "index.html")
+  );
+});
 
 app.all("*", (req, res, next) => {
   res.status(404).json({

@@ -12,7 +12,7 @@ import "../styles/assetInfo.css";
 
 const fetchPriceData = async (cId, timeFrame) => {
   try {
-    const url = `/crypto/prices/${cId}?interval=${timeFrame}`;
+    const url = `https://track-investments.herokuapp.com/crypto/prices/${cId}?interval=${timeFrame}`;
     const response = await fetch(url);
 
     if (response.status !== 200) {
@@ -30,7 +30,7 @@ const fetchPriceData = async (cId, timeFrame) => {
 
 const getCurrentPrice = async (cId, timeFrame) => {
   try {
-    const baseUrl = "/crypto/current/";
+    const baseUrl = "https://track-investments.herokuapp.com/crypto/current/";
     const api = `${cId}?interval=${timeFrame}`;
 
     const response = await fetch(baseUrl + api);
@@ -51,7 +51,7 @@ const getCurrentPrice = async (cId, timeFrame) => {
 
 const fetchCryptoData = async (cId) => {
   try {
-    const url = `/crypto/data/${cId}`;
+    const url = `https://track-investments.herokuapp.com/crypto/data/${cId}`;
     const response = await fetch(url);
 
     if (response.status !== 200) {

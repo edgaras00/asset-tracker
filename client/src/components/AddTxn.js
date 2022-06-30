@@ -11,9 +11,9 @@ import { AppContext } from "../context/appContext";
 const getCurrentPrice = async (type, id) => {
   // Function to get the current price of the asset
   try {
-    let url = `/crypto/current/${id}`;
+    let url = `https://track-investments.herokuapp.com/crypto/current/${id}`;
     if (type === "stock") {
-      url = `/stocks/current/${id}`;
+      url = `https://track-investments.herokuapp.com/stocks/current/${id}`;
     }
     const response = await fetch(url);
 

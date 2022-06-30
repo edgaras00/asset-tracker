@@ -27,7 +27,7 @@ const Signup = () => {
       }
       setSignUpError("");
       // API URL and request body / options
-      const url = "/user/signup";
+      const url = "https://track-investments.herokuapp.com/user/signup";
       const signUpBody = {
         email,
         password,

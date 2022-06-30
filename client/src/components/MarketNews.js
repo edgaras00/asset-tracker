@@ -11,7 +11,9 @@ const MarketNews = () => {
   useEffect(() => {
     const getNewsData = async () => {
       try {
-        const response = await fetch("/news");
+        const response = await fetch(
+          "https://track-investments.herokuapp.com/news"
+        );
         if (!response.ok) {
           throw new Error("Could not get news data");
         }

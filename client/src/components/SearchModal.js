@@ -28,7 +28,7 @@ const SearchModal = ({ isModalOpen, closeModal }) => {
     try {
       const endpoint = assetType === "stock" ? "stocks" : "crypto";
       if (event.keyCode === 13) {
-        let url = `/${endpoint}/search?query=${search}`;
+        let url = `https://track-investments.herokuapp.com/${endpoint}/search?query=${search}`;
         const response = await fetch(url);
         const data = await response.json();
 

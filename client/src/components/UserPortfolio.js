@@ -11,10 +11,10 @@ import "../styles/userPortfolio.css";
 
 const getTxnHistory = async (type) => {
   try {
-    let url = "/stocks/history";
+    let url = "https://track-investments.herokuapp.com/stocks/history";
 
     if (type === "crypto") {
-      url = "/crypto/history";
+      url = "https://track-investments.herokuapp.com/crypto/history";
     }
 
     const response = await fetch(url);
@@ -37,10 +37,10 @@ const getTxnHistory = async (type) => {
 
 const getPortfolio = async (type) => {
   try {
-    let url = "/stocks/portfolio";
+    let url = "https://track-investments.herokuapp.com/stocks/portfolio";
 
     if (type === "crypto") {
-      url = "/crypto/portfolio";
+      url = "https://track-investments.herokuapp.com/crypto/portfolio";
     }
 
     const response = await fetch(url);

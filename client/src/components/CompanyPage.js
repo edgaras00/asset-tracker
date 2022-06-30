@@ -13,7 +13,7 @@ import "../styles/companyPage.css";
 
 const getPriceData = async (symbolId, timeFrame) => {
   try {
-    const url = `/stocks/current/${symbolId}?interval=${timeFrame}`;
+    const url = `https://track-investments.herokuapp.com/stocks/current/${symbolId}?interval=${timeFrame}`;
     const response = await fetch(url);
     // Handle server error
 
@@ -32,7 +32,7 @@ const getPriceData = async (symbolId, timeFrame) => {
 
 const getMarketData = async (symbolId, timeFrame) => {
   try {
-    const baseUrl = "/stocks/prices/";
+    const baseUrl = "https://track-investments.herokuapp.com/stocks/prices/";
     const api = `${symbolId}?period=${timeFrame}`;
     const response = await fetch(baseUrl + api);
 
@@ -56,19 +56,19 @@ const fetchCompanyData = async (symbolId, type) => {
     let url;
     switch (type) {
       case "overview":
-        url = `/stocks/overview/${symbol}`;
+        url = `https://track-investments.herokuapp.com/stocks/overview/${symbol}`;
 
         break;
       case "income":
-        url = `/stocks/income/${symbol}`;
+        url = `https://track-investments.herokuapp.com/stocks/income/${symbol}`;
 
         break;
       case "balance":
-        url = `/stocks/balance/${symbol}`;
+        url = `https://track-investments.herokuapp.com/stocks/balance/${symbol}`;
 
         break;
       case "cash":
-        url = `/stocks/cash/${symbol}`;
+        url = `https://track-investments.herokuapp.com/stocks/cash/${symbol}`;
 
         break;
       default:

@@ -55,7 +55,7 @@ const RemoveTxn = ({
         },
         body: JSON.stringify(txnObject),
       };
-      const url = "user/sell";
+      const url = "https://track-investments.herokuapp.com/user/sell";
       const response = await fetch(url, options);
 
       if (response.status !== 200) {
