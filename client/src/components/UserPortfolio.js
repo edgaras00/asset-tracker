@@ -12,9 +12,15 @@ import "../styles/userPortfolio.css";
 const getTxnHistory = async (type) => {
   try {
     let url = "https://track-investments.herokuapp.com/stocks/history";
+    if (process.env.NODE_ENV === "development") {
+      url = "/stocks/history";
+    }
 
     if (type === "crypto") {
       url = "https://track-investments.herokuapp.com/crypto/history";
+      if (process.env.NODE_ENV === "development") {
+        url = "/crypto/history";
+      }
     }
 
     const response = await fetch(url);
@@ -38,9 +44,15 @@ const getTxnHistory = async (type) => {
 const getPortfolio = async (type) => {
   try {
     let url = "https://track-investments.herokuapp.com/stocks/portfolio";
+    if (process.env.NODE_ENV === "development") {
+      url = "/stocks/portfolio";
+    }
 
     if (type === "crypto") {
       url = "https://track-investments.herokuapp.com/crypto/portfolio";
+      if (process.env.NODE_ENV === "development") {
+        url = "/crypto/portfolio";
+      }
     }
 
     const response = await fetch(url);

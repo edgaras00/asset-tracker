@@ -28,16 +28,18 @@ app.use("/user", userRouter);
 
 app.use(express.static(path.join(__dirname, "/client/build")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "/client/build", "index.html"));
-});
-
-app.all("*", (req, res, next) => {
-  res.status(404).json({
-    status: "Fail",
-    message: `Can't find ${req.originalUrl} on this server`,
+if (process.env.NODE_ENV === "production") {
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "/client/build", "index.html"));
   });
-});
+
+  app.all("*", (req, res, next) => {
+    res.status(404).json({
+      status: "Fail",
+      message: `Can't find ${req.originalUrl} on this server`,
+    });
+  });
+}
 
 app.use(errorHandler);
 module.exports = app;

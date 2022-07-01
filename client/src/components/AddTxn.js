@@ -12,8 +12,14 @@ const getCurrentPrice = async (type, id) => {
   // Function to get the current price of the asset
   try {
     let url = `https://track-investments.herokuapp.com/crypto/current/${id}`;
+    if (process.env.NODE_ENV === "development") {
+      url = `/crypto/current/${id}`;
+    }
     if (type === "stock") {
       url = `https://track-investments.herokuapp.com/stocks/current/${id}`;
+      if (process.env.NODE_ENV === "development") {
+        url = `/stocks/current/${id}`;
+      }
     }
     const response = await fetch(url);
 

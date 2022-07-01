@@ -13,7 +13,10 @@ import "../styles/companyPage.css";
 
 const getPriceData = async (symbolId, timeFrame) => {
   try {
-    const url = `https://track-investments.herokuapp.com/stocks/current/${symbolId}?interval=${timeFrame}`;
+    let url = `https://track-investments.herokuapp.com/stocks/current/${symbolId}?interval=${timeFrame}`;
+    if (process.env.NODE_ENV === "development") {
+      url = `/stocks/current/${symbolId}?interval=${timeFrame}`;
+    }
     const response = await fetch(url);
     // Handle server error
 
@@ -32,7 +35,10 @@ const getPriceData = async (symbolId, timeFrame) => {
 
 const getMarketData = async (symbolId, timeFrame) => {
   try {
-    const baseUrl = "https://track-investments.herokuapp.com/stocks/prices/";
+    let baseUrl = "https://track-investments.herokuapp.com/stocks/prices/";
+    if (process.env.NODE_ENV === "development") {
+      baseUrl = "/stocks/prices/";
+    }
     const api = `${symbolId}?period=${timeFrame}`;
     const response = await fetch(baseUrl + api);
 
@@ -54,25 +60,26 @@ const fetchCompanyData = async (symbolId, type) => {
   try {
     const symbol = symbolId.toLowerCase();
     let url;
-    switch (type) {
-      case "overview":
-        url = `https://track-investments.herokuapp.com/stocks/overview/${symbol}`;
-
-        break;
-      case "income":
-        url = `https://track-investments.herokuapp.com/stocks/income/${symbol}`;
-
-        break;
-      case "balance":
-        url = `https://track-investments.herokuapp.com/stocks/balance/${symbol}`;
-
-        break;
-      case "cash":
-        url = `https://track-investments.herokuapp.com/stocks/cash/${symbol}`;
-
-        break;
-      default:
-        break;
+    if (type === "overview") {
+      url = `https://track-investments.herokuapp.com/stocks/overview/${symbol}`;
+      if (process.env.NODE_ENV === "development") {
+        url = `/stocks/overview/${symbol}`;
+      }
+    } else if (type === "income") {
+      url = `https://track-investments.herokuapp.com/stocks/income/${symbol}`;
+      if (process.env.NODE_ENV === "development") {
+        url = `/stocks/income/${symbol}`;
+      }
+    } else if (type === "cash") {
+      url = `https://track-investments.herokuapp.com/stocks/cash/${symbol}`;
+      if (process.env.NODE_ENV === "development") {
+        url = `/stocks/cash/${symbol}`;
+      }
+    } else if (type === "balance") {
+      url = `https://track-investments.herokuapp.com/stocks/balance/${symbol}`;
+      if (process.env.NODE_ENV === "development") {
+        url = `/stocks/balance/${symbol}`;
+      }
     }
     const response = await fetch(url);
 

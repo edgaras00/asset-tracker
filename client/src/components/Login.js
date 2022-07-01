@@ -18,7 +18,10 @@ const Login = () => {
       setLoginError(null);
 
       // POST request to log in the user
-      const url = "/user/login";
+      let url = "https://track-investments.herokuapp.com/user/login";
+      if (process.env.NODE_ENV === "development") {
+        url = "/user/login";
+      }
       const loginBody = { email, password };
       const options = {
         method: "POST",
@@ -29,6 +32,7 @@ const Login = () => {
         body: JSON.stringify(loginBody),
       };
       const response = await fetch(url, options);
+      console.log(response);
 
       if (response.status !== 200) {
         if (response.status === 401) {

@@ -55,7 +55,10 @@ const RemoveTxn = ({
         },
         body: JSON.stringify(txnObject),
       };
-      const url = "https://track-investments.herokuapp.com/user/sell";
+      let url = "https://track-investments.herokuapp.com/user/sell";
+      if (process.env.NODE_ENV === "development") {
+        url = "/user/sell";
+      }
       const response = await fetch(url, options);
 
       if (response.status !== 200) {

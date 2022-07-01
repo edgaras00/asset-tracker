@@ -12,7 +12,10 @@ import "../styles/assetInfo.css";
 
 const fetchPriceData = async (cId, timeFrame) => {
   try {
-    const url = `https://track-investments.herokuapp.com/crypto/prices/${cId}?interval=${timeFrame}`;
+    let url = `https://track-investments.herokuapp.com/crypto/prices/${cId}?interval=${timeFrame}`;
+    if (process.env.NODE_ENV === "development") {
+      url = `/crypto/prices/${cId}?interval=${timeFrame}`;
+    }
     const response = await fetch(url);
 
     if (response.status !== 200) {
@@ -30,7 +33,10 @@ const fetchPriceData = async (cId, timeFrame) => {
 
 const getCurrentPrice = async (cId, timeFrame) => {
   try {
-    const baseUrl = "https://track-investments.herokuapp.com/crypto/current/";
+    let baseUrl = "https://track-investments.herokuapp.com/crypto/current/";
+    if (process.env.NODE_ENV === "development") {
+      baseUrl = "/crypto/current/";
+    }
     const api = `${cId}?interval=${timeFrame}`;
 
     const response = await fetch(baseUrl + api);
@@ -51,7 +57,10 @@ const getCurrentPrice = async (cId, timeFrame) => {
 
 const fetchCryptoData = async (cId) => {
   try {
-    const url = `https://track-investments.herokuapp.com/crypto/data/${cId}`;
+    let url = `https://track-investments.herokuapp.com/crypto/data/${cId}`;
+    if (process.env.NODE_ENV === "development") {
+      url = `/crypto/data/${cId}`;
+    }
     const response = await fetch(url);
 
     if (response.status !== 200) {
