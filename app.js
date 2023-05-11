@@ -1,16 +1,36 @@
 const express = require("express");
-const path = require("path");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const mongoSanitize = require("express-mongo-sanitize");
+const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
+const xss = require("xss-clean");
+
+// Routers
 const cryptoRouter = require("./routes/cryptoRoute");
 const stocksRouter = require("./routes/stocksRoute");
 const newsRouter = require("./routes/newsRoute");
 const userRouter = require("./routes/userRoute");
-const errorHandler = require(".//controllers/errorController");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
 
-const yahooStockAPI = require("yahoo-stock-api").default;
+// Error controller
+const errorHandler = require(".//controllers/errorController");
+
 // Start Express application
 const app = express();
+
+// Global middlewares
+
+// Security HTTP headers
+app.use(helmet());
+
+// Rate limiter to limit /user requests from the same IP address
+const limiter = rateLimit({
+  max: 1000,
+  windowMs: 60 * 60 * 1000,
+  message:
+    "Too many requests from this IP address. Please try again in an hour.",
+});
+app.use("/user", limiter);
 
 // Handle CORS (with cookies)
 app.use(cors());
@@ -21,26 +41,16 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Data sanitization against NoSQL query injection
+app.use(mongoSanitize());
+
 // Routers
 app.use("/crypto", cryptoRouter);
 app.use("/stocks", stocksRouter);
 app.use("/news", newsRouter);
 app.use("/user", userRouter);
 
-// app.use(express.static(path.join(__dirname, "/client/build")));
-
-// if (process.env.NODE_ENV === "production") {
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.join(__dirname, "/client/build", "index.html"));
-//   });
-
-//   app.all("*", (req, res, next) => {
-//     res.status(404).json({
-//       status: "Fail",
-//       message: `Can't find ${req.originalUrl} on this server`,
-//     });
-//   });
-// }
+// 404 NOT FOUND routes
 app.all("*", (req, res, next) => {
   res.status(404).json({
     status: "Fail",
