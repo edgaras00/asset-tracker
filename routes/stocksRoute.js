@@ -1,67 +1,34 @@
 const express = require("express");
-const router = express.Router();
 const stocksController = require("../controllers/stocksController");
 const authController = require("../controllers/authController");
 
+const router = express.Router();
+
+// Protect all routes
+router.use(authController.protectRoute);
+
 // Search stocks
-router.get(
-  "/search",
-  // authController.protectRoute,
-  stocksController.searchStocks
-);
+router.get("/search", stocksController.searchStocks);
 
-// router.get("/batch", stocksController.getBatch);
-
-// Get the current price of a particular stock
+// Get price data of a particular stock (current and historical)
 router.get("/prices/:symbol", stocksController.getPrices);
 
-// Get stock portfolio
-router.get(
-  "/portfolio",
-  authController.protectRoute,
-  stocksController.getPortfolio
-);
+// Get user stock portfolio
+router.get("/portfolio", stocksController.getPortfolio);
 
-// Get market price data for a stock
-// router.get(
-// "/prices/:symbol",
-// authController.protectRoute,
-// stocksController.getPricesOnInterval
-// );
-
-// Get stock transaction history
-router.get(
-  "/history",
-  authController.protectRoute,
-  stocksController.getTransactionHistory
-);
+// Get user stock transaction history
+router.get("/history", stocksController.getTransactionHistory);
 
 // Get company overview data
-router.get(
-  "/overview/:symbol",
-  authController.protectRoute,
-  stocksController.getOverview
-);
+router.get("/overview/:symbol", stocksController.getOverview);
 
 // Get company income statement data
-router.get(
-  "/income/:symbol",
-  // authController.protectRoute,
-  stocksController.getIncome
-);
+router.get("/income/:symbol", stocksController.getIncome);
 
 // Get balance sheet for a company
-router.get(
-  "/balance/:symbol",
-  authController.protectRoute,
-  stocksController.getBalance
-);
+router.get("/balance/:symbol", stocksController.getBalance);
 
 // Get company cash flow data
-router.get(
-  "/cash/:symbol",
-  authController.protectRoute,
-  stocksController.getCash
-);
+router.get("/cash/:symbol", stocksController.getCash);
 
 module.exports = router;

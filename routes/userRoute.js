@@ -12,10 +12,13 @@ router.post("/login", authController.login);
 // User logout
 router.get("/logout", authController.logout);
 
-// Update user assets
-// Buy
-router.put("/buy", authController.protectRoute, userController.userBuy);
-// Sell
+// Protect routes
+router.use(authController.protectRoute);
+
+// Buy asset
+router.put("/buy", userController.userBuy);
+
+// Sell asset
 router.put("/sell", userController.userSell);
 
 module.exports = router;
