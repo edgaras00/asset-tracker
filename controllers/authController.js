@@ -1,7 +1,9 @@
 const { promisify } = require("util");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+
 const User = require("../models/userModel");
+
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
@@ -13,15 +15,32 @@ const signToken = (id) => {
   return token;
 };
 
-const setUpCookie = () => {
+const createAndSendToken = (user, statusCode, res) => {
+  // Function that creates a token and sends it to client as a cookie
+
+  const token = signToken(user.id);
+
+  // Cookie options
   const cookieOptions = {
+    httpOnly: true,
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true,
   };
+  // Make it secure only in production
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
-  return cookieOptions;
+
+  // Send JWT as a cookie
+  res.cookie("jwt", token, cookieOptions);
+
+  // Send response
+  res.status(statusCode).json({
+    status: "success",
+    token,
+    data: {
+      user,
+    },
+  });
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
@@ -36,24 +55,13 @@ exports.signup = catchAsync(async (req, res, next) => {
   // Hide password
   newUser.password = undefined;
 
-  // Create JWT
-  const token = signToken(newUser._id);
-
-  // Cookie options for JWT cookie
-  const cookieOptions = setUpCookie();
-
   // New user info that will be sent to client in response
-  const user = { email: newUser.email, lastUpdated: newUser.lastUpdated };
-
-  res.cookie("jwt", token, cookieOptions);
-  res.status(201).json({
-    status: "Success",
-    message: "Created new user",
-    token,
-    data: {
-      user,
-    },
-  });
+  const user = {
+    email: newUser.email,
+    lastUpdated: newUser.lastUpdated,
+    id: newUser._id,
+  };
+  createAndSendToken(user, 201, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -74,22 +82,14 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   user.password = undefined;
-  // JWT
-  const token = signToken(user._id);
 
-  const userData = { email: user.email, lastUpdated: user.lastUpdated };
+  const userData = {
+    email: user.email,
+    lastUpdated: user.lastUpdated,
+    id: user._id,
+  };
 
-  // Option for JWT cookie
-  const cookieOptions = setUpCookie();
-
-  res.cookie("jwt", token, cookieOptions);
-  res.status(200).json({
-    status: "Success",
-    token,
-    data: {
-      user: userData,
-    },
-  });
+  createAndSendToken(userData, 200, res);
 });
 
 exports.protectRoute = catchAsync(async (req, res, next) => {
