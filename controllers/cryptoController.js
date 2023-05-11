@@ -91,9 +91,9 @@ exports.getPortfolio = catchAsync(async (req, res, next) => {
       cid,
       amount,
       cost,
-      roi,
+      returnOnInvestment: roi,
       price,
-      dayChange: priceData[cid].usd_24h_change.toFixed(2),
+      dayPercentChange: priceData[cid].usd_24h_change.toFixed(2),
       logo,
       value,
     };

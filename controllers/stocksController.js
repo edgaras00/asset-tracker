@@ -7,65 +7,74 @@ const assetNotFound = require("../utils/assetNotFound");
 const getTxnHistory = require("../utils/getTxnHistory");
 const AppError = require("../utils/appError");
 
-const IEX_API = process.env.IEX_API;
+const yahooStockAPI = require("yahoo-stock-api").default;
+const { getPreviousDate } = require("../utils/stockUtils");
+const { fetchAllStockData } = require("../utils/stocksUtils");
+const yahoo = new yahooStockAPI();
+
 const AV_API = process.env.AV_API;
 
-// Handle stock search requests
 // Returns stock name and symbol
 exports.searchStocks = catchAsync(async (req, res, next) => {
   const query = req.query.query;
-
   // Search db for stock
   const results = await StockSymbols.find({ $text: { $search: query } });
   res.status(200).json({ status: "Success", data: results });
 });
 
-// Returns current price and price change for different intervals
-exports.getCurrentPrice = catchAsync(async (req, res, next) => {
+exports.getPrices = catchAsync(async (req, res) => {
   const symbol = req.params.symbol;
-  const changeInterval = req.query.interval;
-  // Build URL
-  const baseUrl = "https://sandbox.iexapis.com/stable/stock";
-  const endpoint = `/${symbol}/quote?token=${IEX_API}`;
-  // Fetch data
-  const result = await fetch(baseUrl + endpoint);
+  const interval = req.query.interval || "day";
+  const type = req.query.type || "current";
 
-  assetNotFound(result, next);
+  const endDate = new Date();
+  const startDate = getPreviousDate(endDate, interval);
 
-  const data = await result.json();
+  const priceData = await yahoo.getHistoricalPrices({
+    startDate,
+    endDate,
+    symbol,
+    frequency: interval === "year" ? "1mo" : "1d",
+  });
 
-  // Return daily price data if no interval is provided
-  if (!changeInterval || changeInterval === "day") {
-    const priceData = {
-      symbol: data.symbol,
-      price: data.latestPrice,
-      change: data.change,
-      changePercent: data.changePercent,
-    };
-    return res.status(200).json({ status: "Success", data: priceData });
+  if (type === "current") {
+    const currentPrice = priceData.response[0].close;
+    const prevPrice = priceData.response[priceData.response.length - 1].close;
+    const priceChange = currentPrice - prevPrice;
+    const percentChange = Number(
+      ((currentPrice - prevPrice) / prevPrice) * 100
+    ).toFixed(2);
+    return res.status(200).json({
+      status: "success",
+      data: {
+        priceData: { price: currentPrice, priceChange, percentChange },
+      },
+    });
   }
 
-  // Get price change and percent price change
-  const [priceChange, percentChange] = await stockUtils.getStockPriceChange(
-    symbol,
-    data,
-    changeInterval
-  );
-  // Create price data object
-  const priceData = {
-    symbol: data.symbol,
-    price: data.latestPrice,
-    change: priceChange,
-    changePercent: percentChange,
-  };
+  const historicalPrices = priceData.response
+    .map((dataPoint) => {
+      const date = stockUtils.getDateFromUnix(dataPoint.date);
+      let displayDate =
+        interval === "day" ? date : DateTime.fromSeconds(dataPoint.date);
+
+      if (interval === "week" || interval === "month") {
+        displayDate = displayDate.toFormat("d-MMMM");
+      }
+      if (interval === "year") displayDate = displayDate.toFormat("MMM-yy");
+
+      return { date, price: dataPoint.close, displayDate };
+    })
+    .filter((dataPoint) => dataPoint.price !== null)
+    .reverse();
+
   res.status(200).json({
-    status: "Success",
-    data: priceData,
+    status: "success",
+    data: { priceData: historicalPrices },
   });
 });
 
-// Get user's stock portfolio data
-exports.getPortfolio = catchAsync(async (req, res, next) => {
+exports.getPortfolio = catchAsync(async (req, res) => {
   const stocks = req.user.assets.stockInfo.stocks;
 
   if (stocks.length === 0) {
@@ -78,31 +87,26 @@ exports.getPortfolio = catchAsync(async (req, res, next) => {
     });
   }
 
-  const symbols = stocks.map((stock) => stock.symbol.toLowerCase()).join(",");
+  const symbols = stocks.map((stock) => stock.symbol);
 
-  const baseUrl = "https://sandbox.iexapis.com/stable/stock/market/batch?";
-  const query = `types=quote&symbols=${symbols}&token=${IEX_API}`;
+  // Get currenct prices
 
-  const response = await fetch(baseUrl + query);
-
-  assetNotFound(response, next);
-
-  const data = await response.json();
+  const data = await fetchAllStockData(symbols);
 
   const assets = stocks.map((stock) => {
-    const symbol = stock.symbol.toUpperCase();
-    const value = stock.amount * data[symbol].quote.latestPrice;
-    const roi = (((value - stock.cost) / stock.cost) * 100).toFixed(2);
+    const symbol = stock.symbol;
+    const value = Number((stock.amount * data[symbol].price).toFixed(2));
+    const returnOnInvestment = Number(
+      (((value - stock.cost) / stock.cost) * 100).toFixed(2)
+    );
     return {
-      id: stock._id,
       symbol,
-      name: data[symbol].quote.name,
       amount: stock.amount,
-      price: data[symbol].quote.latestPrice,
-      value,
       cost: stock.cost,
-      dayChange: data[symbol].quote.changePercent,
-      roi,
+      price: data[symbol].price,
+      value,
+      dayPercentChange: Number(data[stock.symbol].percentChange).toFixed(2),
+      returnOnInvestment,
       logo: `https://storage.googleapis.com/iex/api/logos/${symbol}.png`,
     };
   });
@@ -114,82 +118,22 @@ exports.getPortfolio = catchAsync(async (req, res, next) => {
   const totalROI = ((totalValue.value - totalCost) / totalCost) * 100;
 
   res.status(200).json({
-    status: "Success",
-    data: { assets, totalValue: totalValue.value, totalROI, totalCost },
+    status: "success",
+    data: {
+      assets,
+      totalValue: totalValue.value,
+      totalCost,
+      totalROI,
+    },
   });
-});
-
-// Market price data for different time intervals
-exports.getPricesOnInterval = catchAsync(async (req, res, next) => {
-  // Stock ticker and price movement time interval
-  const symbol = req.params.symbol;
-  const period = req.query.period;
-
-  let interval;
-  if (period === "week") {
-    interval = "1w";
-  }
-  if (period === "month") {
-    interval = "1m";
-  }
-  if (period === "year") {
-    interval = "1y";
-  }
-
-  // Build query
-  const baseUrl = "https://sandbox.iexapis.com/stable/stock";
-  let endpoint;
-  if (period === "day") {
-    endpoint = `/${symbol}/intraday-prices?token=${IEX_API}`;
-  } else {
-    endpoint = `/${symbol}/chart/${interval}?token=${IEX_API}`;
-  }
-
-  // Fetch daily price data
-  // Reduce number of data points (will be easier to plot)
-  if (period === "day") {
-    const dayPriceData = await stockUtils.getDailyStockPriceData(
-      baseUrl + endpoint
-    );
-    return res.status(200).json({
-      status: "Success",
-      data: { symbol, assetValue: dayPriceData },
-    });
-  }
-
-  // Other time intervals
-  const result = await fetch(baseUrl + endpoint);
-
-  assetNotFound(result, next);
-
-  const data = await result.json();
-
-  const priceData = data.map((point) => {
-    const dateObj = DateTime.fromFormat(point.date, "yyyy-MM-dd");
-    let displayDate;
-    if (period === "week" || period === "month") {
-      displayDate = dateObj.toFormat("d-MMMM");
-    } else {
-      displayDate = dateObj.toFormat("MMM-yy");
-    }
-    return {
-      date: point.date,
-      value: point.close,
-      displayDate,
-    };
-  });
-
-  res
-    .status(200)
-    .json({ status: "Success", data: { symbol, assetValue: priceData } });
 });
 
 // Gwt company overview data
 exports.getOverview = catchAsync(async (req, res, next) => {
   const symbol = req.params.symbol;
   const baseUrl = "https://www.alphavantage.co/query?";
-  const query = `function=OVERVIEW&symbol=${symbol}&apikey=${AV_API}`;
-  // const query = `function=OVERVIEW&symbol=IBM&apikey=demo`;
+  // const query = `function=OVERVIEW&symbol=${symbol}&apikey=${AV_API}`;
+  const query = `function=OVERVIEW&symbol=IBM&apikey=demo`;
 
   // Fetch data
   const result = await fetch(baseUrl + query);
@@ -197,7 +141,7 @@ exports.getOverview = catchAsync(async (req, res, next) => {
   assetNotFound(result, next);
 
   const data = await result.json();
-  const overviewData = {
+  const overview = {
     symbol: data.Symbol,
     assetType: data.AssetType,
     name: data.Name,
@@ -216,15 +160,15 @@ exports.getOverview = catchAsync(async (req, res, next) => {
     pb: data.PriceToBookRatio,
     peg: data.PEGRatio,
   };
-  res.status(200).json({ status: "Success", data: { data: overviewData } });
+  res.status(200).json({ status: "Success", data: { data: overview } });
 });
 
 // Company income statement
 exports.getIncome = catchAsync(async (req, res, next) => {
   const symbol = req.params.symbol;
   const baseUrl = "https://www.alphavantage.co/query?";
-  // const query = `function=INCOME_STATEMENT&symbol=IBM&apikey=demo`;
-  const query = `function=INCOME_STATEMENT&symbol=${symbol}&apikey=${AV_API}`;
+  const query = `function=INCOME_STATEMENT&symbol=IBM&apikey=demo`;
+  // const query = `function=INCOME_STATEMENT&symbol=${symbol}&apikey=${AV_API}`;
 
   const result = await fetch(baseUrl + query);
   assetNotFound(result, next);
@@ -245,8 +189,8 @@ exports.getIncome = catchAsync(async (req, res, next) => {
 exports.getBalance = catchAsync(async (req, res, next) => {
   const symbol = req.params.symbol;
   const baseUrl = "https://www.alphavantage.co/query?";
-  // const query = `function=BALANCE_SHEET&symbol=IBM&apikey=demo`;
-  const query = `function=BALANCE_SHEET&symbol=${symbol}&apikey=${AV_API}`;
+  const query = `function=BALANCE_SHEET&symbol=IBM&apikey=demo`;
+  // const query = `function=BALANCE_SHEET&symbol=${symbol}&apikey=${AV_API}`;
 
   const result = await fetch(baseUrl + query);
   assetNotFound(result, next);
@@ -254,7 +198,7 @@ exports.getBalance = catchAsync(async (req, res, next) => {
 
   const quarterlyReport = data.quarterlyReports[0];
 
-  const balanceSheetData = {
+  const balanceSheet = {
     fiscalDateEnding: quarterlyReport.fiscalDateEnding,
     assets: {
       totalAssets: quarterlyReport.totalAssets,
@@ -290,17 +234,15 @@ exports.getBalance = catchAsync(async (req, res, next) => {
       commonStockSO: quarterlyReport.commonStockSharesOutstanding,
     },
   };
-  res
-    .status(200)
-    .json({ success: "Success", data: { data: balanceSheetData } });
+  res.status(200).json({ success: "Success", data: { data: balanceSheet } });
 });
 
 // Company cash flow
 exports.getCash = catchAsync(async (req, res, next) => {
   const symbol = req.params.symbol;
   const baseUrl = "https://www.alphavantage.co/query?";
-  // const query = `function=CASH_FLOW&symbol=IBM&apikey=demo`;
-  const query = `function=CASH_FLOW&symbol=${symbol}&apikey=${AV_API}`;
+  const query = `function=CASH_FLOW&symbol=IBM&apikey=demo`;
+  // const query = `function=CASH_FLOW&symbol=${symbol}&apikey=${AV_API}`;
 
   const result = await fetch(baseUrl + query);
   assetNotFound(result, next);

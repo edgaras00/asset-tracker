@@ -1,5 +1,3 @@
-import React from "react";
-
 const ActivityRow = ({ action, date, amount, price, symbol }) => {
   // User's activity table row component
 

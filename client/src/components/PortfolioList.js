@@ -54,6 +54,8 @@ const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
     });
   }
 
+  console.log(sortedPort);
+
   // Set up portfolio table rows for each asset
   let rows = [];
   if (portfolio) {
@@ -67,8 +69,8 @@ const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
         amount={item.amount}
         price={item.price}
         value={item.value}
-        dayChange={item.dayChange}
-        returnOnInvestment={item.roi}
+        dayChange={item.dayPercentChange}
+        returnOnInvestment={item.returnOnInvestment}
         // user={user}
         name={item.name}
         theme={theme}

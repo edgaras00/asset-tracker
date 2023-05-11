@@ -30,7 +30,7 @@ const SearchModal = ({ isModalOpen, closeModal }) => {
       if (event.keyCode === 13) {
         let url = `https://track-investments.herokuapp.com/${endpoint}/search?query=${search}`;
         if (process.env.NODE_ENV === "development") {
-          url = `${endpoint}/search?query=${search}`;
+          url = `http://localhost:5000/${endpoint}/search?query=${search}`;
         }
         const response = await fetch(url);
         const data = await response.json();

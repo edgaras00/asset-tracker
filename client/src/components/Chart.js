@@ -17,7 +17,7 @@ const CustomTooltip = ({ active, payload, label }) => {
       <div className="tooltip">
         <h3>{payload[0].payload.date}</h3>
         <br />
-        <h3>${payload[0].payload.value}</h3>
+        <h3>${payload[0].payload.price}</h3>
       </div>
     );
   }
@@ -26,7 +26,6 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 const Chart = ({ timeFrame, valueData, priceChange, hide }) => {
   // Price chart component
-
   const { theme } = useContext(AppContext);
 
   // Set up styles for different themes
@@ -69,7 +68,7 @@ const Chart = ({ timeFrame, valueData, priceChange, hide }) => {
       <AreaChart
         width={1400}
         height={300}
-        data={valueData}
+        data={valueData.priceData}
         margin={{ left: 60 }}
       >
         <defs>
@@ -101,10 +100,10 @@ const Chart = ({ timeFrame, valueData, priceChange, hide }) => {
           fontWeight={800}
           tick={{ fill: tickFill }}
           interval={timeFrame === "day" ? null : "preserveEnd"}
-          tickFormatter={(time, index) => formatX(time, index)}
+          tickFormatter={(date, index) => formatX(date, index)}
         />
         <YAxis
-          dataKey="value"
+          dataKey="price"
           axisLine={false}
           tickLine={false}
           tick={{ fill: tickFill }}
@@ -117,7 +116,7 @@ const Chart = ({ timeFrame, valueData, priceChange, hide }) => {
 
         <Tooltip content={<CustomTooltip />} />
         <Area
-          dataKey="value"
+          dataKey="price"
           stroke={priceChange > 0 ? colorInc : "#c45145"}
           fill="url(#color)"
           strokeWidth={2.2}

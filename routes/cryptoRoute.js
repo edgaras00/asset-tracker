@@ -4,11 +4,7 @@ const cryptoController = require("../controllers/cryptoController");
 const router = express.Router();
 
 // Crypto search route
-router.get(
-  "/search",
-  authController.protectRoute,
-  cryptoController.searchCrypto
-);
+router.get("/search", cryptoController.searchCrypto);
 
 // Get prices for a batch of coins/tokens
 router.get(

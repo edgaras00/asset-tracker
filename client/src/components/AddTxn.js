@@ -8,35 +8,28 @@ import React, {
 import { getDateString, handleErrors } from "../utils/utils";
 import { AppContext } from "../context/appContext";
 
-const getCurrentPrice = async (type, id) => {
-  // Function to get the current price of the asset
+const getPrice = async (type = "stock", symbol) => {
+  // if (!["stock", "crypto"].includes(type) || typeof symbol !== String) {
+  //   throw new Error("Invalid inputs");
+  // }
+
   try {
-    let url = `https://track-investments.herokuapp.com/crypto/current/${id}`;
-    if (process.env.NODE_ENV === "development") {
-      url = `/crypto/current/${id}`;
+    let url = `/stocks/current/${symbol}`;
+
+    if (type === "crypto") {
+      url = `/crypto/current/${symbol}`;
     }
-    if (type === "stock") {
-      url = `https://track-investments.herokuapp.com/stocks/current/${id}`;
-      if (process.env.NODE_ENV === "development") {
-        url = `/stocks/current/${id}`;
-      }
-    }
+
     const response = await fetch(url);
+    const data = await response.json();
 
-    if (response.status !== 200) {
-      handleErrors(response);
+    if (type === "crypto") {
+      return data.data[symbol].usd;
     }
 
-    const priceData = await response.json();
-
-    if (type === "stock") {
-      return priceData.data.price;
-    }
-    return priceData.data[id].usd;
+    return data.data.priceData.price;
   } catch (error) {
-    console.log(error);
-    if (error.name === "authError") return "authError";
-    if (error.name === "serverError") return "serverError";
+    console.error(error);
   }
 };
 
@@ -59,13 +52,12 @@ const AddTxn = ({
   const [quantity, setQuantity] = useState("");
   const [txnDate, setTxnDate] = useState(dateStr);
   const { setUser, authErrorLogout } = useContext(AppContext);
-  const mountedRef = useRef(true);
+  // const mountedRef = useRef(true);
 
-  const saveTxn = async (event, type, asset, price, quantity) => {
-    // Async function to save a buy transaction
+  const handleSubmitTxn = async (event, type, asset, price, quantity) => {
     try {
       event.preventDefault();
-      // Transaction object that will be sent in the body of a POST request
+      // Transaction object that will be sent in the body of a PUT request
       const txnObject = {
         [type]: {
           name: asset.name,
@@ -90,12 +82,11 @@ const AddTxn = ({
       };
 
       const response = await fetch(url, options);
+      const data = await response.json();
 
       if (response.status !== 200) {
         handleErrors(response);
       }
-
-      const data = await response.json();
 
       setUser(data.data.data.updatedUser);
       setPrice(0);
@@ -113,57 +104,26 @@ const AddTxn = ({
     }
   };
 
-  const fetchCurrentPrice = useCallback(
-    async (type, asset) => {
-      try {
-        if (type === "crypto") {
-          const cryptoPrice = await getCurrentPrice("crypto", asset.cid);
-
-          if (cryptoPrice === "auth") {
-            authErrorLogout();
-            return;
-          }
-
-          if (!mountedRef.current) return;
-
-          setPrice(cryptoPrice);
-          return;
-        }
-
-        // Fetch stock price data
-        if (type === "stock") {
-          const stockPrice = await getCurrentPrice("stock", asset.symbol);
-
-          if (stockPrice === "auth") {
-            authErrorLogout();
-            return;
-          }
-
-          if (!mountedRef.current) return;
-
-          setPrice(stockPrice);
-          return;
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    [mountedRef, authErrorLogout]
-  );
-
   useEffect(() => {
-    fetchCurrentPrice(type, asset);
-    return () => {
-      mountedRef.current = false;
+    const fetchAssetPrice = async (type, asset) => {
+      if (type === "stock") {
+        const price = await getPrice(type, asset.symbol);
+        setPrice(price);
+        return;
+      }
+      const price = await getPrice(type, asset.cid);
+      setPrice(price);
+      return;
     };
-  }, [fetchCurrentPrice, asset, type]);
+    fetchAssetPrice(type, asset);
+  }, [asset, type]);
 
   return (
     <form
       className={`add-txn-form ${
         theme === "light" ? "add-txn-form-light" : null
       }`}
-      onSubmit={(e) => saveTxn(e, type, asset, price, quantity)}
+      onSubmit={(e) => handleSubmitTxn(e, type, asset, price, quantity)}
     >
       <div
         className={`back-button-cont ${

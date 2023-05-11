@@ -53,7 +53,12 @@ const ListItem = ({
         </Link>
       </td>
       {amount ? <td>{numberWithCommas(amount)}</td> : null}
-      <td>${price >= 1000 ? numberWithCommas(price) : price}</td>
+      <td>
+        $
+        {price >= 1000
+          ? numberWithCommas(parseFloat(price.toFixed(2)))
+          : price.toFixed(2)}
+      </td>
       {value ? <td>${numberWithCommas(value.toFixed(2))}</td> : null}
       <td
         className={dayChange >= 0 ? "percent-change-inc" : "percent-change-dec"}

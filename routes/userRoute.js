@@ -16,6 +16,6 @@ router.get("/logout", authController.logout);
 // Buy
 router.put("/buy", authController.protectRoute, userController.userBuy);
 // Sell
-router.put("/sell", authController.protectRoute, userController.userSell);
+router.put("/sell", userController.userSell);
 
 module.exports = router;

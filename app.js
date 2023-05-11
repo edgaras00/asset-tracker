@@ -8,6 +8,7 @@ const errorHandler = require(".//controllers/errorController");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
+const yahooStockAPI = require("yahoo-stock-api").default;
 // Start Express application
 const app = express();
 
@@ -26,20 +27,26 @@ app.use("/stocks", stocksRouter);
 app.use("/news", newsRouter);
 app.use("/user", userRouter);
 
-app.use(express.static(path.join(__dirname, "/client/build")));
+// app.use(express.static(path.join(__dirname, "/client/build")));
 
-if (process.env.NODE_ENV === "production") {
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "/client/build", "index.html"));
-  });
+// if (process.env.NODE_ENV === "production") {
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.join(__dirname, "/client/build", "index.html"));
+//   });
 
-  app.all("*", (req, res, next) => {
-    res.status(404).json({
-      status: "Fail",
-      message: `Can't find ${req.originalUrl} on this server`,
-    });
+//   app.all("*", (req, res, next) => {
+//     res.status(404).json({
+//       status: "Fail",
+//       message: `Can't find ${req.originalUrl} on this server`,
+//     });
+//   });
+// }
+app.all("*", (req, res, next) => {
+  res.status(404).json({
+    status: "Fail",
+    message: `Can't find ${req.originalUrl} on this server`,
   });
-}
+});
 
 app.use(errorHandler);
 module.exports = app;

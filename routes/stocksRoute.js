@@ -6,16 +6,14 @@ const authController = require("../controllers/authController");
 // Search stocks
 router.get(
   "/search",
-  authController.protectRoute,
+  // authController.protectRoute,
   stocksController.searchStocks
 );
 
+// router.get("/batch", stocksController.getBatch);
+
 // Get the current price of a particular stock
-router.get(
-  "/current/:symbol",
-  authController.protectRoute,
-  stocksController.getCurrentPrice
-);
+router.get("/prices/:symbol", stocksController.getPrices);
 
 // Get stock portfolio
 router.get(
@@ -25,11 +23,11 @@ router.get(
 );
 
 // Get market price data for a stock
-router.get(
-  "/prices/:symbol",
-  authController.protectRoute,
-  stocksController.getPricesOnInterval
-);
+// router.get(
+// "/prices/:symbol",
+// authController.protectRoute,
+// stocksController.getPricesOnInterval
+// );
 
 // Get stock transaction history
 router.get(
@@ -48,7 +46,7 @@ router.get(
 // Get company income statement data
 router.get(
   "/income/:symbol",
-  authController.protectRoute,
+  // authController.protectRoute,
   stocksController.getIncome
 );
 

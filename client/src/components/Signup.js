@@ -5,7 +5,7 @@ import "../styles/signup.css";
 
 const Signup = () => {
   // Component that signs up a new user
-
+  console.log(process.env.NODE_ENV);
   // Set up component state and context
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
@@ -31,6 +31,7 @@ const Signup = () => {
       if (process.env.NODE_ENV === "development") {
         url = "/user/signup";
       }
+      console.log(url);
       const signUpBody = {
         email,
         password,

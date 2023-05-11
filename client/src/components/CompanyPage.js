@@ -15,7 +15,7 @@ const getPriceData = async (symbolId, timeFrame) => {
   try {
     let url = `https://track-investments.herokuapp.com/stocks/current/${symbolId}?interval=${timeFrame}`;
     if (process.env.NODE_ENV === "development") {
-      url = `/stocks/current/${symbolId}?interval=${timeFrame}`;
+      url = `/stocks/prices/${symbolId}?interval=${timeFrame}`;
     }
     const response = await fetch(url);
     // Handle server error
@@ -35,18 +35,16 @@ const getPriceData = async (symbolId, timeFrame) => {
 
 const getMarketData = async (symbolId, timeFrame) => {
   try {
-    let baseUrl = "https://track-investments.herokuapp.com/stocks/prices/";
+    let url = "https://track-investments.herokuapp.com/stocks/prices/";
     if (process.env.NODE_ENV === "development") {
-      baseUrl = "/stocks/prices/";
+      url = `/stocks/prices/${symbolId}?interval=${timeFrame}&type=market`;
     }
-    const api = `${symbolId}?period=${timeFrame}`;
-    const response = await fetch(baseUrl + api);
+    const response = await fetch(url);
+    const data = await response.json();
 
     if (response.status !== 200) {
       handleErrors(response);
     }
-
-    const data = await response.json();
 
     return data.data;
   } catch (error) {
@@ -167,10 +165,10 @@ const CompanyPage = () => {
       }
 
       if (priceData !== -1 && companyMarketData !== -1) {
-        setPrice(priceData.price);
-        setChange(priceData.change);
-        setChangePercent(priceData.changePercent);
-        setMarketData(companyMarketData.assetValue);
+        setPrice(priceData.priceData.price);
+        setChange(priceData.priceData.priceChange);
+        setChangePercent(priceData.priceData.percentChange);
+        setMarketData(companyMarketData);
       } else {
         setPrice(-1);
       }
@@ -238,7 +236,7 @@ const CompanyPage = () => {
           <span>
             {changePercent < 0 ? "-" : ""}$
             {change ? numberWithCommas(Math.abs(change.toFixed(2))) : 0} (
-            {changePercent ? changePercent.toFixed(2) : 0}%)
+            {changePercent ? changePercent : 0}%)
           </span>
         </div>
         <div className="balance-history">

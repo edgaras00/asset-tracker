@@ -133,6 +133,7 @@ const UserPortfolio = () => {
         clearPortfolio(false);
         return;
       }
+
       setAssetValue(assetData.totalValue);
       setIncreasing(assetData.isPriceIncrease);
       setPercentGain(assetData.roi);
@@ -184,7 +185,7 @@ const UserPortfolio = () => {
         />
         <SummaryCard
           header="Total Gain"
-          value={percentGain ? percentGain.toFixed(2) : null}
+          value={percentGain ? Number(percentGain.toFixed(2)) : null}
           theme={theme}
           type="percent"
           increasing={increasing}
