@@ -1,8 +1,33 @@
-const yahooStockAPI = require("yahoo-stock-api");
-const catchAsync = require("./catchAsync");
-const { default: YahooStockAPI } = require("yahoo-stock-api");
+const yahooStockAPI = require("yahoo-stock-api").default;
+const { DateTime } = require("luxon");
 
-const yahoo = new YahooStockAPI();
+const catchAsync = require("./catchAsync");
+
+const yahoo = new yahooStockAPI();
+
+exports.getPreviousDate = (currentDate, interval) => {
+  //  Check if input values are valid
+  if (
+    !currentDate instanceof Date ||
+    !["day", "week", "month", "year"].includes(interval)
+  ) {
+    throw new Error("Invalid input values");
+  }
+  const previousDate = new Date(currentDate);
+
+  if (interval === "day") previousDate.setDate(currentDate.getDate() - 2);
+  if (interval === "week") previousDate.setDate(currentDate.getDate() - 7);
+  if (interval === "month") previousDate.setMonth(currentDate.getMonth() - 1);
+  if (interval === "year") previousDate.setYear(currentDate.getFullYear() - 1);
+  return previousDate;
+};
+
+exports.getDateFromUnix = (unixTimestamp) => {
+  const dateTime = DateTime.fromSeconds(unixTimestamp);
+  const formattedDate = dateTime.toFormat("yyyy-MM-dd");
+
+  return formattedDate;
+};
 
 const calculatePercentChange = (newValue, oldValue) => {
   return ((newValue - oldValue) / oldValue) * 100;
@@ -22,31 +47,3 @@ exports.fetchAllStockData = catchAsync(async (symbols) => {
   const stockObject = Object.assign({}, ...allStocks);
   return stockObject;
 });
-
-exports.createDayDummyData = (
-  openPrice,
-  lowPrice,
-  highPrice,
-  closePrice,
-  length
-) => {
-  const dummyData = [];
-
-  let currentValue = openPrice;
-  dummyData.push(currentValue);
-
-  while (dummyData.length < length) {
-    const randomChange = Math.random() * (highPrice - lowPrice);
-    const direction = Math.random() < 0.5 ? -1 : 1;
-    currentValue += direction * randomChange;
-    dummyData.push(parseFloat(currentValue.toFixed(2)));
-  }
-
-  if (dummyData.length > length) {
-    dummyData.pop();
-  }
-
-  dummyData.push(closePrice);
-
-  return dummyData;
-};

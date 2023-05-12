@@ -1,15 +1,14 @@
 const fetch = require("node-fetch");
 const { DateTime } = require("luxon");
 const StockSymbols = require("../models/stockSymbolsModel");
-const stockUtils = require("../utils/stockUtils");
 const catchAsync = require("../utils/catchAsync");
 const assetNotFound = require("../utils/assetNotFound");
 const getTxnHistory = require("../utils/getTxnHistory");
 const AppError = require("../utils/appError");
 
 const yahooStockAPI = require("yahoo-stock-api").default;
-const { getPreviousDate } = require("../utils/stockUtils");
-const { fetchAllStockData } = require("../utils/stocksUtils");
+const { fetchAllStockData, getPreviousDate } = require("../utils/stocksUtils");
+
 const yahoo = new yahooStockAPI();
 
 const AV_API = process.env.AV_API;
