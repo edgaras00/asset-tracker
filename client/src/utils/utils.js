@@ -56,3 +56,14 @@ export const getAssetNews = async (symbol) => {
     return [];
   }
 };
+
+export const multiplyArrayContents = (array, n) => {
+  return Array.from({ length: n }, () => array).flat();
+};
+
+export const getExchangeImages = (exchanges) => {
+  const exchangeImages = exchanges.map((exchange) => {
+    return <img src={exchange} alt="exchange" />;
+  });
+  return exchangeImages;
+};

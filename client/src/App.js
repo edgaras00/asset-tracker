@@ -1,16 +1,22 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { AppContext } from "./context/appContext";
 import { Switch, Route, Redirect } from "react-router-dom";
-import Home from "./components/Home";
-import Navbar from "./components/Navbar";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
-import UserPortfolio from "./components/UserPortfolio";
-import UserNav from "./components/UserNav";
-import CompanyPage from "./components/CompanyPage";
-import CryptoPage from "./components/CryptoPage";
-import CryptoHome from "./components/CryptoHome";
-import StocksHome from "./components/StocksHome";
+
+// Home
+import Home from "./components/home/Home";
+import Navbar from "./components/home/Navbar";
+import Login from "./components/home/Login";
+import Signup from "./components/home/Signup";
+import StocksHome from "./components/home/StocksHome";
+import CryptoHome from "./components/home/CryptoHome";
+
+// User
+import UserPortfolio from "./components/user/UserPortfolio";
+import UserNav from "./components/user/UserNav";
+
+// Assets
+import CompanyPage from "./components/assets/CompanyPage";
+import CryptoPage from "./components/assets/CryptoPage";
 
 const App = () => {
   const { user } = useContext(AppContext);
