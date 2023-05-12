@@ -1,8 +1,8 @@
 import "../../styles/assetButton.css";
 
-const AssetButton = ({ type, handleClick, theme }) => {
+const AssetButton = ({ type, onClick, theme }) => {
   let buttonClass;
-  if (type === "stocks") {
+  if (type === "stock") {
     buttonClass = `stock-button ${
       theme === "light" ? "stock-btn-light" : null
     }`;
@@ -15,11 +15,16 @@ const AssetButton = ({ type, handleClick, theme }) => {
   return (
     <button
       className={`select-asset-button ${buttonClass}`}
-      onClick={() => handleClick(type)}
+      onClick={() => onClick(type)}
     >
       {type}
     </button>
   );
+};
+
+AssetButton.defaultProps = {
+  type: "stocks",
+  theme: "dark",
 };
 
 export default AssetButton;

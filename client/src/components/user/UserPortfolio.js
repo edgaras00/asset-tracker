@@ -1,16 +1,23 @@
-import React, { useState, useContext, useEffect } from "react";
-import PortfolioList from "./PortfolioList";
-import MarketNews from "../news/MarketNews";
+import { useState, useContext, useEffect } from "react";
 import { AppContext } from "../../context/appContext";
-import { numberWithCommas, handleErrors } from "../../utils/utils";
-import PieGraph from "./PieGraph";
-import Activity from "./Activity";
+
+// Components
 import SummaryCard from "./SummaryCard";
 import AssetButton from "./AssetButton";
+import PortfolioList from "./PortfolioList";
+import PieGraph from "./PieGraph";
+import Activity from "./Activity";
+import MarketNews from "../news/MarketNews";
+
+// Utils
+import { numberWithCommas, handleErrors } from "../../utils/utils";
+
 import "../../styles/userPortfolio.css";
 
-const getTxnHistory = async (type) => {
+const getTransactionHistory = async (type) => {
+  // Function to fetch user's transaction history (stock or crypto)
   try {
+    // Build URL
     let url = "https://track-investments.herokuapp.com/stocks/history";
     if (process.env.NODE_ENV === "development") {
       url = "/stocks/history";
@@ -23,16 +30,16 @@ const getTxnHistory = async (type) => {
       }
     }
 
+    // Get transaction data
     const response = await fetch(url);
-    const txnHistoryData = await response.json();
-    console.log(txnHistoryData);
+    const transactionHistoryData = await response.json();
 
     // Handle failed GET requests
     if (response.status !== 200 || !response.ok) {
       handleErrors(response);
     }
 
-    return txnHistoryData.data.txnHistory;
+    return transactionHistoryData.data.txnHistory;
   } catch (error) {
     if (error.name === "authError") return "authError";
     if (error.name === "notFound") return "notFound";
@@ -42,7 +49,10 @@ const getTxnHistory = async (type) => {
 };
 
 const getPortfolio = async (type) => {
+  // Get user's portfolio
+
   try {
+    // Build URL
     let url = "https://track-investments.herokuapp.com/stocks/portfolio";
     if (process.env.NODE_ENV === "development") {
       url = "/stocks/portfolio";
@@ -55,26 +65,28 @@ const getPortfolio = async (type) => {
       }
     }
 
+    // Get data from server
     const response = await fetch(url);
+    const portfolioData = await response.json();
 
     // Handle errors / failed GET requests
     if (response.status !== 200 || !response.ok) {
       handleErrors(response);
     }
 
-    const data = await response.json();
-    const portfolio = data.data.assets;
+    const portfolio = portfolioData.data.assets;
 
     if (portfolio.length === 0) {
       return [];
     }
 
-    const { totalValue, totalROI, totalCost } = data.data;
-    const isPriceIncrease = totalROI >= 0;
+    const { totalValue, totalROI, totalCost } = portfolioData.data;
+    // Check if there is a positive return on investment
+    const isValueIncrease = totalROI >= 0;
 
     return {
       totalValue,
-      isPriceIncrease,
+      isValueIncrease,
       roi: totalROI,
       portfolio,
       cost: totalCost,
@@ -90,15 +102,17 @@ const getPortfolio = async (type) => {
 
 const UserPortfolio = () => {
   // User portfolio component
-  // Holds user's asset value information
+  // Holds user asset value information
 
   // Set up component state
-  const [assetType, setAssetType] = useState("stocks");
+  const [assetType, setAssetType] = useState("stock");
+  const [portfolio, setPortfolio] = useState([]);
+
   const [assetCost, setAssetCost] = useState(null);
   const [assetValue, setAssetValue] = useState(0);
   const [percentGain, setPercentGain] = useState(null);
-  const [portfolio, setPortfolio] = useState([]);
   const [increasing, setIncreasing] = useState(true);
+
   const [showGraphPercent, setShowGraphPercent] = useState(false);
   const [txnActivity, setTxnActivity] = useState([]);
   const [serverError, setServerError] = useState(0);
@@ -106,6 +120,7 @@ const UserPortfolio = () => {
   const { theme, user, authErrorLogout } = useContext(AppContext);
 
   const clearPortfolio = (isError = false) => {
+    // Clear portfolio state data
     if (isError) {
       setServerError(1);
     }
@@ -117,32 +132,37 @@ const UserPortfolio = () => {
 
   // Update user and portfolio state data
   useEffect(() => {
-    const setupData = async (assetType) => {
+    const getPortfolioData = async (assetType) => {
+      // Store updated user data
       localStorage.setItem("user", JSON.stringify(user));
-      const assetData = await getPortfolio(assetType);
 
-      if (assetData === "authError") {
+      const portfolioData = await getPortfolio(assetType);
+
+      if (portfolioData === "authError") {
         authErrorLogout();
         return;
-      } else if (assetData === "notFound" || assetData === "serverError") {
+      } else if (
+        portfolioData === "notFound" ||
+        portfolioData === "serverError"
+      ) {
         clearPortfolio(true);
         return;
       }
 
-      if (assetData.length === 0) {
+      if (portfolioData.length === 0) {
         clearPortfolio(false);
         return;
       }
 
-      setAssetValue(assetData.totalValue);
-      setIncreasing(assetData.isPriceIncrease);
-      setPercentGain(assetData.roi);
-      setPortfolio(assetData.portfolio);
-      setAssetCost(assetData.cost);
+      setAssetValue(portfolioData.totalValue);
+      setIncreasing(portfolioData.isPriceIncrease);
+      setPercentGain(portfolioData.roi);
+      setPortfolio(portfolioData.portfolio);
+      setAssetCost(portfolioData.cost);
     };
 
-    const setupTxnHistoryData = async (assetType) => {
-      const txnHistory = await getTxnHistory(assetType);
+    const getTxnHistoryData = async (assetType) => {
+      const txnHistory = await getTransactionHistory(assetType);
 
       if (txnHistory === "authError") {
         authErrorLogout();
@@ -154,8 +174,8 @@ const UserPortfolio = () => {
       setTxnActivity(txnHistory);
     };
 
-    setupData(assetType);
-    setupTxnHistoryData(assetType);
+    getPortfolioData(assetType);
+    getTxnHistoryData(assetType);
   }, [assetType, user, authErrorLogout]);
 
   return (
@@ -165,27 +185,27 @@ const UserPortfolio = () => {
       }`}
     >
       <div className="select-assets">
-        <AssetButton type="stocks" theme={theme} handleClick={setAssetType} />
-        <AssetButton type="crypto" theme={theme} handleClick={setAssetType} />
+        <AssetButton type="stock" theme={theme} onClick={setAssetType} />
+        <AssetButton type="crypto" theme={theme} onClick={setAssetType} />
       </div>
 
       <div className="portfolio-summary">
         <SummaryCard
-          header="Value"
+          title="Value"
           value={assetValue ? numberWithCommas(assetValue.toFixed(2)) : null}
           theme={theme}
           type="usd"
         />
 
         <SummaryCard
-          header="Cost"
+          title="Cost"
           value={assetCost ? numberWithCommas(assetCost.toFixed(2)) : null}
           theme={theme}
           type="usd"
         />
         <SummaryCard
-          header="Total Gain"
-          value={percentGain ? Number(percentGain.toFixed(2)) : null}
+          title="Total Gain"
+          value={percentGain ? parseFloat(percentGain.toFixed(2)) : null}
           theme={theme}
           type="percent"
           increasing={increasing}
@@ -246,7 +266,11 @@ const UserPortfolio = () => {
       <div className={`title ${theme === "light" ? "title-light" : null}`}>
         <h2 className="section-header">Activity</h2>
       </div>
-      <Activity txnHistory={txnActivity} assetType={assetType} theme={theme} />
+      <Activity
+        transactionHistory={txnActivity}
+        assetType={assetType}
+        theme={theme}
+      />
       <div className={`title ${theme === "light" ? "title-light" : null}`}>
         <h2 className="section-header">News</h2>
       </div>

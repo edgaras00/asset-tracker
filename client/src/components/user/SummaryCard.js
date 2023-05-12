@@ -1,6 +1,6 @@
 import "../../styles/summaryCell.css";
 
-const SummaryCard = ({ header, value, theme, type, increasing }) => {
+const SummaryCard = ({ title, value, theme, type, increasing }) => {
   const colorClassInc = theme === "light" ? "percent-inc-light" : "percent-inc";
 
   let percentClass;
@@ -13,11 +13,11 @@ const SummaryCard = ({ header, value, theme, type, increasing }) => {
         theme === "light" ? "summary-cell-light" : ""
       }`}
     >
-      <h3>{header}</h3>
+      <h3>{title}</h3>
       <h2 className={percentClass}>
-        {type === "usd" ? "$" : null}
+        {type === "usd" && value ? "$" : null}
         {value}
-        {type === "percent" ? "%" : null}
+        {type === "percent" && value ? "%" : null}
       </h2>
     </div>
   );

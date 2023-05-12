@@ -1,18 +1,9 @@
-import React, {
-  useState,
-  useContext,
-  useEffect,
-  useCallback,
-  useRef,
-} from "react";
-import { getDateString, handleErrors } from "../../utils/utils";
+import { useState, useContext, useEffect, useCallback, useRef } from "react";
 import { AppContext } from "../../context/appContext";
 
-const getPrice = async (type = "stock", symbol) => {
-  // if (!["stock", "crypto"].includes(type) || typeof symbol !== String) {
-  //   throw new Error("Invalid inputs");
-  // }
+import { getDateString, handleErrors } from "../../utils/utils";
 
+const getPrice = async (type = "stock", symbol) => {
   try {
     let url = `/stocks/prices/${symbol}`;
 
@@ -53,7 +44,7 @@ const AddTxn = ({
   const [quantity, setQuantity] = useState("");
   const [txnDate, setTxnDate] = useState(dateStr);
   const { setUser, authErrorLogout } = useContext(AppContext);
-  // const mountedRef = useRef(true);
+  const mountedRef = useRef(true);
 
   const handleSubmitTxn = async (event, type, asset, price, quantity) => {
     try {
@@ -105,19 +96,31 @@ const AddTxn = ({
     }
   };
 
-  useEffect(() => {
-    const fetchAssetPrice = async (type, asset) => {
-      if (type === "stock") {
-        const price = await getPrice(type, asset.symbol);
+  const fetchAssetPrice = useCallback(
+    async (type, asset) => {
+      if (!mountedRef.current) return;
+      try {
+        if (type === "stock") {
+          const price = await getPrice(type, asset.symbol);
+          setPrice(price);
+          return;
+        }
+        const price = await getPrice(type, asset.cid);
         setPrice(price);
         return;
+      } catch (error) {
+        console.log(error);
       }
-      const price = await getPrice(type, asset.cid);
-      setPrice(price);
-      return;
-    };
+    },
+    [mountedRef]
+  );
+
+  useEffect(() => {
     fetchAssetPrice(type, asset);
-  }, [asset, type]);
+    return () => {
+      mountedRef.current = false;
+    };
+  }, [fetchAssetPrice, asset, type]);
 
   return (
     <form

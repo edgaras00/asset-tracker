@@ -1,8 +1,10 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
+import { AppContext } from "../../context/appContext";
+
 import Modal from "react-modal";
 import ModalAssetItem from "./ModalAssetItem";
 import AddTxn from "./AddTxn";
-import { AppContext } from "../../context/appContext";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "../../styles/searchModal.css";
@@ -34,7 +36,6 @@ const SearchModal = ({ isModalOpen, closeModal }) => {
         }
         const response = await fetch(url);
         const data = await response.json();
-        console.log(data);
 
         if (response.status !== 200) {
           if (response.status === 401) {

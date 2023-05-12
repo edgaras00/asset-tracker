@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+
 import RemoveTxn from "./RemoveTxn";
+
 import { numberWithCommas } from "../../utils/utils";
+
 import "../../styles/listItem.css";
 
 const ListItem = ({
@@ -45,7 +48,7 @@ const ListItem = ({
         assetPrice={price}
       />
       <td className={tickerClass}>
-        <Link to={type === "stocks" ? `/company/${ticker}` : `/crypto/${cid}`}>
+        <Link to={type === "stock" ? `/company/${ticker}` : `/crypto/${cid}`}>
           <img src={logo} alt="symbol" />
           <span className={theme === "light" ? "ticker-light" : "ticker"}>
             {ticker}

@@ -1,19 +1,18 @@
 import ActivityRow from "./ActivityRow";
+
 import "../../styles/activity.css";
 
-const Activity = ({ assetType, theme, txnHistory }) => {
+const Activity = ({ assetType, theme, transactionHistory }) => {
   // Component that renders user's transaction activity data
 
-  const noActivity = assetType === "stocks" ? "stock" : "crypto";
-
   // Sort array by dates (descending)
-  txnHistory.sort((a, b) => {
+  transactionHistory.sort((a, b) => {
     return (
       new Date(b.date) - new Date(a.date) || b.savedTimestamp - a.savedTimestamp
     );
   });
 
-  const activityRows = txnHistory.map((activity, index) => (
+  const activityRows = transactionHistory.map((activity, index) => (
     <ActivityRow
       key={activity.symbol + index + activity.price}
       action={activity.action}
@@ -30,7 +29,7 @@ const Activity = ({ assetType, theme, txnHistory }) => {
         theme === "light" ? "activity-container-light" : null
       }`}
     >
-      {txnHistory.length > 0 ? (
+      {transactionHistory.length > 0 ? (
         <table
           className={`activity-table ${
             theme === "light" ? "activity-table-light" : null
@@ -40,7 +39,7 @@ const Activity = ({ assetType, theme, txnHistory }) => {
         </table>
       ) : (
         <div className="no-activity">
-          <h2>No {noActivity} transaction activity</h2>
+          <h2>No {assetType} transaction activity</h2>
         </div>
       )}
     </div>

@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
+
 import ListItem from "./ListItem";
 import SearchModal from "./SearchModal";
+
 import "../../styles/portfolioList.css";
 
 const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
   // Component that renders the user's asset list/table
 
-  // Set up component state
   // Search / add asset modal
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   // Sort asset list/table by property
   // value, price, amount, 24H price change, ROI
   const [sortCol, setSortCol] = useState("value");
@@ -21,9 +23,9 @@ const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
 
   // Button class for different theme and asset type classes
   let btnClass = "btn-stock";
-  if (assetType === "stocks" && theme !== "light") {
+  if (assetType === "stock" && theme !== "light") {
     btnClass = "btn-stock";
-  } else if (assetType === "stocks" && theme === "light") {
+  } else if (assetType === "stock" && theme === "light") {
     btnClass = "btn-stock-light";
   } else if (assetType === "crypto" && theme !== "light") {
     btnClass = "btn-crypto";
@@ -43,9 +45,9 @@ const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
   };
 
   // Sorted portfolio
-  let sortedPort = [];
+  let sortedPortfolio = [];
   if (portfolio) {
-    sortedPort = [...portfolio].sort((a, b) => {
+    sortedPortfolio = [...portfolio].sort((a, b) => {
       if (ascending) {
         return parseFloat(a[sortCol]) - parseFloat(b[sortCol]);
       } else {
@@ -57,7 +59,7 @@ const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
   // Set up portfolio table rows for each asset
   let rows = [];
   if (portfolio) {
-    rows = sortedPort.map((item, index) => (
+    rows = sortedPortfolio.map((item, index) => (
       <ListItem
         key={index + item.amount + item.value}
         cid={item.cid}
@@ -69,7 +71,6 @@ const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
         value={item.value}
         dayChange={item.dayPercentChange}
         returnOnInvestment={item.returnOnInvestment}
-        // user={user}
         name={item.name}
         theme={theme}
         assetID={item.id}
@@ -88,7 +89,7 @@ const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
           theme === "light" ? "list-header-light" : null
         }`}
       >
-        <h2>{assetType === "stocks" ? "Stock" : "Crypto"} Portfolio</h2>
+        <h2>{assetType === "stock" ? "Stock" : "Crypto"} Portfolio</h2>
         <button className={btnClass} onClick={openModal}>
           Add Asset
         </button>
@@ -149,16 +150,11 @@ const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
           ) : (
             <span>
               <h2>
-                You do not own any{" "}
-                {assetType === "stocks" ? "stocks" : "crypto"}
+                You do not own any {assetType === "stock" ? "stocks" : "crypto"}
               </h2>
               <h2>Click "Add Asset" to add a new asset</h2>
             </span>
           )}
-          {/* <h2>
-            You do not own any {assetType === "stocks" ? "stocks" : "crypto"}
-          </h2>
-          <h2>Click "Add Asset" to add a new asset</h2> */}
         </span>
       )}
     </div>

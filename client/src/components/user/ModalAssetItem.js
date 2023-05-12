@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 const ModalAssetItem = ({
@@ -17,8 +16,8 @@ const ModalAssetItem = ({
   let assetLogo = "";
   let linkToInfo;
   if (type === "stock") {
-    const assetLogoBase = "https://storage.googleapis.com/iexcloud-hl37opg/";
-    assetLogo = assetLogoBase + `api/logos/${ticker}.png`;
+    const logoBaseUrl = "https://storage.googleapis.com/iexcloud-hl37opg/";
+    assetLogo = logoBaseUrl + `api/logos/${ticker}.png`;
     linkToInfo = `/company/${symbol}`;
   }
   if (type === "crypto" && logo) {
