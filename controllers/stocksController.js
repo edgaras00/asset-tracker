@@ -23,9 +23,16 @@ exports.searchStocks = catchAsync(async (req, res, next) => {
 });
 
 exports.getPrices = catchAsync(async (req, res) => {
-  const symbol = req.params.symbol;
-  const interval = req.query.interval || "day";
-  const type = req.query.type || "current";
+  // Valid inputs
+  const intervals = ["day", "week", "month", "year"];
+  const types = ["current", "market"];
+
+  const symbol = req.params.symbol || "tsla";
+
+  const interval = intervals.includes(req.query.interval)
+    ? req.query.interval
+    : "day";
+  const type = types.includes(req.query.type) ? req.query.type : "current";
 
   const endDate = new Date();
   const startDate = getPreviousDate(endDate, interval);

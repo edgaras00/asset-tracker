@@ -39,6 +39,18 @@ exports.getMultipleLogos = catchAsync(async (coins) => {
   return logoObject;
 });
 
+exports.getMultiplePrices = catchAsync(async (cryptoIDArray) => {
+  const cIDString = cryptoIDArray.join("%2C");
+  // CoinGecko API
+  const baseUrl = "https://api.coingecko.com/api/v3/simple/price?";
+  const query = `ids=${cIDString}&vs_currencies=usd&include_24hr_change=true`;
+
+  // Fetch price data
+  const result = await fetch(baseUrl + query);
+  const priceData = await result.json();
+  return priceData;
+});
+
 exports.formatCryptoPriceData = (priceData, interval) => {
   // Format market price data for plotting
   const modifiedData = priceData.prices.map((point) => {

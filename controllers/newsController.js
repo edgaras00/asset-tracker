@@ -1,5 +1,6 @@
 const fetch = require("node-fetch");
 const { DateTime } = require("luxon");
+
 const catchAsync = require("../utils/catchAsync");
 const API = process.env.NEWS_API;
 

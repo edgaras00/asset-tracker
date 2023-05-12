@@ -65,16 +65,9 @@ exports.getPortfolio = catchAsync(async (req, res, next) => {
   }
 
   // Join crypto IDs into a string
-  const cryptoIdsArr = crypto.map((coin) => coin.cid);
-  const cIdsString = cryptoIdsArr.join("%2C");
-
-  // CoinGecko API
-  const baseUrl = "https://api.coingecko.com/api/v3/simple/price?";
-  const query = `ids=${cIdsString}&vs_currencies=usd&include_24hr_change=true`;
-
-  // Fetch price data
-  const result = await fetch(baseUrl + query);
-  const priceData = await result.json();
+  const cryptoIDArray = crypto.map((coin) => coin.cid);
+  // Get prices
+  const priceData = await cryptoUtils.getMultiplePrices(cryptoIDArray);
   // Get logo data
   const cryptoLogos = await cryptoUtils.getMultipleLogos(cryptoIdsArr);
 
@@ -83,8 +76,8 @@ exports.getPortfolio = catchAsync(async (req, res, next) => {
   const cryptoAssets = crypto.map((coin) => {
     const { amount, cost, cid, symbol } = coin;
     const price = priceData[cid].usd;
-    const value = amount * priceData[cid].usd;
-    const roi = (((value - cost) / cost) * 100).toFixed(2);
+    const value = parseFloat((amount * priceData[cid].usd).toFixed(2));
+    const roi = parseFloat((((value - cost) / cost) * 100).toFixed(2));
     const logo = cryptoLogos[cid];
     return {
       symbol,
@@ -123,10 +116,15 @@ exports.getPortfolio = catchAsync(async (req, res, next) => {
 
 // Handle current price requests
 exports.getCurrentPrice = catchAsync(async (req, res, next) => {
+  // Valid query inputs
+  const intervals = ["day", "week", "month", "year"];
+
   // Coingecko crypto id
   const cryptoId = req.params.cId;
   // Price data time interval
-  const changeInterval = req.query.interval;
+  const changeInterval = intervals.includes(req.query.interval)
+    ? req.query.interval
+    : "day";
 
   // URL
   const baseUrl = "https://api.coingecko.com/api/v3/simple/price?";
@@ -162,11 +160,17 @@ exports.getCurrentPrice = catchAsync(async (req, res, next) => {
 // Daily, weekly, monthly, yearly prices
 // Used for plotting
 exports.getPricesOnInterval = catchAsync(async (req, res, next) => {
+  // Valid query inputs
+  const validIntervals = ["day", "week", "month", "year"];
+
   // Code block to build the API query for price data
-  // Coingecko crypto ID
   const cryptoId = req.params.cId;
+
   // Query parameter for time interval
-  const interval = req.query.interval;
+  const interval = validIntervals.includes(req.query.interval)
+    ? req.query.interval
+    : "day";
+
   const baseUrl = `https://api.coingecko.com/api/v3/coins/${cryptoId}/`;
 
   // Endpoint based on the interval query parameter
