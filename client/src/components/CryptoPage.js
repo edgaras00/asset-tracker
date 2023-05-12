@@ -17,12 +17,12 @@ const fetchPriceData = async (cId, timeFrame) => {
       url = `/crypto/prices/${cId}?interval=${timeFrame}`;
     }
     const response = await fetch(url);
+    const data = await response.json();
 
     if (response.status !== 200) {
       handleErrors(response);
     }
 
-    const data = await response.json();
     return data.data;
   } catch (error) {
     console.log(error);
@@ -145,7 +145,7 @@ const CryptoPage = () => {
           timeFrame === "day"
             ? priceData.data[cId].usd_24h_change
             : priceData.data.percentChange;
-        setMarketData(cryptoMarketData.assetValue);
+        setMarketData(cryptoMarketData);
         setPriceChange(percentChange);
         setPrice(assetPrice);
       }

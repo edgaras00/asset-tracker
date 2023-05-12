@@ -54,8 +54,6 @@ const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
     });
   }
 
-  console.log(sortedPort);
-
   // Set up portfolio table rows for each asset
   let rows = [];
   if (portfolio) {

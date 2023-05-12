@@ -1,7 +1,8 @@
 const fetch = require("node-fetch");
 const CryptoSymbols = require("../models/cryptoSymbolsModel");
-const cryptoUtils = require("../utils/cryptoUtils");
+
 const catchAsync = require("../utils/catchAsync");
+const cryptoUtils = require("../utils/cryptoUtils");
 const AppError = require("../utils/appError");
 const getTxnHistory = require("../utils/getTxnHistory");
 
@@ -11,7 +12,6 @@ exports.searchCrypto = catchAsync(async (req, res, next) => {
   const query = req.query.query;
 
   const results = await CryptoSymbols.find({ $text: { $search: query } });
-
   // Isolate the result that exactly matches the query
   const exactMatch = cryptoUtils.findExactCryptoMatch(results, query);
 
@@ -25,19 +25,19 @@ exports.searchCrypto = catchAsync(async (req, res, next) => {
 
   // Limit number of coins to avoid too many requests
   if (combinedResults.length > 10) {
-    combinedResults = combinedResults.slice(0, 10);
+    combinedResults = combinedResults.slice(0, 3);
   }
 
-  // Get CoinGecko IDs
-  const cIdArray = combinedResults.map((result) => result.cid);
+  // // Get CoinGecko IDs
+  const cIdArray = combinedResults.map((result) => result.id);
 
   // Get crypto logos using Coin`Gecko IDs
   const logos = await cryptoUtils.getMultipleLogos(cIdArray);
 
   let finalResults = [];
   combinedResults.forEach((item) => {
-    if (!(logos[item.cid] === "NA")) {
-      finalResults.push({ ...item._doc, logo: logos[item.cid] });
+    if (!(logos[item.id] === "NA")) {
+      finalResults.push({ ...item._doc, logo: logos[item.id] });
     }
   });
 
@@ -194,9 +194,7 @@ exports.getPricesOnInterval = catchAsync(async (req, res, next) => {
 
   // Format data
   const modifiedData = cryptoUtils.formatCryptoPriceData(data, interval);
-  res
-    .status(200)
-    .json({ status: "Success", data: { assetValue: modifiedData } });
+  res.status(200).json({ status: "Success", data: modifiedData });
 });
 
 // Handle crypto data requests

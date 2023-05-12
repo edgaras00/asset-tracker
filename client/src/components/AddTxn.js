@@ -14,7 +14,7 @@ const getPrice = async (type = "stock", symbol) => {
   // }
 
   try {
-    let url = `/stocks/current/${symbol}`;
+    let url = `/stocks/prices/${symbol}`;
 
     if (type === "crypto") {
       url = `/crypto/current/${symbol}`;
@@ -27,7 +27,7 @@ const getPrice = async (type = "stock", symbol) => {
       return data.data[symbol].usd;
     }
 
-    return data.data.priceData.price;
+    return data.data.price;
   } catch (error) {
     console.error(error);
   }
@@ -42,6 +42,7 @@ const AddTxn = ({
   setSearch,
   theme,
 }) => {
+  console.log(asset);
   // Component that lets user to add assets
 
   // Format default date (today)

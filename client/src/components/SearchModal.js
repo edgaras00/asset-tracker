@@ -30,14 +30,15 @@ const SearchModal = ({ isModalOpen, closeModal }) => {
       if (event.keyCode === 13) {
         let url = `https://track-investments.herokuapp.com/${endpoint}/search?query=${search}`;
         if (process.env.NODE_ENV === "development") {
-          url = `http://localhost:5000/${endpoint}/search?query=${search}`;
+          url = `/${endpoint}/search?query=${search}`;
         }
         const response = await fetch(url);
         const data = await response.json();
+        console.log(data);
 
         if (response.status !== 200) {
           if (response.status === 401) {
-            authErrorLogout();
+            // authErrorLogout();
             return;
           }
         }
@@ -60,9 +61,8 @@ const SearchModal = ({ isModalOpen, closeModal }) => {
         name={item.name}
         symbol={item.symbol}
         theme={theme}
-        cid={item.cid}
+        cid={item.id}
         type={selectedType}
-        cmcId={item.cmcId}
         toggleAddingTxn={setAddingTxn}
         setAsset={setSelectedAsset}
         logo={item.logo}

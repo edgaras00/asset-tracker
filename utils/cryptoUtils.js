@@ -1,43 +1,43 @@
 const fetch = require("node-fetch");
 const { DateTime } = require("luxon");
+const catchAsync = require("../utils/catchAsync");
 
-const getLogo = async (cId) => {
-  // Function to get crypto logo data (single)
-  try {
-    const baseUrl = `https://api.coingecko.com/api/v3/coins/${cId}?`;
-    const query1 = "localization=false&tickers=false&market_data=false";
-    const query2 = "&community_data=false&developer_data=false&sparkline=false";
-    const response = await fetch(baseUrl + query1 + query2);
-    const data = await response.json();
+const getLogo = catchAsync(async (cID) => {
+  // Function to get crypto logo data (single coin)
 
-    if (response.status === 200 && data.image) {
-      return { [cId]: data.image.large };
-    }
-    return { [cId]: "NA" };
-  } catch (error) {
-    console.log(error);
+  // Build query
+  const baseUrl = `https://api.coingecko.com/api/v3/coins/${cID}`;
+  const query1 = "localization=false&tickers=false&market_data=false";
+  const query2 = "community_data=false&developer_data=false&sparkline=false";
+  const response = await fetch(`${baseUrl}?${query1}&${query2}`);
+
+  const data = await response.json();
+
+  if (response.status === 200 && data.image) {
+    return { [cID]: data.image.large };
   }
-};
+  return { [cID]: "NA" };
+});
 
-exports.getMultipleLogos = async (coins) => {
+exports.getMultipleLogos = catchAsync(async (coins) => {
   // Function that gets logo data for multiple cryptocurrencies
-  try {
-    let promises = [];
-    for (const coin of coins) {
-      promises.push(getLogo(coin));
-    }
-    // Wait until all promises are resolved
-    const data = await Promise.all(promises);
-    const logoObject = {};
-    data.forEach((crypto) => {
-      const key = Object.keys(crypto);
-      logoObject[key] = crypto[key];
-    });
-    return logoObject;
-  } catch (error) {
-    console.log(error);
+
+  let promises = [];
+  for (const coin of coins) {
+    promises.push(getLogo(coin));
   }
-};
+
+  // Wait until all promises are resolved
+  const data = await Promise.all(promises);
+
+  const logoObject = {};
+  data.forEach((crypto) => {
+    const key = Object.keys(crypto);
+    logoObject[key] = crypto[key];
+  });
+
+  return logoObject;
+});
 
 exports.formatCryptoPriceData = (priceData, interval) => {
   // Format market price data for plotting
@@ -56,8 +56,8 @@ exports.formatCryptoPriceData = (priceData, interval) => {
       displayDate = dateObject.toFormat("MMM-yy");
       date = dateObject.toFormat("yyyy-MM-dd");
     }
-    const value = point[1];
-    return { date, value, displayDate };
+    const price = point[1];
+    return { date, price, displayDate };
   });
   return modifiedData;
 };
@@ -105,13 +105,13 @@ exports.findOtherCryptoMatches = (searchResults, query) => {
       name !== query &&
       symbol !== query &&
       (name.includes(query) || symbol.includes(query)) &&
-      !crypto.cid.includes("-short-") &&
-      !crypto.cid.includes("-long-") &&
-      !crypto.cid.includes("-set") &&
-      !crypto.cid.includes("-index") &&
-      !crypto.cid.includes("yd-btc") &&
-      !crypto.cid.includes("_set") &&
-      !crypto.cid.includes("yd-eth");
+      !crypto.id.includes("-short-") &&
+      !crypto.id.includes("-long-") &&
+      !crypto.id.includes("-set") &&
+      !crypto.id.includes("-index") &&
+      !crypto.id.includes("yd-btc") &&
+      !crypto.id.includes("_set") &&
+      !crypto.id.includes("yd-eth");
 
     if (bool) {
       return crypto;

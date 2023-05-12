@@ -46,9 +46,7 @@ exports.getPrices = catchAsync(async (req, res) => {
     ).toFixed(2);
     return res.status(200).json({
       status: "success",
-      data: {
-        priceData: { price: currentPrice, priceChange, percentChange },
-      },
+      data: { price: currentPrice, priceChange, percentChange },
     });
   }
 
@@ -70,7 +68,7 @@ exports.getPrices = catchAsync(async (req, res) => {
 
   res.status(200).json({
     status: "success",
-    data: { priceData: historicalPrices },
+    data: historicalPrices,
   });
 });
 

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import {
   AreaChart,
   Area,
@@ -26,6 +26,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 const Chart = ({ timeFrame, valueData, priceChange, hide }) => {
   // Price chart component
+
   const { theme } = useContext(AppContext);
 
   // Set up styles for different themes
@@ -68,7 +69,7 @@ const Chart = ({ timeFrame, valueData, priceChange, hide }) => {
       <AreaChart
         width={1400}
         height={300}
-        data={valueData.priceData}
+        data={valueData}
         margin={{ left: 60 }}
       >
         <defs>

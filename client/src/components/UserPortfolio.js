@@ -24,13 +24,13 @@ const getTxnHistory = async (type) => {
     }
 
     const response = await fetch(url);
+    const txnHistoryData = await response.json();
+    console.log(txnHistoryData);
 
     // Handle failed GET requests
     if (response.status !== 200 || !response.ok) {
       handleErrors(response);
     }
-
-    const txnHistoryData = await response.json();
 
     return txnHistoryData.data.txnHistory;
   } catch (error) {

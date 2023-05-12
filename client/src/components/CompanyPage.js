@@ -165,9 +165,9 @@ const CompanyPage = () => {
       }
 
       if (priceData !== -1 && companyMarketData !== -1) {
-        setPrice(priceData.priceData.price);
-        setChange(priceData.priceData.priceChange);
-        setChangePercent(priceData.priceData.percentChange);
+        setPrice(priceData.price);
+        setChange(priceData.priceChange);
+        setChangePercent(priceData.percentChange);
         setMarketData(companyMarketData);
       } else {
         setPrice(-1);
