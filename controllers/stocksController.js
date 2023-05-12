@@ -7,7 +7,11 @@ const getTxnHistory = require("../utils/getTxnHistory");
 const AppError = require("../utils/appError");
 
 const yahooStockAPI = require("yahoo-stock-api").default;
-const { fetchAllStockData, getPreviousDate } = require("../utils/stocksUtils");
+const {
+  fetchAllStockData,
+  getPreviousDate,
+  getDateFromUnix,
+} = require("../utils/stocksUtils");
 
 const yahoo = new yahooStockAPI();
 
@@ -58,7 +62,7 @@ exports.getPrices = catchAsync(async (req, res) => {
 
   const historicalPrices = priceData.response
     .map((dataPoint) => {
-      const date = stockUtils.getDateFromUnix(dataPoint.date);
+      const date = getDateFromUnix(dataPoint.date);
       let displayDate =
         interval === "day" ? date : DateTime.fromSeconds(dataPoint.date);
 

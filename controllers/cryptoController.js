@@ -69,7 +69,7 @@ exports.getPortfolio = catchAsync(async (req, res, next) => {
   // Get prices
   const priceData = await cryptoUtils.getMultiplePrices(cryptoIDArray);
   // Get logo data
-  const cryptoLogos = await cryptoUtils.getMultipleLogos(cryptoIdsArr);
+  const cryptoLogos = await cryptoUtils.getMultipleLogos(cryptoIDArray);
 
   // Create asset object array
   // Each object holds info about a single asset
