@@ -11,7 +11,7 @@ import kucoinImage from "../../images/kucoin.png";
 import bitfinexImage from "../../images/bitfinex.png";
 import geminiImage from "../../images/gemini.png";
 
-import "../../styles/assetHome.css";
+import "./styles/assetHome.css";
 
 const CryptoHome = () => {
   const cryptoExchanges = [

@@ -1,7 +1,8 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { AppContext } from "../../context/appContext";
 import { Link } from "react-router-dom";
-import "../../styles/login.css";
+
+import "./styles/login.css";
 
 const Login = () => {
   // Functional component that logs in the user

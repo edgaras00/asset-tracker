@@ -1,7 +1,8 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../context/appContext";
-import "../../styles/signup.css";
+
+import "./styles/signup.css";
 
 const Signup = () => {
   // Component that signs up a new user

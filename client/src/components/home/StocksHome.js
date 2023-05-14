@@ -10,7 +10,7 @@ import nyseImage from "../../images/nyse.png";
 import jpxImage from "../../images/jpx.png";
 import hkexImage from "../../images/hkex.png";
 
-import "../../styles/assetHome.css";
+import "./styles/assetHome.css";
 
 const StocksHome = () => {
   const stockExchanges = [

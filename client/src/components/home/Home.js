@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Typewriter from "typewriter-effect";
 
-import "../../styles/home.css";
+import "./styles/home.css";
 
 const Home = () => {
   // Homepage component

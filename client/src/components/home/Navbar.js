@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import "../../styles/navbar.css";
 import useWindowWidth from "../../hooks/useWindowWidth";
+
+import "./styles/navbar.css";
 
 const Navbar = () => {
   // Navbar component (Homepage)
