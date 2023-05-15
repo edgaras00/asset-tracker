@@ -1,4 +1,4 @@
-import "../../styles/assetButton.css";
+import "./styles/assetButton.css";
 
 const AssetButton = ({ type, onClick, theme }) => {
   let buttonClass;

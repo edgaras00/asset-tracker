@@ -1,8 +1,8 @@
 import { useState, useContext } from "react";
-// import news from "../news.json";
 import NewsItem from "./NewsItem";
 import { AppContext } from "../../context/appContext";
-import "../../styles/companyNews.css";
+
+import "./styles/companyNews.css";
 
 const CompanyNews = ({ newsData }) => {
   // Company news component

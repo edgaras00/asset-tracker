@@ -1,3 +1,5 @@
+import "./styles/activityRow.css";
+
 const ActivityRow = ({ action, date, amount, price, symbol }) => {
   // User's activity table row component
 

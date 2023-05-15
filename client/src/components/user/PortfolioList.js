@@ -3,7 +3,7 @@ import { useState } from "react";
 import ListItem from "./ListItem";
 import SearchModal from "./SearchModal";
 
-import "../../styles/portfolioList.css";
+import "./styles/portfolioList.css";
 
 const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
   // Component that renders the user's asset list/table
@@ -80,13 +80,13 @@ const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
 
   return (
     <div
-      className={`list-controller ${
-        theme === "light" ? "list-controller-light" : null
+      className={`port-wrapper ${
+        theme === "light" ? "port-wrapper-light" : null
       }`}
     >
       <div
-        className={`list-header ${
-          theme === "light" ? "list-header-light" : null
+        className={`port-header ${
+          theme === "light" ? "port-header-light" : null
         }`}
       >
         <h2>{assetType === "stock" ? "Stock" : "Crypto"} Portfolio</h2>
@@ -101,7 +101,11 @@ const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
         txnType="buy"
       />
       {portfolio.length > 0 ? (
-        <table className={`tab ${theme === "light" ? "tab-light" : null}`}>
+        <table
+          className={`port-table ${
+            theme === "light" ? "port-table-light" : null
+          }`}
+        >
           <thead>
             <tr>
               <th></th>

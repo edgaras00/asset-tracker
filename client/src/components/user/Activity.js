@@ -1,6 +1,6 @@
 import ActivityRow from "./ActivityRow";
 
-import "../../styles/activity.css";
+import "./styles/activity.css";
 
 const Activity = ({ assetType, theme, transactionHistory }) => {
   // Component that renders user's transaction activity data

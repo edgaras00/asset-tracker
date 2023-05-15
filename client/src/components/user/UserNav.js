@@ -5,7 +5,8 @@ import { AppContext } from "../../context/appContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun } from "@fortawesome/free-solid-svg-icons";
 import { faMoon } from "@fortawesome/free-solid-svg-icons";
-import "../../styles/userNav.css";
+
+import "./styles/userNav.css";
 
 const UserNav = () => {
   // Navbar component (User page)

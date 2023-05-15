@@ -1,27 +1,31 @@
 .row {
-  font-size: 1rem;
+  font-size: 1.05rem;
 }
 
-.table-ticker {
+.row td {
+  height: 42px;
+}
+
+.table-ticker a {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: left;
+  justify-content: center;
 }
 
 .table-ticker img {
-  width: 32px;
+  width: 30px;
   margin-right: 10px;
   border-radius: 50%;
   margin-left: 13px;
 }
 
 .ticker {
-  font-size: 1rem;
+  font-size: 1.04rem;
 }
 
 .google img {
-  width: 30px;
+  width: 32px;
 }
 
 .percent-change-inc {
@@ -34,6 +38,7 @@
 
 .remove {
   cursor: pointer;
+  padding-right: 1rem;
 }
 
 .remove:hover {

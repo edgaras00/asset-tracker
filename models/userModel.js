@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema({
     cost: Number,
     stockInfo: {
       cost: { type: Number, default: 0 },
-      stocks: [
+      stock: [
         {
           name: String,
           symbol: String,
@@ -44,7 +44,7 @@ const userSchema = mongoose.Schema({
     amount: Number,
   },
   txnHistory: {
-    stocks: [
+    stock: [
       {
         savedTimestamp: Number,
         date: Date,

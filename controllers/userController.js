@@ -13,11 +13,11 @@ exports.userBuy = catchAsync(async (req, res, next) => {
   const id = user._id;
 
   const userAssets = stockMode
-    ? user.assets.stockInfo.stocks
+    ? user.assets.stockInfo.stock
     : user.assets.cryptoInfo.crypto;
 
   const foundAsset = userAssets.find((asset) => asset.symbol === symbol);
-  const txnField = stockMode ? "txnHistory.stocks" : "txnHistory.crypto";
+  const txnField = stockMode ? "txnHistory.stock" : "txnHistory.crypto";
   const txnObject = {
     savedTimestamp: req.body.savedTimestamp,
     date: req.body.date,
@@ -30,13 +30,13 @@ exports.userBuy = catchAsync(async (req, res, next) => {
 
   if (foundAsset) {
     const searchField = stockMode
-      ? "assets.stockInfo.stocks.symbol"
+      ? "assets.stockInfo.stock.symbol"
       : "assets.cryptoInfo.crypto.symbol";
     const updateField = stockMode
-      ? "assets.stockInfo.stocks.$.amount"
+      ? "assets.stockInfo.stock.$.amount"
       : "assets.cryptoInfo.crypto.$.amount";
     const assetCostField = stockMode
-      ? "assets.stockInfo.stocks.$.cost"
+      ? "assets.stockInfo.stock.$.cost"
       : "assets.cryptoInfo.crypto.$.cost";
     const assetTypeCostField = stockMode
       ? "assets.stockInfo.cost"
@@ -73,7 +73,7 @@ exports.userBuy = catchAsync(async (req, res, next) => {
     ? "assets.stockInfo.cost"
     : "assets.cryptoInfo.cost";
   const updateField = stockMode
-    ? "assets.stockInfo.stocks"
+    ? "assets.stockInfo.stock"
     : "assets.cryptoInfo.crypto";
   const updatedUser = await User.findByIdAndUpdate(
     id,
@@ -111,7 +111,7 @@ exports.userSell = catchAsync(async (req, res, next) => {
   const objectId = assetObj.objectId;
 
   const id = req.user._id;
-  const txnField = stockMode ? "txnHistory.stocks" : "txnHistory.crypto";
+  const txnField = stockMode ? "txnHistory.stock" : "txnHistory.crypto";
   const txnObject = {
     date: req.body.date,
     savedTimestamp: req.body.savedTimestamp,
@@ -123,15 +123,15 @@ exports.userSell = catchAsync(async (req, res, next) => {
   };
 
   const searchField = stockMode
-    ? "assets.stockInfo.stocks.symbol"
+    ? "assets.stockInfo.stock.symbol"
     : "assets.cryptoInfo.crypto.symbol";
 
   const updateField = stockMode
-    ? "assets.stockInfo.stocks.$.amount"
+    ? "assets.stockInfo.stock.$.amount"
     : "assets.cryptoInfo.crypto.$.amount";
 
   const assetCost = stockMode
-    ? "assets.stockInfo.stocks.$.cost"
+    ? "assets.stockInfo.stock.$.cost"
     : "assets.cryptoInfo.crypto.$.cost";
 
   const assetTypeCost = stockMode
@@ -141,7 +141,7 @@ exports.userSell = catchAsync(async (req, res, next) => {
   let updatedUser;
   if (sellingAll) {
     const removeArray = stockMode
-      ? "assets.stockInfo.stocks"
+      ? "assets.stockInfo.stock"
       : "assets.cryptoInfo.crypto";
     updatedUser = await User.findOneAndUpdate(
       { _id: id, [searchField]: symbol },

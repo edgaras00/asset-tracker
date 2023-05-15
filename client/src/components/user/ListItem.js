@@ -5,7 +5,7 @@ import RemoveTxn from "./RemoveTxn";
 
 import { numberWithCommas } from "../../utils/utils";
 
-import "../../styles/listItem.css";
+import "./styles/listItem.css";
 
 const ListItem = ({
   cid,
@@ -81,7 +81,7 @@ const ListItem = ({
           {returnOnInvestment}%
         </td>
       ) : null}
-      <td className="last-col remove" onClick={openModal}>
+      <td className="remove" onClick={openModal}>
         Remove
       </td>
     </tr>

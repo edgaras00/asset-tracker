@@ -12,7 +12,7 @@ import MarketNews from "../news/MarketNews";
 // Utils
 import { numberWithCommas, handleErrors } from "../../utils/utils";
 
-import "../../styles/userPortfolio.css";
+import "./styles/userPortfolio.css";
 
 const getTransactionHistory = async (type) => {
   // Function to fetch user's transaction history (stock or crypto)

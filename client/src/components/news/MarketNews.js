@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import NewsItem from "./NewsItem";
-import "../../styles/marketNews.css";
+
+import "./styles/marketNews.css";
 
 const MarketNews = () => {
   // Component that holds links to market news articles

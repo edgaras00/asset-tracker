@@ -1,4 +1,4 @@
-import "../../styles/unavailable.css";
+import "./styles/unavailable.css";
 
 const Unavailable = ({ param, theme }) => {
   // Componenet that is rendered if there is a bad request

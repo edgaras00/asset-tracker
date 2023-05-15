@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { AppContext } from "../../context/appContext";
-import "../../styles/newsItem.css";
+
+import "./styles/newsItem.css";
 
 const NewsItem = (props) => {
   // Component for a news item

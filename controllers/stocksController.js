@@ -83,7 +83,7 @@ exports.getPrices = catchAsync(async (req, res) => {
 });
 
 exports.getPortfolio = catchAsync(async (req, res) => {
-  const stocks = req.user.assets.stockInfo.stocks;
+  const stocks = req.user.assets.stockInfo.stock;
 
   if (stocks.length === 0) {
     const assets = [];
@@ -284,4 +284,4 @@ exports.getCash = catchAsync(async (req, res, next) => {
     .json({ status: "Success", data: { data: cashFlowStatement } });
 });
 
-exports.getTransactionHistory = getTxnHistory("stocks");
+exports.getTransactionHistory = getTxnHistory("stock");
