@@ -2,6 +2,8 @@ import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../context/appContext";
 
+import { setRequestOptions } from "../../utils/utils";
+
 import "./styles/signup.css";
 
 const Signup = () => {
@@ -17,44 +19,37 @@ const Signup = () => {
 
   const signUp = async (event, email, password, repeatPassword) => {
     // Function that sends a POST request to the server to sign up a new user
+    event.preventDefault();
+    setServerErrors(null);
+
+    // Check if all inputs filled
+    if (!email || !password || !repeatPassword) {
+      setSignUpError("Please fill in all of the fields.");
+      return;
+    }
+
+    // Check if both entered passwords are the same
+    if (password !== repeatPassword) {
+      setSignUpError("Passwords do not match!");
+      setRepeatPasswordInput("");
+      return;
+    }
+
     try {
-      event.preventDefault();
-      setServerErrors(null);
-      // Check if both entered passwords are the same
-      if (password !== repeatPassword) {
-        setSignUpError("Passwords do not match!");
-        setRepeatPasswordInput("");
-        return;
-      }
       setSignUpError("");
       // API URL and request body / options
       let url = "https://track-investments.herokuapp.com/user/signup";
       if (process.env.NODE_ENV === "development") {
         url = "/user/signup";
       }
-      console.log(url);
-      const signUpBody = {
-        email,
-        password,
-      };
 
-      const options = {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(signUpBody),
-      };
-      // POST request that signs up and logs in a new user
-      const response = await fetch(url, options);
-
-      if (response.status === 500) {
-        throw new Error("Something went wrong. Please try again later.");
-      }
+      // Send user info as a POST request
+      const requestOptions = setRequestOptions("POST", { email, password });
+      const response = await fetch(url, requestOptions);
 
       const responseData = await response.json();
 
+      // Error handling
       if (response.status !== 201) {
         if (
           response.status === 400 &&
@@ -65,16 +60,11 @@ const Signup = () => {
         throw new Error("Something went wrong. Please try again later.");
       }
 
-      if (response.ok || response.status === 201) {
-        setUser(responseData.data.user);
-        localStorage.setItem("user", JSON.stringify(responseData.data.user));
-        return;
-      } else {
-        setServerErrors(responseData);
-        return;
-      }
+      // Log in user
+      setUser(responseData.data.user);
+      localStorage.setItem("user", JSON.stringify(responseData.data.user));
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setServerErrors(error.message);
     }
   };
@@ -102,7 +92,6 @@ const Signup = () => {
             onChange={(event) => setEmailInput(event.target.value)}
           />
           <div className="pass-length">
-            {/* <span>{serverErrors ? serverErrors.errors.email : null}</span> */}
             <span>{serverErrors ? serverErrors : null}</span>
           </div>
           <br />
