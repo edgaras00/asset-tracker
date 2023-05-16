@@ -1,7 +1,10 @@
 import { useState, useContext } from "react";
 import Modal from "react-modal";
 import { AppContext } from "../../context/appContext";
+
 import { getDateString, handleErrors } from "../../utils/utils";
+
+import "./styles/transaction.css";
 
 const RemoveTxn = ({
   isModalOpen,
@@ -98,8 +101,8 @@ const RemoveTxn = ({
       className={`modal ${theme === "light" ? "modal-light" : null}`}
     >
       <form
-        className={`add-txn-form ${
-          theme === "light" ? "add-txn-form-light" : null
+        className={`transaction-form ${
+          theme === "light" ? "transaction-form-light" : null
         }`}
         onSubmit={(e) =>
           saveTxn(e, txnAssetType, assetObjectId, price, quantity, totalAmount)

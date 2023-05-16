@@ -9,7 +9,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { AppContext } from "../../context/appContext";
-import "../../styles/tooltip.css";
+
+import "./styles/tooltip.css";
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload) {

@@ -1,7 +1,8 @@
 import { useState, useContext } from "react";
 import { AppContext } from "../../context/appContext";
 import { numberWithCommas } from "../../utils/utils";
-import "../../styles/assetInfo.css";
+
+import "./styles/assetInfo.css";
 
 const CompanyInfo = ({ overview }) => {
   // Company info component

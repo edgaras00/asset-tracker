@@ -1,0 +1,141 @@
+.transaction-form {
+  width: 40%;
+  height: 440px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #464545;
+}
+
+.transaction-form button {
+  width: 40%;
+  height: 50px;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #dadada;
+  background-color: #2e2e2e;
+  border: none;
+}
+
+.transaction-form-light {
+  background-color: rgb(185, 185, 185);
+}
+
+.transaction-form-light button {
+  background-color: #5970a5;
+}
+
+.transaction-form button:hover {
+  background-color: #7a7a7a;
+}
+
+.transaction-form-light button:hover {
+  background-color: #6983c0;
+}
+
+.txn-action-select {
+  border-bottom: 4px solid rgb(53, 53, 53);
+  height: 86px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  margin-bottom: 3rem;
+  border-bottom: none;
+}
+
+.txn-action-select-light {
+  background-color: rgb(185, 185, 185);
+}
+
+.txn-action {
+  height: 65px;
+  width: 40%;
+  font-size: 1.462rem;
+  text-transform: uppercase;
+  word-spacing: 0.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: rgb(233, 233, 233);
+}
+
+.txn-action-light {
+  color: #000000;
+}
+
+.txn-input {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.txn-input input {
+  border-radius: 10px;
+  color: #b6b6b6;
+}
+
+.txn-input-light input {
+  color: #000000;
+}
+
+.txn-input span {
+  font-size: 1.05rem;
+  color: #b6b6b6;
+}
+
+.txn-input-light span {
+  color: #000000;
+}
+
+.back-button-cont {
+  width: 100%;
+  height: 50px;
+  margin-top: 1rem;
+}
+
+.back-button-cont-light {
+  background-color: rgb(185, 185, 185);
+  border-bottom: none;
+}
+
+.back-button-cont button {
+  margin-left: 1.8rem;
+  width: 60px;
+}
+
+.back-button {
+  margin-top: 0.9rem;
+  margin-left: 1.8rem;
+  font-size: 1.462rem;
+  cursor: pointer;
+}
+
+.back-button-light {
+  color: #000000;
+}
+
+.back-button-light:hover {
+  color: #3a3a3a;
+}
+
+.back-button-cont button:hover {
+  background-color: #7a7a7a;
+}
+
+.exit-transaction {
+  width: 100%;
+  margin-top: 20px;
+}
+
+@media (max-width: 1000px) {
+  .transaction-form {
+    width: 70%;
+  }
+}

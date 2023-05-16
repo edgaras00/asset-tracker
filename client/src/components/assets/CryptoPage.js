@@ -1,18 +1,20 @@
 import { useState, useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { AppContext } from "../../context/appContext";
+
 import Chart from "./Chart";
 import CryptoMarket from "./CryptoMarket";
 import CryptoExchange from "./CryptoExchange";
 import CompanyNews from "../news/CompanyNews";
 import Unavailable from "../errors/Unavailable";
-import { AppContext } from "../../context/appContext";
+
 import {
   numberWithCommas,
   handleErrors,
   getAssetNews,
 } from "../../utils/utils";
-import "../../styles/cryptoPage.css";
-import "../../styles/assetInfo.css";
+import "./styles/cryptoPage.css";
+import "./styles/assetInfo.css";
 
 const fetchPriceData = async (cId, timeFrame) => {
   try {

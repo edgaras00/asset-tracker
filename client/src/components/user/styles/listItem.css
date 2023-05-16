@@ -28,14 +28,6 @@
   width: 32px;
 }
 
-.percent-change-inc {
-  color: #7bcd77;
-}
-
-.percent-change-dec {
-  color: #c45145;
-}
-
 .remove {
   cursor: pointer;
   padding-right: 1rem;

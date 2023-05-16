@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
 import { AppContext } from "../../context/appContext";
 import { numberWithCommas } from "../../utils/utils";
-import "../../styles/assetInfo.css";
+
+import "./styles/assetInfo.css";
 
 const IncomeStatement = ({ income }) => {
   // Income statement component

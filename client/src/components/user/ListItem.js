@@ -6,6 +6,7 @@ import RemoveTxn from "./RemoveTxn";
 import { numberWithCommas } from "../../utils/utils";
 
 import "./styles/listItem.css";
+import "./styles/valueColors.css";
 
 const ListItem = ({
   cid,
@@ -63,18 +64,14 @@ const ListItem = ({
           : price.toFixed(2)}
       </td>
       {value ? <td>${numberWithCommas(value.toFixed(2))}</td> : null}
-      <td
-        className={dayChange >= 0 ? "percent-change-inc" : "percent-change-dec"}
-      >
+      <td className={dayChange >= 0 ? "value-increase" : "value-decrease"}>
         {dayChange > 0 ? "+" : null}
         {dayChange}%
       </td>
       {returnOnInvestment ? (
         <td
           className={`roi-col ${
-            returnOnInvestment >= 0
-              ? "percent-change-inc"
-              : "percent-change-dec"
+            returnOnInvestment >= 0 ? "value-increase" : "value-decrease"
           }`}
         >
           {returnOnInvestment >= 0 ? "+" : null}

@@ -37,6 +37,25 @@
   background-color: #ffffff;
 }
 
+.title {
+  width: 96%;
+  height: 100px;
+  margin-top: 3.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #303030;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.title-light {
+  background-color: #5970a5;
+  color: #fff;
+}
+
 .section-header {
   font-size: 1.8rem;
 }
@@ -76,25 +95,6 @@
 
 .market-news-container {
   width: 100%;
-}
-
-.title {
-  width: 96%;
-  height: 100px;
-  margin-top: 3.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #303030;
-  border-radius: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.1rem;
-  color: rgba(255, 255, 255, 0.87);
-}
-
-.title-light {
-  background-color: #5970a5;
-  color: #fff;
 }
 
 .asset-dist {

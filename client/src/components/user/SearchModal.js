@@ -7,7 +7,7 @@ import AddTxn from "./AddTxn";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import "../../styles/searchModal.css";
+import "./styles/searchModal.css";
 
 const SearchModal = ({ isModalOpen, closeModal }) => {
   // Modal component to search for assets

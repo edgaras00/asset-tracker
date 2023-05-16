@@ -3,6 +3,8 @@ import { AppContext } from "../../context/appContext";
 
 import { getDateString, handleErrors } from "../../utils/utils";
 
+import "./styles/transaction.css";
+
 const getPrice = async (type = "stock", symbol) => {
   try {
     let url = `/stocks/prices/${symbol}`;
@@ -124,8 +126,8 @@ const AddTxn = ({
 
   return (
     <form
-      className={`add-txn-form ${
-        theme === "light" ? "add-txn-form-light" : null
+      className={`transaction-form ${
+        theme === "light" ? "transaction-form-light" : null
       }`}
       onSubmit={(e) => handleSubmitTxn(e, type, asset, price, quantity)}
     >

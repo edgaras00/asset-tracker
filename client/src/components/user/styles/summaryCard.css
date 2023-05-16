@@ -1,6 +1,7 @@
-.summary-cell {
+.summary-card {
   width: 280px;
   height: 100px;
+  padding: 10px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,30 +14,22 @@
   opacity: 0.87;
 }
 
-.summary-cell-light {
+.summary-card-light {
   background-color: #5970a5;
   color: #fff;
 }
 
-.summary-cell h2 {
+.summary-card h2 {
   margin-top: 1rem;
 }
 
-.percent-inc {
-  color: #7bcd77;
-}
-
-.percent-inc-light {
-  color: #41b63c;
-}
-
-.percent-change-dec {
-  color: #c45145;
-}
-
 @media (max-width: 1000px) {
-  .summary-cell {
+  .summary-card {
     background: transparent;
     font-size: 1.1rem;
+  }
+
+  .summary-card-light {
+    color: #000000;
   }
 }

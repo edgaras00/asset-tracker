@@ -1,5 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { AppContext } from "../../context/appContext";
+
 import Chart from "./Chart";
 import CompanyInfo from "./CompanyInfo";
 import BalanceSheet from "./BalanceSheet";
@@ -7,13 +9,14 @@ import IncomeStatement from "./IncomeStatement";
 import CashFlow from "./CashFlow";
 import CompanyNews from "../news/CompanyNews";
 import Unavailable from "../errors/Unavailable";
-import { AppContext } from "../../context/appContext";
+
 import {
   numberWithCommas,
   handleErrors,
   getAssetNews,
 } from "../../utils/utils";
-import "../../styles/companyPage.css";
+
+import "./styles/companyPage.css";
 
 const getPriceData = async (symbolId, timeFrame) => {
   try {
@@ -84,12 +87,11 @@ const fetchCompanyData = async (symbolId, type) => {
       }
     }
     const response = await fetch(url);
+    const data = await response.json();
 
     if (response.status !== 200) {
       handleErrors(response);
     }
-
-    const data = await response.json();
 
     if (type === "overview") {
       return { overview: data.data.data };
@@ -136,7 +138,7 @@ const CompanyPage = () => {
   const { theme, authErrorLogout } = useContext(AppContext);
   const { symbolId } = useParams();
 
-  const [timeFrame, setTimeFrame] = useState("day");
+  const [timeFrame, setTimeFrame] = useState("week");
   const [hideX, setHideX] = useState(false);
   const [company, setCompany] = useState(null);
   const [price, setPrice] = useState(0);
@@ -244,14 +246,14 @@ const CompanyPage = () => {
           </span>
         </div>
         <div className="balance-history">
-          <div
+          {/* <div
             onClick={() => {
               setHideX(true);
               setTimeFrame("day");
             }}
           >
             1D
-          </div>
+          </div> */}
           <div
             onClick={() => {
               setHideX(true);

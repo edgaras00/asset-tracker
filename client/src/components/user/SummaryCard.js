@@ -1,16 +1,18 @@
-import "../../styles/summaryCell.css";
+import "./styles/summaryCard.css";
+import "./styles/valueColors.css";
 
 const SummaryCard = ({ title, value, theme, type, increasing }) => {
-  const colorClassInc = theme === "light" ? "percent-inc-light" : "percent-inc";
+  const colorClassInc =
+    theme === "light" ? "value-increase-light" : "value-increase";
 
   let percentClass;
   if (type === "percent" && increasing !== null) {
-    percentClass = increasing ? colorClassInc : "percent-change-dec";
+    percentClass = increasing ? colorClassInc : "value-decrease";
   }
   return (
     <div
-      className={`summary-cell ${
-        theme === "light" ? "summary-cell-light" : ""
+      className={`summary-card ${
+        theme === "light" ? "summary-card-light" : ""
       }`}
     >
       <h3>{title}</h3>
