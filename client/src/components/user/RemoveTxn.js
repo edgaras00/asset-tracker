@@ -2,7 +2,11 @@ import { useState, useContext } from "react";
 import Modal from "react-modal";
 import { AppContext } from "../../context/appContext";
 
-import { getDateString, handleErrors } from "../../utils/utils";
+import {
+  getDateString,
+  handleErrors,
+  setRequestOptions,
+} from "../../utils/utils";
 
 import "./styles/transaction.css";
 
@@ -33,8 +37,9 @@ const RemoveTxn = ({
     quantity,
     totalAmount
   ) => {
+    event.preventDefault();
+
     try {
-      event.preventDefault();
       // Check if user is selling all of his/her holdings
       const sellingAll = totalAmount === Number(quantity) ? true : false;
       // Transaction object
@@ -51,31 +56,25 @@ const RemoveTxn = ({
         sellingAll,
       };
       // Request options
-      const options = {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(txnObject),
-      };
+      const requestOptions = setRequestOptions("PUT", txnObject);
+
       let url = "https://track-investments.herokuapp.com/user/sell";
       if (process.env.NODE_ENV === "development") {
         url = "/user/sell";
       }
-      const response = await fetch(url, options);
+      const response = await fetch(url, requestOptions);
+      const data = await response.json();
 
       if (response.status !== 200) {
         handleErrors(response);
       }
-
-      const data = await response.json();
 
       setUser(data.data.updatedUser);
       setPrice(0);
       setQuantity(0);
       closeModal();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       if (error.name === "authError") {
         authErrorLogout();
         return;

@@ -23,18 +23,6 @@ export const getDateString = () => {
   return dateStr;
 };
 
-export const handleAuthDataError = (obj) => {
-  const error = new Error(obj.message);
-  error.name = "authError";
-  throw error;
-};
-
-export const handle404Error = () => {
-  const error = new Error("Data not found");
-  error.name = "notFound";
-  throw error;
-};
-
 export const handleErrors = (response) => {
   let error = new Error("Something went wrong. Please try again later.");
   error.name = "serverError";

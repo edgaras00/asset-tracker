@@ -1,7 +1,11 @@
 import { useState, useContext, useEffect, useCallback, useRef } from "react";
 import { AppContext } from "../../context/appContext";
 
-import { getDateString, handleErrors } from "../../utils/utils";
+import {
+  getDateString,
+  handleErrors,
+  setRequestOptions,
+} from "../../utils/utils";
 
 import "./styles/transaction.css";
 
@@ -14,15 +18,20 @@ const getPrice = async (type = "stock", symbol) => {
     }
 
     const response = await fetch(url);
-    const data = await response.json();
+    const priceData = await response.json();
 
-    if (type === "crypto") {
-      return data.data[symbol].usd;
+    if (response.status !== 200) {
+      throw new Error("Failed to retrieve price data.");
     }
 
-    return data.data.price;
+    if (type === "crypto") {
+      return priceData.data[symbol].usd;
+    }
+
+    return priceData.data.price;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
@@ -35,7 +44,6 @@ const AddTxn = ({
   setSearch,
   theme,
 }) => {
-  console.log(asset);
   // Component that lets user to add assets
 
   // Format default date (today)
@@ -49,8 +57,9 @@ const AddTxn = ({
   const mountedRef = useRef(true);
 
   const handleSubmitTxn = async (event, type, asset, price, quantity) => {
+    event.preventDefault();
+
     try {
-      event.preventDefault();
       // Transaction object that will be sent in the body of a PUT request
       const txnObject = {
         [type]: {
@@ -68,14 +77,8 @@ const AddTxn = ({
       }
       // Request url
       const url = "/user/buy";
-      // Request options
-      const options = {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(txnObject),
-      };
-
-      const response = await fetch(url, options);
+      const requestOptions = setRequestOptions("PUT", txnObject);
+      const response = await fetch(url, requestOptions);
       const data = await response.json();
 
       if (response.status !== 200) {
@@ -90,7 +93,7 @@ const AddTxn = ({
       setSearch("");
       closeModal();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       if (error.name === "authError") {
         authErrorLogout();
         return;
@@ -111,7 +114,8 @@ const AddTxn = ({
         setPrice(price);
         return;
       } catch (error) {
-        console.log(error);
+        console.error(error);
+        setPrice(0);
       }
     },
     [mountedRef]
