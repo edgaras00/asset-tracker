@@ -53,6 +53,9 @@ const AddTxn = ({
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState("");
   const [txnDate, setTxnDate] = useState(dateStr);
+  const [priceError, setPriceError] = useState("");
+  const [submitError, setSubmitError] = useState("");
+
   const { setUser, authErrorLogout } = useContext(AppContext);
   const mountedRef = useRef(true);
 
@@ -98,6 +101,7 @@ const AddTxn = ({
         authErrorLogout();
         return;
       }
+      setSubmitError("Something went wrong. Try again later.");
     }
   };
 
@@ -116,6 +120,7 @@ const AddTxn = ({
       } catch (error) {
         console.error(error);
         setPrice(0);
+        setPriceError("Failed to retrieve price data");
       }
     },
     [mountedRef]
@@ -162,43 +167,58 @@ const AddTxn = ({
           BUY {asset.symbol}
         </div>
       </div>
-      <label
-        className={`txn-input ${theme === "light" ? "txn-input-light" : null}`}
-      >
-        <span>Price</span>
-        <input
-          type="number"
-          name="price"
-          step="any"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-        />
-      </label>
-      <label
-        className={`txn-input ${theme === "light" ? "txn-input-light" : null}`}
-      >
-        <span>Quantity</span>
-        <input
-          type="number"
-          name="quantity"
-          value={quantity}
-          step="any"
-          min="0.000000000000000001"
-          onChange={(e) => setQuantity(e.target.value)}
-        />
-      </label>
-      <label
-        className={`txn-input ${theme === "light" ? "txn-input-light" : null}`}
-      >
-        <span>Date</span>
-        <input
-          type="date"
-          name="date"
-          value={txnDate}
-          onChange={(e) => setTxnDate(e.target.value)}
-        />
-      </label>
-
+      <div className="form-inputs">
+        <label
+          htmlFor="price"
+          className={`txn-input ${
+            theme === "light" ? "txn-input-light" : null
+          }`}
+        >
+          <span>Price</span>
+          <input
+            type="number"
+            name="price"
+            step="any"
+            id="price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+        </label>
+        <div className={`${priceError ? "form-error" : "hidden"}`}>
+          <span>{priceError}</span>
+        </div>
+        <label
+          className={`txn-input ${
+            theme === "light" ? "txn-input-light" : null
+          }`}
+        >
+          <span>Quantity</span>
+          <input
+            type="number"
+            name="quantity"
+            value={quantity}
+            step="any"
+            min="0.000000000000000001"
+            onChange={(e) => setQuantity(e.target.value)}
+          />
+        </label>
+        <label
+          className={`txn-input ${
+            theme === "light" ? "txn-input-light" : null
+          }`}
+        >
+          <span>Date</span>
+          <input
+            type="date"
+            name="date"
+            value={txnDate}
+            onChange={(e) => setTxnDate(e.target.value)}
+          />
+        </label>
+      </div>
+      <div className="form-error">
+        <span>{submitError}</span>
+      </div>
       <button>Save Transaction</button>
     </form>
   );

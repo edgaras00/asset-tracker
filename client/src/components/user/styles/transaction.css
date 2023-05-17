@@ -1,20 +1,29 @@
 .transaction-form {
   width: 40%;
-  height: 440px;
+  height: 498px;
+  padding-bottom: 30px;
   border-radius: 10px;
+  background-color: #464545;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  background-color: #464545;
+}
+
+.form-inputs {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .transaction-form button {
-  width: 40%;
-  height: 50px;
+  width: 38%;
+  height: 64px;
   border-radius: 10px;
+  margin-top: 1.4rem;
   margin-bottom: 1rem;
-  font-size: 1rem;
+  font-size: 1.15rem;
   color: #dadada;
   background-color: #2e2e2e;
   border: none;
@@ -52,9 +61,9 @@
 }
 
 .txn-action {
-  height: 65px;
+  height: 60px;
   width: 40%;
-  font-size: 1.462rem;
+  font-size: 1.9rem;
   text-transform: uppercase;
   word-spacing: 0.4rem;
   display: flex;
@@ -77,8 +86,25 @@
 }
 
 .txn-input input {
-  border-radius: 10px;
+  border-radius: 12px;
+  padding-right: 7px;
   color: #b6b6b6;
+}
+
+.form-error {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.submit-error span {
+  margin-left: 5rem;
 }
 
 .txn-input-light input {
@@ -86,7 +112,7 @@
 }
 
 .txn-input span {
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   color: #b6b6b6;
 }
 
@@ -96,8 +122,10 @@
 
 .back-button-cont {
   width: 100%;
-  height: 50px;
-  margin-top: 1rem;
+  height: 36px;
+  margin-top: 0.4rem;
+  display: flex;
+  align-items: center;
 }
 
 .back-button-cont-light {
@@ -113,7 +141,7 @@
 .back-button {
   margin-top: 0.9rem;
   margin-left: 1.8rem;
-  font-size: 1.462rem;
+  font-size: 1.7rem;
   cursor: pointer;
 }
 
