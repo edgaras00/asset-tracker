@@ -73,6 +73,10 @@
   color: rgb(233, 233, 233);
 }
 
+.txn-action:hover {
+  color: rgb(199, 199, 199);
+}
+
 .txn-action-light {
   color: #000000;
 }
@@ -131,11 +135,6 @@
 .back-button-cont-light {
   background-color: rgb(185, 185, 185);
   border-bottom: none;
-}
-
-.back-button-cont button {
-  margin-left: 1.8rem;
-  width: 60px;
 }
 
 .back-button {

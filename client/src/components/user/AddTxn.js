@@ -84,7 +84,7 @@ const AddTxn = ({
       const response = await fetch(url, requestOptions);
       const data = await response.json();
 
-      if (response.status !== 200) {
+      if (!response.ok || response.status !== 200) {
         handleErrors(response);
       }
 

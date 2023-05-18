@@ -7,6 +7,8 @@ import AddTxn from "./AddTxn";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { handleErrors } from "../../utils/utils";
+
 import "./styles/searchModal.css";
 
 const SearchModal = ({ isModalOpen, closeModal }) => {
@@ -16,17 +18,20 @@ const SearchModal = ({ isModalOpen, closeModal }) => {
   const searchIcon = <FontAwesomeIcon icon={faSearch} />;
 
   const [search, setSearch] = useState("");
+
   // Select type of asset to search for
   const [selectedType, setSelectedType] = useState("stock");
   const [searchData, setSearchData] = useState([]);
   const [addingTxn, setAddingTxn] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState(null);
+  const [error, setError] = useState("");
 
   const lightModeStocks = selectedType === "stock" ? "selected-light" : null;
   const lightModeCrypto = selectedType === "crypto" ? "selected-light" : null;
 
   const handleKeyUp = async (event, assetType) => {
     // Function that lets user to submit search query using the Enter key
+    setError("");
     try {
       const endpoint = assetType === "stock" ? "stocks" : "crypto";
       if (event.keyCode === 13) {
@@ -35,19 +40,19 @@ const SearchModal = ({ isModalOpen, closeModal }) => {
           url = `/${endpoint}/search?query=${search}`;
         }
         const response = await fetch(url);
-        const data = await response.json();
 
-        if (response.status !== 200) {
-          if (response.status === 401) {
-            // authErrorLogout();
-            return;
-          }
+        if (!response.ok || response.status !== 200) {
+          handleErrors(response);
         }
+
+        const data = await response.json();
 
         setSearchData(data.data);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      if (error.name === "authError") authErrorLogout();
+      setError("Something went wrong. Try again later.");
     }
   };
 
@@ -170,6 +175,7 @@ const SearchModal = ({ isModalOpen, closeModal }) => {
               />
             </div>
             <div className="modal-item-container">{searchItems}</div>
+            <div className="search-error">{error}</div>
           </div>
         </div>
       )}

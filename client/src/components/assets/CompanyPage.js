@@ -25,16 +25,16 @@ const getPriceData = async (symbolId, timeFrame) => {
       url = `/stocks/prices/${symbolId}?interval=${timeFrame}`;
     }
     const response = await fetch(url);
-    // Handle server error
 
+    // Handle server error
     if (response.status !== 200) {
       handleErrors(response);
     }
-    const priceData = await response.json();
 
+    const priceData = await response.json();
     return priceData.data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     if (error.name === "authError") return "authError";
     return -1;
   }
@@ -47,12 +47,12 @@ const getMarketData = async (symbolId, timeFrame) => {
       url = `/stocks/prices/${symbolId}?interval=${timeFrame}&type=market`;
     }
     const response = await fetch(url);
-    const data = await response.json();
 
     if (response.status !== 200) {
       handleErrors(response);
     }
 
+    const data = await response.json();
     return data.data;
   } catch (error) {
     console.log(error);
@@ -87,11 +87,12 @@ const fetchCompanyData = async (symbolId, type) => {
       }
     }
     const response = await fetch(url);
-    const data = await response.json();
 
     if (response.status !== 200) {
       handleErrors(response);
     }
+
+    const data = await response.json();
 
     if (type === "overview") {
       return { overview: data.data.data };
@@ -246,14 +247,6 @@ const CompanyPage = () => {
           </span>
         </div>
         <div className="balance-history">
-          {/* <div
-            onClick={() => {
-              setHideX(true);
-              setTimeFrame("day");
-            }}
-          >
-            1D
-          </div> */}
           <div
             onClick={() => {
               setHideX(true);

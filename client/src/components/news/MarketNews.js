@@ -16,21 +16,19 @@ const MarketNews = () => {
           url = "/news";
         }
         const response = await fetch(url);
-        if (!response.ok) {
+        if (!response.ok || response.status !== 200) {
           throw new Error("Could not get news data");
         }
         const newsData = await response.json();
         setNewsData(newsData.data.data.articles);
       } catch (error) {
-        console.log(error);
+        console.error(error);
         setNewsData([]);
       }
     };
     getNewsData();
   }, []);
 
-  // const data = news.articles;
-  // const newsItems = data.slice(0, 5).map((article) => {
   const newsItems = newsData.map((article) => {
     return (
       <NewsItem

@@ -26,6 +26,8 @@ const RemoveTxn = ({
   const [price, setPrice] = useState(assetPrice);
   const [quantity, setQuantity] = useState(0);
   const [txnDate, setTxnDate] = useState(dateStr);
+  const [submitError, setSubmitError] = useState("");
+
   const { theme, setUser, authErrorLogout } = useContext(AppContext);
   const txnAssetType = type === "stocks" ? "stock" : "crypto";
 
@@ -79,6 +81,7 @@ const RemoveTxn = ({
         authErrorLogout();
         return;
       }
+      setSubmitError("Something went wrong. Try again later.");
     }
   };
 
@@ -172,6 +175,9 @@ const RemoveTxn = ({
             onChange={(e) => setTxnDate(e.target.value)}
           />
         </label>
+        <div className="form-error">
+          <span>{submitError}</span>
+        </div>
         <button disabled={quantity === "0"}>Save Transaction</button>
       </form>
     </Modal>

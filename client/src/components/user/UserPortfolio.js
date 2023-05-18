@@ -32,12 +32,13 @@ const getTransactionHistory = async (type) => {
 
     // Get transaction data
     const response = await fetch(url);
-    const transactionHistoryData = await response.json();
 
     // Handle failed GET requests
     if (response.status !== 200 || !response.ok) {
       handleErrors(response);
     }
+
+    const transactionHistoryData = await response.json();
 
     return transactionHistoryData.data.txnHistory;
   } catch (error) {
@@ -67,13 +68,13 @@ const getPortfolio = async (type) => {
 
     // Get data from server
     const response = await fetch(url);
-    const portfolioData = await response.json();
 
     // Handle errors / failed GET requests
     if (response.status !== 200 || !response.ok) {
       handleErrors(response);
     }
 
+    const portfolioData = await response.json();
     const portfolio = portfolioData.data.assets;
 
     if (portfolio.length === 0) {
@@ -137,6 +138,11 @@ const UserPortfolio = () => {
       localStorage.setItem("user", JSON.stringify(user));
 
       const portfolioData = await getPortfolio(assetType);
+
+      if (!portfolioData) {
+        clearPortfolio(true);
+        return;
+      }
 
       if (portfolioData === "authError") {
         authErrorLogout();

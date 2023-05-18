@@ -14,29 +14,29 @@ const CompanyInfo = ({ overview }) => {
     <tr key="row1">
       <td>
         <div className="asset-title">EPS</div>
-        <div>{overview.eps ? overview.eps : ""}</div>
+        <div>{overview && overview.eps ? overview.eps : ""}</div>
       </td>
       <td>
         <div className="asset-title">ROE</div>
-        <div>{overview.roe}</div>
+        <div>{overview && overview.roe}</div>
       </td>
       <td>
         <div className="asset-title">Profit Margin</div>
-        <div>{overview.profitMargin}</div>
+        <div>{overview && overview.profitMargin}</div>
       </td>
     </tr>,
     <tr key="row2">
       <td>
         <div className="asset-title">P/E</div>
-        <div>{overview.pe}</div>
+        <div>{overview && overview.pe}</div>
       </td>
       <td>
         <div className="asset-title">PEG</div>
-        <div>{overview.peg}</div>
+        <div>{overview && overview.peg}</div>
       </td>
       <td>
         <div className="asset-title">P/B</div>
-        <div>{overview.pb}</div>
+        <div>{overview && overview.pb}</div>
       </td>
     </tr>,
   ];
@@ -91,30 +91,40 @@ const CompanyInfo = ({ overview }) => {
             <tr>
               <td>
                 <div className="asset-title">Sector</div>
-                <div>{overview.sector}</div>
+                <div>{overview && overview.sector ? overview.sector : ""}</div>
               </td>
               <td>
                 <div className="asset-title">Industry</div>
-                <div>{overview.industry}</div>
+                <div>
+                  {overview && overview.industry ? overview.industry : ""}
+                </div>
               </td>
               <td>
                 <div className="asset-title">Country</div>
-                <div>{overview.country}</div>
+                <div>
+                  {overview && overview.country ? overview.country : ""}
+                </div>
               </td>
             </tr>
             <tr>
               <td>
                 <div className="asset-title">Marketcap</div>
-                <div>{numberWithCommas(overview.marketcap)}</div>
+                <div>
+                  {overview && overview.marketcap
+                    ? numberWithCommas(overview.marketcap)
+                    : ""}
+                </div>
               </td>
               <td>
                 <div className="asset-title">Exchange</div>
-                <div>{overview.exchange}</div>
+                <div>
+                  {overview && overview.exchange ? overview.exchange : ""}
+                </div>
               </td>
               <td>
                 <div className="asset-title">Employees</div>
                 <div>
-                  {overview.employees
+                  {overview && overview.employees
                     ? numberWithCommas(overview.employees)
                     : "No data"}
                 </div>

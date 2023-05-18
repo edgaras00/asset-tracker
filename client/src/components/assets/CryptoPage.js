@@ -23,12 +23,12 @@ const fetchPriceData = async (cId, timeFrame) => {
       url = `/crypto/prices/${cId}?interval=${timeFrame}`;
     }
     const response = await fetch(url);
-    const data = await response.json();
 
     if (response.status !== 200) {
       handleErrors(response);
     }
 
+    const data = await response.json();
     return data.data;
   } catch (error) {
     console.log(error);
@@ -52,7 +52,6 @@ const getCurrentPrice = async (cId, timeFrame) => {
     }
 
     const data = await response.json();
-
     return data;
   } catch (error) {
     console.log(error);
@@ -74,7 +73,6 @@ const fetchCryptoData = async (cId) => {
     }
 
     const metadata = await response.json();
-
     return metadata.data;
   } catch (error) {
     console.log(error);

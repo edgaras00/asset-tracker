@@ -6,11 +6,14 @@ const Activity = ({ assetType, theme, transactionHistory }) => {
   // Component that renders user's transaction activity data
 
   // Sort array by dates (descending)
-  transactionHistory.sort((a, b) => {
-    return (
-      new Date(b.date) - new Date(a.date) || b.savedTimestamp - a.savedTimestamp
-    );
-  });
+  if (transactionHistory) {
+    transactionHistory.sort((a, b) => {
+      return (
+        new Date(b.date) - new Date(a.date) ||
+        b.savedTimestamp - a.savedTimestamp
+      );
+    });
+  }
 
   const activityRows = transactionHistory.map((activity, index) => (
     <ActivityRow
@@ -44,6 +47,10 @@ const Activity = ({ assetType, theme, transactionHistory }) => {
       )}
     </div>
   );
+};
+
+Activity.defaultProps = {
+  transactionHistory: [],
 };
 
 export default Activity;
