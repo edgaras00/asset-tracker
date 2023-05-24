@@ -9,24 +9,24 @@ const MarketNews = () => {
   const [newsData, setNewsData] = useState([]);
 
   useEffect(() => {
-    const getNewsData = async () => {
-      try {
-        let url = "https://asset-tracker-api.onrender.com/news";
-        if (process.env.NODE_ENV === "development") {
-          url = "/news";
-        }
-        const response = await fetch(url);
-        if (!response.ok || response.status !== 200) {
-          throw new Error("Could not get news data");
-        }
-        const newsData = await response.json();
-        setNewsData(newsData.data.data.articles);
-      } catch (error) {
-        console.error(error);
-        setNewsData([]);
-      }
-    };
-    getNewsData();
+    // const getNewsData = async () => {
+    //   try {
+    //     let url = "https://asset-tracker-api.onrender.com/news";
+    //     if (process.env.NODE_ENV === "development") {
+    //       url = "/news";
+    //     }
+    //     const response = await fetch(url);
+    //     if (!response.ok || response.status !== 200) {
+    //       throw new Error("Could not get news data");
+    //     }
+    //     const newsData = await response.json();
+    //     setNewsData(newsData.data.data.articles);
+    //   } catch (error) {
+    //     console.error(error);
+    //     setNewsData([]);
+    //   }
+    // };
+    // getNewsData();
   }, []);
 
   const newsItems = newsData.map((article) => {

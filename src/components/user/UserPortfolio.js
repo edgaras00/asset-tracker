@@ -133,55 +133,47 @@ const UserPortfolio = () => {
 
   // Update user and portfolio state data
   useEffect(() => {
-    const getPortfolioData = async (assetType) => {
-      // Store updated user data
-      localStorage.setItem("user", JSON.stringify(user));
-
-      const portfolioData = await getPortfolio(assetType);
-
-      if (!portfolioData) {
-        clearPortfolio(true);
-        return;
-      }
-
-      if (portfolioData === "authError") {
-        authErrorLogout();
-        return;
-      } else if (
-        portfolioData === "notFound" ||
-        portfolioData === "serverError"
-      ) {
-        clearPortfolio(true);
-        return;
-      }
-
-      if (portfolioData.length === 0) {
-        clearPortfolio(false);
-        return;
-      }
-
-      setAssetValue(portfolioData.totalValue);
-      setIncreasing(portfolioData.isPriceIncrease);
-      setPercentGain(portfolioData.roi);
-      setPortfolio(portfolioData.portfolio);
-      setAssetCost(portfolioData.cost);
-    };
-
-    const getTxnHistoryData = async (assetType) => {
-      const txnHistory = await getTransactionHistory(assetType);
-
-      if (txnHistory === "authError") {
-        authErrorLogout();
-        return;
-      } else if (txnHistory === "notFound" || txnHistory === "serverError") {
-        setTxnActivity([]);
-        return;
-      }
-      setTxnActivity(txnHistory);
-    };
-
-    getPortfolioData(assetType);
-    getTxnHistoryData(assetType);
+    // const getPortfolioData = async (assetType) => {
+    //   // Store updated user data
+    //   localStorage.setItem("user", JSON.stringify(user));
+    //   const portfolioData = await getPortfolio(assetType);
+    //   if (!portfolioData) {
+    //     clearPortfolio(true);
+    //     return;
+    //   }
+    //   if (portfolioData === "authError") {
+    //     authErrorLogout();
+    //     return;
+    //   } else if (
+    //     portfolioData === "notFound" ||
+    //     portfolioData === "serverError"
+    //   ) {
+    //     clearPortfolio(true);
+    //     return;
+    //   }
+    //   if (portfolioData.length === 0) {
+    //     clearPortfolio(false);
+    //     return;
+    //   }
+    //   setAssetValue(portfolioData.totalValue);
+    //   setIncreasing(portfolioData.isPriceIncrease);
+    //   setPercentGain(portfolioData.roi);
+    //   setPortfolio(portfolioData.portfolio);
+    //   setAssetCost(portfolioData.cost);
+    // };
+    // const getTxnHistoryData = async (assetType) => {
+    //   const txnHistory = await getTransactionHistory(assetType);
+    //   if (txnHistory === "authError") {
+    //     authErrorLogout();
+    //     return;
+    //   } else if (txnHistory === "notFound" || txnHistory === "serverError") {
+    //     setTxnActivity([]);
+    //     return;
+    //   }
+    //   setTxnActivity(txnHistory);
+    // };
+    // getPortfolioData(assetType);
+    // getTxnHistoryData(assetType);
   }, [assetType, user, authErrorLogout]);
 
   return (
