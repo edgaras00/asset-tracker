@@ -8,7 +8,6 @@ import "./styles/signup.css";
 
 const Signup = () => {
   // Component that signs up a new user
-  console.log(process.env.NODE_ENV);
   // Set up component state and context
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
@@ -38,7 +37,7 @@ const Signup = () => {
     try {
       setSignUpError("");
       // API URL and request body / options
-      let url = "/user/signup";
+      let url = "https://asset-tracker-api.onrender.com/user/signup";
       if (process.env.NODE_ENV === "development") {
         url = "/user/signup";
       }
@@ -50,7 +49,7 @@ const Signup = () => {
       const responseData = await response.json();
 
       // Error handling
-      if (response.status !== 201) {
+      if (!response.ok || response.status !== 201) {
         if (
           response.status === 400 &&
           responseData.message.startsWith("Duplicate")
