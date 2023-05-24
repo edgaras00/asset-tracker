@@ -38,7 +38,7 @@ const Signup = () => {
     try {
       setSignUpError("");
       // API URL and request body / options
-      let url = "https://track-investments.herokuapp.com/user/signup";
+      let url = "/user/signup";
       if (process.env.NODE_ENV === "development") {
         url = "/user/signup";
       }
