@@ -35,7 +35,7 @@ app.use("/user", limiter);
 // Handle CORS (with cookies)
 app.use(
   cors({
-    origin: "https://asset-tracker.onrender.com/",
+    origin: "https://asset-tracker.onrender.com",
     credentials: true,
   })
 );
