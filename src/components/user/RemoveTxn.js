@@ -60,7 +60,7 @@ const RemoveTxn = ({
       // Request options
       const requestOptions = setRequestOptions("PUT", txnObject);
 
-      let url = "https://track-investments.herokuapp.com/user/sell";
+      let url = "https://asset-tracker-api.onrender.com/user/sell";
       if (process.env.NODE_ENV === "development") {
         url = "/user/sell";
       }

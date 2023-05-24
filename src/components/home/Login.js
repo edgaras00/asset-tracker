@@ -19,7 +19,7 @@ const Login = () => {
     // Function that logins the user
     try {
       // POST request to log in the user
-      let url = "https://track-investments.herokuapp.com/user/login";
+      let url = "https://asset-tracker-api.onrender.com/user/login";
       if (process.env.NODE_ENV === "development") {
         url = "/user/login";
       }

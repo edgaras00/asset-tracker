@@ -35,7 +35,7 @@ const SearchModal = ({ isModalOpen, closeModal }) => {
     try {
       const endpoint = assetType === "stock" ? "stocks" : "crypto";
       if (event.keyCode === 13) {
-        let url = `https://track-investments.herokuapp.com/${endpoint}/search?query=${search}`;
+        let url = `https://asset-tracker-api.onrender.com/${endpoint}/search?query=${search}`;
         if (process.env.NODE_ENV === "development") {
           url = `/${endpoint}/search?query=${search}`;
         }

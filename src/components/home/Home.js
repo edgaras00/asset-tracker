@@ -44,7 +44,7 @@ const Home = () => {
             <span>
               <a
                 className="source"
-                href="https://iexcloud.io/"
+                href="https://finance.yahoo.com/"
                 target="_blank"
                 rel="noopener noreferrer"
               >

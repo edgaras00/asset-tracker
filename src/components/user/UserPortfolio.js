@@ -18,13 +18,13 @@ const getTransactionHistory = async (type) => {
   // Function to fetch user's transaction history (stock or crypto)
   try {
     // Build URL
-    let url = "https://track-investments.herokuapp.com/stocks/history";
+    let url = "https://asset-tracker-api.onrender.com/stocks/history";
     if (process.env.NODE_ENV === "development") {
       url = "/stocks/history";
     }
 
     if (type === "crypto") {
-      url = "https://track-investments.herokuapp.com/crypto/history";
+      url = "https://asset-tracker-api.onrender.com/crypto/history";
       if (process.env.NODE_ENV === "development") {
         url = "/crypto/history";
       }
@@ -54,13 +54,13 @@ const getPortfolio = async (type) => {
 
   try {
     // Build URL
-    let url = "https://track-investments.herokuapp.com/stocks/portfolio";
+    let url = "https://asset-tracker-api.onrender.com/stocks/portfolio";
     if (process.env.NODE_ENV === "development") {
       url = "/stocks/portfolio";
     }
 
     if (type === "crypto") {
-      url = "https://track-investments.herokuapp.com/crypto/portfolio";
+      url = "https://asset-tracker-api.onrender.com/crypto/portfolio";
       if (process.env.NODE_ENV === "development") {
         url = "/crypto/portfolio";
       }
