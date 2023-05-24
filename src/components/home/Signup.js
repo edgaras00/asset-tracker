@@ -44,7 +44,9 @@ const Signup = () => {
 
       // Send user info as a POST request
       const requestOptions = setRequestOptions("POST", { email, password });
+      console.log(url);
       const response = await fetch(url, requestOptions);
+      console.log(response);
 
       const responseData = await response.json();
 
