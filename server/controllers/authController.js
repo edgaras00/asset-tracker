@@ -28,7 +28,7 @@ const createAndSendToken = (user, statusCode, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    domain: "http://localhost:3000",
+    domain: "https://asset-tracker.onrender.com/",
   };
   // Make it secure only in production
   // if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
