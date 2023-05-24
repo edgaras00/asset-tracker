@@ -33,17 +33,7 @@ const limiter = rateLimit({
 app.use("/user", limiter);
 
 // Handle CORS (with cookies)
-app.use(
-  cors({
-    origin: "https://asset-tracker.onrender.com",
-    credentials: true,
-  })
-);
-
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
-});
+app.use(cors());
 
 // Body parser
 // Read data from body into req.body
