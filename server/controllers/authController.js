@@ -31,7 +31,7 @@ const createAndSendToken = (user, statusCode, res) => {
     domain: "https://asset-tracker.onrender.com/",
   };
   // Make it secure only in production
-  // if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
+  if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
 
   // Send JWT as a cookie
   res.cookie("jwt", token, cookieOptions);
