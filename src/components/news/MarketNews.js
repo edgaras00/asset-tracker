@@ -11,7 +11,7 @@ const MarketNews = () => {
   useEffect(() => {
     const getNewsData = async () => {
       try {
-        let url = "https://track-investments.herokuapp.com/news";
+        let url = "https://asset-tracker-api.onrender.com/news";
         if (process.env.NODE_ENV === "development") {
           url = "/news";
         }

@@ -20,7 +20,7 @@ import "./styles/companyPage.css";
 
 const getPriceData = async (symbolId, timeFrame) => {
   try {
-    let url = `https://track-investments.herokuapp.com/stocks/current/${symbolId}?interval=${timeFrame}`;
+    let url = `https://asset-tracker-api.onrender.com/stocks/prices/${symbolId}?interval=${timeFrame}`;
     if (process.env.NODE_ENV === "development") {
       url = `/stocks/prices/${symbolId}?interval=${timeFrame}`;
     }
@@ -42,7 +42,7 @@ const getPriceData = async (symbolId, timeFrame) => {
 
 const getMarketData = async (symbolId, timeFrame) => {
   try {
-    let url = "https://track-investments.herokuapp.com/stocks/prices/";
+    let url = `https://asset-tracker-api.onrender.com/stocks/prices/${symbolId}?interval=${timeFrame}&type=market`;
     if (process.env.NODE_ENV === "development") {
       url = `/stocks/prices/${symbolId}?interval=${timeFrame}&type=market`;
     }
@@ -66,22 +66,22 @@ const fetchCompanyData = async (symbolId, type) => {
     const symbol = symbolId.toLowerCase();
     let url;
     if (type === "overview") {
-      url = `https://track-investments.herokuapp.com/stocks/overview/${symbol}`;
+      url = `https://asset-tracker-api.onrender.com/stocks/overview/${symbol}`;
       if (process.env.NODE_ENV === "development") {
         url = `/stocks/overview/${symbol}`;
       }
     } else if (type === "income") {
-      url = `https://track-investments.herokuapp.com/stocks/income/${symbol}`;
+      url = `https://asset-tracker-api.onrender.com/stocks/income/${symbol}`;
       if (process.env.NODE_ENV === "development") {
         url = `/stocks/income/${symbol}`;
       }
     } else if (type === "cash") {
-      url = `https://track-investments.herokuapp.com/stocks/cash/${symbol}`;
+      url = `https://asset-tracker-api.onrender.com/stocks/cash/${symbol}`;
       if (process.env.NODE_ENV === "development") {
         url = `/stocks/cash/${symbol}`;
       }
     } else if (type === "balance") {
-      url = `https://track-investments.herokuapp.com/stocks/balance/${symbol}`;
+      url = `https://asset-tracker-api.onrender.com/stocks/balance/${symbol}`;
       if (process.env.NODE_ENV === "development") {
         url = `/stocks/balance/${symbol}`;
       }

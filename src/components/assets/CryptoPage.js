@@ -18,7 +18,7 @@ import "./styles/assetInfo.css";
 
 const fetchPriceData = async (cId, timeFrame) => {
   try {
-    let url = `https://track-investments.herokuapp.com/crypto/prices/${cId}?interval=${timeFrame}`;
+    let url = `https://asset-tracker-api.onrender.com/crypto/prices/${cId}?interval=${timeFrame}`;
     if (process.env.NODE_ENV === "development") {
       url = `/crypto/prices/${cId}?interval=${timeFrame}`;
     }
@@ -39,7 +39,7 @@ const fetchPriceData = async (cId, timeFrame) => {
 
 const getCurrentPrice = async (cId, timeFrame) => {
   try {
-    let baseUrl = "https://track-investments.herokuapp.com/crypto/current/";
+    let baseUrl = "https://asset-tracker-api.onrender.com/crypto/current/";
     if (process.env.NODE_ENV === "development") {
       baseUrl = "/crypto/current/";
     }
@@ -62,7 +62,7 @@ const getCurrentPrice = async (cId, timeFrame) => {
 
 const fetchCryptoData = async (cId) => {
   try {
-    let url = `https://track-investments.herokuapp.com/crypto/data/${cId}`;
+    let url = `https://asset-tracker-api.onrender.com/crypto/data/${cId}`;
     if (process.env.NODE_ENV === "development") {
       url = `/crypto/data/${cId}`;
     }
