@@ -38,9 +38,9 @@ const Signup = () => {
       setSignUpError("");
       // API URL and request body / options
       let url = "https://asset-tracker-api.onrender.com/user/signup";
-      if (process.env.NODE_ENV === "development") {
-        url = "/user/signup";
-      }
+      // if (process.env.REACT_APP_ENV === "development") {
+      //   url = "/user/signup";
+      // }
 
       // Send user info as a POST request
       const requestOptions = setRequestOptions("POST", { email, password });

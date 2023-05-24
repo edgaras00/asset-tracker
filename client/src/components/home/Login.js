@@ -20,7 +20,7 @@ const Login = () => {
     try {
       // POST request to log in the user
       let url = "https://asset-tracker-api.onrender.com/user/login";
-      if (process.env.NODE_ENV === "development") {
+      if (process.env.REACT_APP_ENV === "development") {
         url = "/user/login";
       }
 
