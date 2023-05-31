@@ -37,8 +37,7 @@ const Signup = () => {
     try {
       setSignUpError("");
       // API URL and request body / options
-      let url =
-        "https://asset-tracker-server-production.up.railway.app/user/signup";
+      let url = "https://alpha-assets-api.onrender.com/user/signup";
       // if (process.env.REACT_APP_ENV === "development") {
       //   url = "/user/signup";
       // }
