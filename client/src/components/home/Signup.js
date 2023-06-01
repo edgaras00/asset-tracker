@@ -62,7 +62,7 @@ const Signup = () => {
       // Log in user
       setUser(responseData.data.user);
       localStorage.setItem("user", JSON.stringify(responseData.data.user));
-      localStorage.setItem("token", JSON.stringify(responseData.token));
+      localStorage.setItem("token", responseData.token);
     } catch (error) {
       console.error(error);
       setServerErrors(error.message);

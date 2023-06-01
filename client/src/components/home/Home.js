@@ -5,7 +5,6 @@ import Typewriter from "typewriter-effect";
 import "./styles/home.css";
 
 const Home = () => {
-  console.log(process.env.REACT_APP_ENV);
   // Homepage component
   const [typewriterClass, setTypewriterClass] = useState("typewriter-start");
 
