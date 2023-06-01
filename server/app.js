@@ -20,6 +20,9 @@ const app = express();
 
 // Global middlewares
 
+// Handle CORS (with cookies)
+app.use(cors());
+
 // Security HTTP headers
 app.use(helmet());
 
@@ -31,9 +34,6 @@ const limiter = rateLimit({
     "Too many requests from this IP address. Please try again in an hour.",
 });
 app.use("/user", limiter);
-
-// Handle CORS (with cookies)
-app.use(cors());
 
 // Body parser
 // Read data from body into req.body
