@@ -20,7 +20,7 @@ const app = express();
 
 // Global middlewares
 
-// Handle CORS (with cookies)
+// Handle CORS
 app.use(cors());
 
 // Security HTTP headers

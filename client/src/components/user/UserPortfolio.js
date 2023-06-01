@@ -32,6 +32,8 @@ const getTransactionHistory = async (type) => {
       }
     }
 
+    console.log(token);
+
     // Get transaction data
     const response = await fetch(url, {
       headers: {
