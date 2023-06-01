@@ -28,11 +28,9 @@ const createAndSendToken = (user, statusCode, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    sameSite: "none",
-    domain: "https://asset-tracker.onrender.com",
   };
   // Make it secure only in production
-  if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
+  // if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
 
   // Send JWT as a cookie
   res.cookie("jwt", token, cookieOptions);
@@ -107,6 +105,7 @@ exports.protectRoute = catchAsync(async (req, res, next) => {
   } else if (req.cookies.jwt) {
     token = req.cookies.jwt;
   }
+  console.log(token);
 
   if (!token) {
     return next(new AppError("Please log in to gain access", 401));
