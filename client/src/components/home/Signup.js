@@ -46,9 +46,6 @@ const Signup = () => {
       const requestOptions = setRequestOptions("POST", { email, password });
       console.log(url);
       const response = await fetch(url, requestOptions);
-      console.log(response);
-
-      const responseData = await response.json();
 
       // Error handling
       if (!response.ok || response.status !== 201) {
@@ -60,6 +57,9 @@ const Signup = () => {
         }
         throw new Error("Something went wrong. Please try again later.");
       }
+
+      const responseData = await response.json();
+      console.log(responseData);
 
       // Log in user
       setUser(responseData.data.user);
