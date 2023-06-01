@@ -97,6 +97,8 @@ exports.login = catchAsync(async (req, res, next) => {
 exports.protectRoute = catchAsync(async (req, res, next) => {
   // Check for token
   let token;
+  console.log(req.headers.authorization);
+  console.log(req.cookies.jwt);
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
@@ -105,7 +107,6 @@ exports.protectRoute = catchAsync(async (req, res, next) => {
   } else if (req.cookies.jwt) {
     token = req.cookies.jwt;
   }
-  console.log(token);
 
   if (!token) {
     return next(new AppError("Please log in to gain access", 401));
