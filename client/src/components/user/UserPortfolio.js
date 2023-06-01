@@ -182,8 +182,10 @@ const UserPortfolio = () => {
       }
       setTxnActivity(txnHistory);
     };
-    getPortfolioData(assetType, token);
-    getTxnHistoryData(assetType, token);
+    if (token) {
+      getPortfolioData(assetType, token);
+      getTxnHistoryData(assetType, token);
+    }
   }, [assetType, user, authErrorLogout, token]);
 
   return (
