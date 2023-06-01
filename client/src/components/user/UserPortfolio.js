@@ -14,24 +14,30 @@ import { numberWithCommas, handleErrors } from "../../utils/utils";
 
 import "./styles/userPortfolio.css";
 
+const token = localStorage.getItem("token");
+
 const getTransactionHistory = async (type) => {
   // Function to fetch user's transaction history (stock or crypto)
   try {
     // Build URL
-    let url = "https://asset-tracker-api.onrender.com/stocks/history";
+    let url = "https://alpha-assets-api.onrender.com/stocks/history";
     if (process.env.NODE_ENV === "development") {
       url = "/stocks/history";
     }
 
     if (type === "crypto") {
-      url = "https://asset-tracker-api.onrender.com/crypto/history";
+      url = "https://alpha-assets-api.onrender.com/crypto/history";
       if (process.env.NODE_ENV === "development") {
         url = "/crypto/history";
       }
     }
 
     // Get transaction data
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     // Handle failed GET requests
     if (response.status !== 200 || !response.ok) {
@@ -67,7 +73,11 @@ const getPortfolio = async (type) => {
     }
 
     // Get data from server
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     // Handle errors / failed GET requests
     if (response.status !== 200 || !response.ok) {
@@ -133,47 +143,47 @@ const UserPortfolio = () => {
 
   // Update user and portfolio state data
   useEffect(() => {
-    // const getPortfolioData = async (assetType) => {
-    //   // Store updated user data
-    //   localStorage.setItem("user", JSON.stringify(user));
-    //   const portfolioData = await getPortfolio(assetType);
-    //   if (!portfolioData) {
-    //     clearPortfolio(true);
-    //     return;
-    //   }
-    //   if (portfolioData === "authError") {
-    //     authErrorLogout();
-    //     return;
-    //   } else if (
-    //     portfolioData === "notFound" ||
-    //     portfolioData === "serverError"
-    //   ) {
-    //     clearPortfolio(true);
-    //     return;
-    //   }
-    //   if (portfolioData.length === 0) {
-    //     clearPortfolio(false);
-    //     return;
-    //   }
-    //   setAssetValue(portfolioData.totalValue);
-    //   setIncreasing(portfolioData.isPriceIncrease);
-    //   setPercentGain(portfolioData.roi);
-    //   setPortfolio(portfolioData.portfolio);
-    //   setAssetCost(portfolioData.cost);
-    // };
-    // const getTxnHistoryData = async (assetType) => {
-    //   const txnHistory = await getTransactionHistory(assetType);
-    //   if (txnHistory === "authError") {
-    //     authErrorLogout();
-    //     return;
-    //   } else if (txnHistory === "notFound" || txnHistory === "serverError") {
-    //     setTxnActivity([]);
-    //     return;
-    //   }
-    //   setTxnActivity(txnHistory);
-    // };
-    // getPortfolioData(assetType);
-    // getTxnHistoryData(assetType);
+    const getPortfolioData = async (assetType) => {
+      // Store updated user data
+      localStorage.setItem("user", JSON.stringify(user));
+      const portfolioData = await getPortfolio(assetType);
+      if (!portfolioData) {
+        clearPortfolio(true);
+        return;
+      }
+      if (portfolioData === "authError") {
+        authErrorLogout();
+        return;
+      } else if (
+        portfolioData === "notFound" ||
+        portfolioData === "serverError"
+      ) {
+        clearPortfolio(true);
+        return;
+      }
+      if (portfolioData.length === 0) {
+        clearPortfolio(false);
+        return;
+      }
+      setAssetValue(portfolioData.totalValue);
+      setIncreasing(portfolioData.isPriceIncrease);
+      setPercentGain(portfolioData.roi);
+      setPortfolio(portfolioData.portfolio);
+      setAssetCost(portfolioData.cost);
+    };
+    const getTxnHistoryData = async (assetType) => {
+      const txnHistory = await getTransactionHistory(assetType);
+      if (txnHistory === "authError") {
+        authErrorLogout();
+        return;
+      } else if (txnHistory === "notFound" || txnHistory === "serverError") {
+        setTxnActivity([]);
+        return;
+      }
+      setTxnActivity(txnHistory);
+    };
+    getPortfolioData(assetType);
+    getTxnHistoryData(assetType);
   }, [assetType, user, authErrorLogout]);
 
   return (

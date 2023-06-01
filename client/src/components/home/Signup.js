@@ -44,7 +44,6 @@ const Signup = () => {
 
       // Send user info as a POST request
       const requestOptions = setRequestOptions("POST", { email, password });
-      console.log(url);
       const response = await fetch(url, requestOptions);
 
       // Error handling
@@ -59,11 +58,11 @@ const Signup = () => {
       }
 
       const responseData = await response.json();
-      console.log(responseData);
 
       // Log in user
       setUser(responseData.data.user);
       localStorage.setItem("user", JSON.stringify(responseData.data.user));
+      localStorage.setItem("token", JSON.stringify(responseData.token));
     } catch (error) {
       console.error(error);
       setServerErrors(error.message);
