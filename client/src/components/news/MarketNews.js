@@ -7,15 +7,20 @@ const MarketNews = () => {
   // Component that holds links to market news articles
 
   const [newsData, setNewsData] = useState([]);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const getNewsData = async () => {
       try {
-        let url = "https://asset-tracker-api.onrender.com/news";
+        let url = "https://alpha-assets-api.onrender.com/news";
         if (process.env.NODE_ENV === "development") {
           url = "/news";
         }
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         if (!response.ok || response.status !== 200) {
           throw new Error("Could not get news data");
         }

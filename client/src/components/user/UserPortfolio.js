@@ -32,8 +32,6 @@ const getTransactionHistory = async (type) => {
       }
     }
 
-    console.log(token);
-
     // Get transaction data
     const response = await fetch(url, {
       headers: {
@@ -62,13 +60,13 @@ const getPortfolio = async (type) => {
 
   try {
     // Build URL
-    let url = "https://asset-tracker-api.onrender.com/stocks/portfolio";
+    let url = "https://alpha-assets-api.onrender.com/stocks/portfolio";
     if (process.env.NODE_ENV === "development") {
       url = "/stocks/portfolio";
     }
 
     if (type === "crypto") {
-      url = "https://asset-tracker-api.onrender.com/crypto/portfolio";
+      url = "https://alpha-assets-api.onrender.com/crypto/portfolio";
       if (process.env.NODE_ENV === "development") {
         url = "/crypto/portfolio";
       }
