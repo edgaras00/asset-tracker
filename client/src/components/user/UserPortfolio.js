@@ -15,6 +15,7 @@ import { numberWithCommas, handleErrors } from "../../utils/utils";
 import "./styles/userPortfolio.css";
 
 const token = localStorage.getItem("token");
+console.log(token);
 
 const getTransactionHistory = async (type) => {
   // Function to fetch user's transaction history (stock or crypto)

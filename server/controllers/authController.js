@@ -97,8 +97,6 @@ exports.login = catchAsync(async (req, res, next) => {
 exports.protectRoute = catchAsync(async (req, res, next) => {
   // Check for token
   let token;
-  console.log(req.headers.authorization);
-  console.log(req.cookies.jwt);
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
