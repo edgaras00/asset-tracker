@@ -14,10 +14,7 @@ import { numberWithCommas, handleErrors } from "../../utils/utils";
 
 import "./styles/userPortfolio.css";
 
-const token = localStorage.getItem("token");
-console.log(token);
-
-const getTransactionHistory = async (type) => {
+const getTransactionHistory = async (type, token) => {
   // Function to fetch user's transaction history (stock or crypto)
   try {
     // Build URL
@@ -56,7 +53,7 @@ const getTransactionHistory = async (type) => {
   }
 };
 
-const getPortfolio = async (type) => {
+const getPortfolio = async (type, token) => {
   // Get user's portfolio
 
   try {
@@ -130,6 +127,7 @@ const UserPortfolio = () => {
   const [serverError, setServerError] = useState(0);
 
   const { theme, user, authErrorLogout } = useContext(AppContext);
+  const token = localStorage.getItem("token");
 
   const clearPortfolio = (isError = false) => {
     // Clear portfolio state data
@@ -144,10 +142,10 @@ const UserPortfolio = () => {
 
   // Update user and portfolio state data
   useEffect(() => {
-    const getPortfolioData = async (assetType) => {
+    const getPortfolioData = async (assetType, token) => {
       // Store updated user data
       localStorage.setItem("user", JSON.stringify(user));
-      const portfolioData = await getPortfolio(assetType);
+      const portfolioData = await getPortfolio(assetType, token);
       if (!portfolioData) {
         clearPortfolio(true);
         return;
@@ -172,8 +170,8 @@ const UserPortfolio = () => {
       setPortfolio(portfolioData.portfolio);
       setAssetCost(portfolioData.cost);
     };
-    const getTxnHistoryData = async (assetType) => {
-      const txnHistory = await getTransactionHistory(assetType);
+    const getTxnHistoryData = async (assetType, token) => {
+      const txnHistory = await getTransactionHistory(assetType, token);
       if (txnHistory === "authError") {
         authErrorLogout();
         return;
@@ -185,7 +183,7 @@ const UserPortfolio = () => {
     };
     getPortfolioData(assetType);
     getTxnHistoryData(assetType);
-  }, [assetType, user, authErrorLogout]);
+  }, [assetType, user, authErrorLogout, token]);
 
   return (
     <div
