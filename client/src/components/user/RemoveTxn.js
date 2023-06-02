@@ -58,7 +58,6 @@ const RemoveTxn = ({
         savedTimestamp: Date.now(),
         sellingAll,
       };
-      console.log(txnObject);
       // Request options
       const requestOptions = setRequestOptions("PUT", txnObject, token);
 
@@ -66,7 +65,6 @@ const RemoveTxn = ({
       if (process.env.REACT_APP_ENV === "development") {
         url = "/user/sell";
       }
-      console.log(url);
       const response = await fetch(url, requestOptions);
 
       if (!response.ok || response.status !== 200) {
@@ -74,7 +72,6 @@ const RemoveTxn = ({
       }
 
       const data = await response.json();
-      console.log(data);
 
       setUser(data.data.updatedUser);
       setPrice(0);

@@ -11,7 +11,7 @@ const Login = () => {
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [loginError, setLoginError] = useState(null);
-  const { setUser } = useContext(AppContext);
+  const { setUser, setToken } = useContext(AppContext);
 
   const handleLogin = async (event, email, password) => {
     event.preventDefault();
@@ -41,6 +41,7 @@ const Login = () => {
 
       // Log in user
       setUser(data.data.user);
+      setToken(data.token);
       localStorage.setItem("user", JSON.stringify(data.data.user));
       localStorage.setItem("token", data.token);
     } catch (error) {

@@ -143,6 +143,7 @@ exports.userSell = catchAsync(async (req, res, next) => {
     const removeArray = stockMode
       ? "assets.stockInfo.stock"
       : "assets.cryptoInfo.crypto";
+
     updatedUser = await User.findOneAndUpdate(
       { _id: id, [searchField]: symbol },
       {
@@ -170,7 +171,10 @@ exports.userSell = catchAsync(async (req, res, next) => {
   const result = {
     message: `User ${id} data has been updated.`,
     action: `Remove ${quantity} ${symbol}`,
-    updatedUser: { email: updatedUser },
+    updatedUser: {
+      email: updatedUser.email,
+      lastUpdated: updatedUser.lastUpdated,
+    },
   };
   res.status(200).json({ status: "Success", data: result });
 });

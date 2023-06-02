@@ -14,7 +14,7 @@ const Signup = () => {
   const [repeatPasswordInput, setRepeatPasswordInput] = useState("");
   const [signUpError, setSignUpError] = useState("");
   const [serverErrors, setServerErrors] = useState(null);
-  const { setUser } = useContext(AppContext);
+  const { setUser, setToken } = useContext(AppContext);
 
   const signUp = async (event, email, password, repeatPassword) => {
     // Function that sends a POST request to the server to sign up a new user
@@ -60,6 +60,7 @@ const Signup = () => {
 
       // Log in user
       setUser(responseData.data.user);
+      setToken(responseData.token);
       localStorage.setItem("user", JSON.stringify(responseData.data.user));
       localStorage.setItem("token", responseData.token);
     } catch (error) {

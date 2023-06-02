@@ -111,6 +111,7 @@ exports.getPortfolio = catchAsync(async (req, res) => {
     );
     return {
       symbol,
+      id: stock._id,
       amount: stock.amount,
       cost: stock.cost,
       price: data[symbol].price,

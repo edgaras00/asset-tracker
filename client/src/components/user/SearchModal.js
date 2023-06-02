@@ -15,7 +15,6 @@ const SearchModal = ({ isModalOpen, closeModal }) => {
   // Modal component to search for assets
 
   const { theme, authErrorLogout, token } = useContext(AppContext);
-  console.log(token);
   const searchIcon = <FontAwesomeIcon icon={faSearch} />;
 
   const [search, setSearch] = useState("");
