@@ -128,7 +128,6 @@ const UserPortfolio = () => {
 
   const { theme, user, authErrorLogout } = useContext(AppContext);
   const token = localStorage.getItem("token");
-  console.log(token);
 
   const clearPortfolio = (isError = false) => {
     // Clear portfolio state data

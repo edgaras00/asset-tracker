@@ -60,6 +60,7 @@ const AddTxn = ({
 
   const { setUser, authErrorLogout } = useContext(AppContext);
   const token = localStorage.getItem("token");
+  console.log(token);
   const mountedRef = useRef(true);
 
   const handleSubmitTxn = async (
