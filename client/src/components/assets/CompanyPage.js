@@ -18,13 +18,15 @@ import {
 
 import "./styles/companyPage.css";
 
-const getPriceData = async (symbolId, timeFrame) => {
+const getPriceData = async (symbolId, timeFrame, token) => {
   try {
-    let url = `https://asset-tracker-api.onrender.com/stocks/prices/${symbolId}?interval=${timeFrame}`;
+    let url = `https://alpha-assets-api.onrender.com/stocks/prices/${symbolId}?interval=${timeFrame}`;
     if (process.env.NODE_ENV === "development") {
       url = `/stocks/prices/${symbolId}?interval=${timeFrame}`;
     }
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
     // Handle server error
     if (response.status !== 200) {
@@ -40,13 +42,15 @@ const getPriceData = async (symbolId, timeFrame) => {
   }
 };
 
-const getMarketData = async (symbolId, timeFrame) => {
+const getMarketData = async (symbolId, timeFrame, token) => {
   try {
-    let url = `https://asset-tracker-api.onrender.com/stocks/prices/${symbolId}?interval=${timeFrame}&type=market`;
+    let url = `https://alpha-assets-api.onrender.com/stocks/prices/${symbolId}?interval=${timeFrame}&type=market`;
     if (process.env.NODE_ENV === "development") {
       url = `/stocks/prices/${symbolId}?interval=${timeFrame}&type=market`;
     }
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
     if (response.status !== 200) {
       handleErrors(response);
@@ -61,32 +65,34 @@ const getMarketData = async (symbolId, timeFrame) => {
   }
 };
 
-const fetchCompanyData = async (symbolId, type) => {
+const fetchCompanyData = async (symbolId, type, token) => {
   try {
     const symbol = symbolId.toLowerCase();
     let url;
     if (type === "overview") {
-      url = `https://asset-tracker-api.onrender.com/stocks/overview/${symbol}`;
+      url = `https://alpha-assets-api.onrender.com/stocks/overview/${symbol}`;
       if (process.env.NODE_ENV === "development") {
         url = `/stocks/overview/${symbol}`;
       }
     } else if (type === "income") {
-      url = `https://asset-tracker-api.onrender.com/stocks/income/${symbol}`;
+      url = `https://alpha-assets-api.onrender.com/stocks/income/${symbol}`;
       if (process.env.NODE_ENV === "development") {
         url = `/stocks/income/${symbol}`;
       }
     } else if (type === "cash") {
-      url = `https://asset-tracker-api.onrender.com/stocks/cash/${symbol}`;
+      url = `https://alpha-assets-api.onrender.com/stocks/cash/${symbol}`;
       if (process.env.NODE_ENV === "development") {
         url = `/stocks/cash/${symbol}`;
       }
     } else if (type === "balance") {
-      url = `https://asset-tracker-api.onrender.com/stocks/balance/${symbol}`;
+      url = `https://alpha-assets-api.onrender.com/stocks/balance/${symbol}`;
       if (process.env.NODE_ENV === "development") {
         url = `/stocks/balance/${symbol}`;
       }
     }
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
     if (response.status !== 200) {
       handleErrors(response);
@@ -147,6 +153,7 @@ const CompanyPage = () => {
   const [changePercent, setChangePercent] = useState(null);
   const [marketData, setMarketData] = useState([]);
   const [assetNews, setAssetNews] = useState([]);
+  const token = localStorage.getItem("token");
 
   const handleHide = () => setHideX(false);
 
@@ -163,8 +170,8 @@ const CompanyPage = () => {
 
   useEffect(() => {
     const fetchData = async (symbolId, timeFrame) => {
-      const priceData = await getPriceData(symbolId, timeFrame);
-      const companyMarketData = await getMarketData(symbolId, timeFrame);
+      const priceData = await getPriceData(symbolId, timeFrame, token);
+      const companyMarketData = await getMarketData(symbolId, timeFrame, token);
 
       if (priceData === "authError" || companyMarketData === "authError") {
         authErrorLogout();
@@ -182,16 +189,16 @@ const CompanyPage = () => {
       return;
     };
     fetchData(symbolId, timeFrame);
-  }, [timeFrame, symbolId, authErrorLogout]);
+  }, [timeFrame, symbolId, authErrorLogout, token]);
 
   useEffect(() => {
     const getCompany = async (symbolId) => {
       try {
         const companyData = await fetchAllCompanyData([
-          fetchCompanyData(symbolId, "overview"),
-          fetchCompanyData(symbolId, "income"),
-          fetchCompanyData(symbolId, "balance"),
-          fetchCompanyData(symbolId, "cash"),
+          fetchCompanyData(symbolId, "overview", token),
+          fetchCompanyData(symbolId, "income", token),
+          fetchCompanyData(symbolId, "balance", token),
+          fetchCompanyData(symbolId, "cash", token),
         ]);
 
         if (companyData === "authError") {
@@ -212,7 +219,7 @@ const CompanyPage = () => {
 
     getCompany(symbolId);
     getNews(symbolId);
-  }, [symbolId, authErrorLogout]);
+  }, [symbolId, authErrorLogout, token]);
 
   if (price === -1) {
     return <Unavailable param={symbolId} theme={theme} />;

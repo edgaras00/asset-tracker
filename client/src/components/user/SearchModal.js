@@ -25,6 +25,7 @@ const SearchModal = ({ isModalOpen, closeModal }) => {
   const [addingTxn, setAddingTxn] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [error, setError] = useState("");
+  const token = localStorage.getItem("token");
 
   const lightModeStocks = selectedType === "stock" ? "selected-light" : null;
   const lightModeCrypto = selectedType === "crypto" ? "selected-light" : null;
@@ -35,11 +36,13 @@ const SearchModal = ({ isModalOpen, closeModal }) => {
     try {
       const endpoint = assetType === "stock" ? "stocks" : "crypto";
       if (event.keyCode === 13) {
-        let url = `https://asset-tracker-api.onrender.com/${endpoint}/search?query=${search}`;
+        let url = `https://alpha-assets-api.onrender.com/${endpoint}/search?query=${search}`;
         if (process.env.NODE_ENV === "development") {
           url = `/${endpoint}/search?query=${search}`;
         }
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          headers: { Authorziation: `Bearer ${token}` },
+        });
 
         if (!response.ok || response.status !== 200) {
           handleErrors(response);

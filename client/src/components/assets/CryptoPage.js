@@ -16,13 +16,15 @@ import {
 import "./styles/cryptoPage.css";
 import "./styles/assetInfo.css";
 
-const fetchPriceData = async (cId, timeFrame) => {
+const fetchPriceData = async (cId, timeFrame, token) => {
   try {
-    let url = `https://asset-tracker-api.onrender.com/crypto/prices/${cId}?interval=${timeFrame}`;
+    let url = `https://alpha-assets-api.onrender.com/crypto/prices/${cId}?interval=${timeFrame}`;
     if (process.env.NODE_ENV === "development") {
       url = `/crypto/prices/${cId}?interval=${timeFrame}`;
     }
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
     if (response.status !== 200) {
       handleErrors(response);
@@ -37,15 +39,17 @@ const fetchPriceData = async (cId, timeFrame) => {
   }
 };
 
-const getCurrentPrice = async (cId, timeFrame) => {
+const getCurrentPrice = async (cId, timeFrame, token) => {
   try {
-    let baseUrl = "https://asset-tracker-api.onrender.com/crypto/current/";
+    let baseUrl = "https://alpha-assets-api.onrender.com/crypto/current/";
     if (process.env.NODE_ENV === "development") {
       baseUrl = "/crypto/current/";
     }
     const api = `${cId}?interval=${timeFrame}`;
 
-    const response = await fetch(baseUrl + api);
+    const response = await fetch(baseUrl + api, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
     if (response.status !== 200) {
       handleErrors(response);
@@ -60,13 +64,15 @@ const getCurrentPrice = async (cId, timeFrame) => {
   }
 };
 
-const fetchCryptoData = async (cId) => {
+const fetchCryptoData = async (cId, token) => {
   try {
-    let url = `https://asset-tracker-api.onrender.com/crypto/data/${cId}`;
+    let url = `https://alpha-assets-api.onrender.com/crypto/data/${cId}`;
     if (process.env.NODE_ENV === "development") {
       url = `/crypto/data/${cId}`;
     }
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
     if (response.status !== 200) {
       handleErrors(response);
@@ -98,13 +104,14 @@ const CryptoPage = () => {
   const [asetNews, setAssetNews] = useState([]);
   const handleHide = () => setHideX(false);
   const { cId } = useParams();
+  const token = localStorage.getItem("token");
 
   const priceChangeClass = priceChange && priceChange < 0 ? "percent-dec" : "";
 
   useEffect(() => {
-    const getCryptoInfo = async (cId) => {
+    const getCryptoInfo = async (cId, token) => {
       try {
-        const cryptoData = await fetchCryptoData(cId);
+        const cryptoData = await fetchCryptoData(cId, token);
 
         if (cryptoData === "authError") {
           authErrorLogout();
@@ -119,21 +126,21 @@ const CryptoPage = () => {
 
     const getNews = async (cId) => {
       try {
-        const news = await getAssetNews(cId);
+        const news = await getAssetNews(cId, token);
         setAssetNews(news);
       } catch (error) {
         console.log(error);
         setAssetNews([]);
       }
     };
-    getCryptoInfo(cId);
+    getCryptoInfo(cId, token);
     getNews(cId);
-  }, [cId, authErrorLogout]);
+  }, [cId, authErrorLogout, token]);
 
   useEffect(() => {
-    const fetchMarketData = async (cId, timeFrame) => {
-      const cryptoMarketData = await fetchPriceData(cId, timeFrame);
-      const priceData = await getCurrentPrice(cId, timeFrame);
+    const fetchMarketData = async (cId, timeFrame, token) => {
+      const cryptoMarketData = await fetchPriceData(cId, timeFrame, token);
+      const priceData = await getCurrentPrice(cId, timeFrame, token);
 
       if (cryptoMarketData === "authError" || priceData === "authError") {
         authErrorLogout();
@@ -154,8 +161,8 @@ const CryptoPage = () => {
         setPrice(assetPrice);
       }
     };
-    fetchMarketData(cId, timeFrame);
-  }, [cId, timeFrame, authErrorLogout]);
+    fetchMarketData(cId, timeFrame, token);
+  }, [cId, timeFrame, authErrorLogout, token]);
 
   if (price === -1 || marketData === -1 || cryptoData === -1) {
     return <Unavailable param={cId} theme={theme} />;

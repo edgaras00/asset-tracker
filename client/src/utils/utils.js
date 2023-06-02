@@ -42,9 +42,11 @@ export const handleErrors = (response) => {
   throw error;
 };
 
-export const getAssetNews = async (symbol) => {
+export const getAssetNews = async (symbol, token) => {
   try {
-    const response = await fetch(`/news/${symbol}`);
+    const response = await fetch(`/news/${symbol}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     if (!response.ok) {
       throw new Error("Could not get news data");
     }

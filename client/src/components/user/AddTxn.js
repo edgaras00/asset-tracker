@@ -9,15 +9,17 @@ import {
 
 import "./styles/transaction.css";
 
-const getPrice = async (type = "stock", symbol) => {
+const getPrice = async (type = "stock", symbol, token) => {
   try {
-    let url = `/stocks/prices/${symbol}`;
+    let url = `https://alpha-assets-api.onrender.com/stocks/prices/${symbol}`;
 
     if (type === "crypto") {
-      url = `/crypto/current/${symbol}`;
+      url = `https://alpha-assets-api.onrender.com/crypto/current/${symbol}`;
     }
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     const priceData = await response.json();
 
     if (response.status !== 200) {
@@ -57,9 +59,17 @@ const AddTxn = ({
   const [submitError, setSubmitError] = useState("");
 
   const { setUser, authErrorLogout } = useContext(AppContext);
+  const token = localStorage.getItem("token");
   const mountedRef = useRef(true);
 
-  const handleSubmitTxn = async (event, type, asset, price, quantity) => {
+  const handleSubmitTxn = async (
+    event,
+    type,
+    asset,
+    price,
+    quantity,
+    token
+  ) => {
     event.preventDefault();
 
     try {
@@ -81,6 +91,7 @@ const AddTxn = ({
       // Request url
       const url = "/user/buy";
       const requestOptions = setRequestOptions("PUT", txnObject);
+      if (token) requestOptions.headers.Authorization = `Bearer ${token}`;
       const response = await fetch(url, requestOptions);
       const data = await response.json();
 
@@ -110,11 +121,11 @@ const AddTxn = ({
       if (!mountedRef.current) return;
       try {
         if (type === "stock") {
-          const price = await getPrice(type, asset.symbol);
+          const price = await getPrice(type, asset.symbol, token);
           setPrice(price);
           return;
         }
-        const price = await getPrice(type, asset.cid);
+        const price = await getPrice(type, asset.cid, token);
         setPrice(price);
         return;
       } catch (error) {

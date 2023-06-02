@@ -29,6 +29,7 @@ const RemoveTxn = ({
   const [submitError, setSubmitError] = useState("");
 
   const { theme, setUser, authErrorLogout } = useContext(AppContext);
+  const token = localStorage.getItem("token");
   const txnAssetType = type === "stocks" ? "stock" : "crypto";
 
   const saveTxn = async (
@@ -59,8 +60,9 @@ const RemoveTxn = ({
       };
       // Request options
       const requestOptions = setRequestOptions("PUT", txnObject);
+      if (token) requestOptions.headers.Authorization = `Bearer ${token}`;
 
-      let url = "https://asset-tracker-api.onrender.com/user/sell";
+      let url = "https://alpha-assets-api.onrender.com/user/sell";
       if (process.env.NODE_ENV === "development") {
         url = "/user/sell";
       }
