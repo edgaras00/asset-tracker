@@ -12,8 +12,9 @@ const Login = () => {
   const [passwordInput, setPasswordInput] = useState("");
   const [loginError, setLoginError] = useState(null);
   const { setUser } = useContext(AppContext);
+  const token = localStorage.getItem("token");
 
-  const handleLogin = async (event, email, password) => {
+  const handleLogin = async (event, email, password, token) => {
     event.preventDefault();
     setLoginError(null);
     // Function that logins the user
@@ -24,7 +25,11 @@ const Login = () => {
         url = "/user/login";
       }
 
-      const requestOptions = setRequestOptions("POST", { email, password });
+      const requestOptions = setRequestOptions(
+        "POST",
+        { email, password },
+        token
+      );
       const response = await fetch(url, requestOptions);
 
       const data = await response.json();
@@ -53,7 +58,7 @@ const Login = () => {
       <div className="login-wrapper"></div>
       <form
         className="login-form"
-        onSubmit={(e) => handleLogin(e, emailInput, passwordInput)}
+        onSubmit={(e) => handleLogin(e, emailInput, passwordInput, token)}
       >
         <h4>alpha</h4>
         <div className="log-input-wrapper">
