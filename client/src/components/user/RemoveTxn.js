@@ -38,7 +38,8 @@ const RemoveTxn = ({
     assetObjectId,
     price,
     quantity,
-    totalAmount
+    totalAmount,
+    token
   ) => {
     event.preventDefault();
 
@@ -59,8 +60,7 @@ const RemoveTxn = ({
         sellingAll,
       };
       // Request options
-      const requestOptions = setRequestOptions("PUT", txnObject);
-      if (token) requestOptions.headers.Authorization = `Bearer ${token}`;
+      const requestOptions = setRequestOptions("PUT", txnObject, token);
 
       let url = "https://alpha-assets-api.onrender.com/user/sell";
       if (process.env.NODE_ENV === "development") {
@@ -109,7 +109,15 @@ const RemoveTxn = ({
           theme === "light" ? "transaction-form-light" : null
         }`}
         onSubmit={(e) =>
-          saveTxn(e, txnAssetType, assetObjectId, price, quantity, totalAmount)
+          saveTxn(
+            e,
+            txnAssetType,
+            assetObjectId,
+            price,
+            quantity,
+            totalAmount,
+            token
+          )
         }
       >
         <div className="exit-transaction">
