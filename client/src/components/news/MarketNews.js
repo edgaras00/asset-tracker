@@ -31,8 +31,10 @@ const MarketNews = () => {
         setNewsData([]);
       }
     };
-    getNewsData();
-  }, []);
+    if (token) {
+      getNewsData();
+    }
+  }, [token]);
 
   const newsItems = newsData.map((article) => {
     return (
