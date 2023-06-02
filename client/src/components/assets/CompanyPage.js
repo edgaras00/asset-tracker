@@ -169,7 +169,7 @@ const CompanyPage = () => {
   }
 
   useEffect(() => {
-    const fetchData = async (symbolId, timeFrame) => {
+    const fetchData = async (symbolId, timeFrame, token) => {
       const priceData = await getPriceData(symbolId, timeFrame, token);
       const companyMarketData = await getMarketData(symbolId, timeFrame, token);
 
@@ -188,11 +188,11 @@ const CompanyPage = () => {
       }
       return;
     };
-    fetchData(symbolId, timeFrame);
+    fetchData(symbolId, timeFrame, token);
   }, [timeFrame, symbolId, authErrorLogout, token]);
 
   useEffect(() => {
-    const getCompany = async (symbolId) => {
+    const getCompany = async (symbolId, token) => {
       try {
         const companyData = await fetchAllCompanyData([
           fetchCompanyData(symbolId, "overview", token),
@@ -212,13 +212,13 @@ const CompanyPage = () => {
       }
     };
 
-    const getNews = async (symbolId) => {
-      const news = await getAssetNews(symbolId);
+    const getNews = async (symbolId, token) => {
+      const news = await getAssetNews(symbolId, token);
       setAssetNews(news);
     };
 
-    getCompany(symbolId);
-    getNews(symbolId);
+    getCompany(symbolId, token);
+    getNews(symbolId, token);
   }, [symbolId, authErrorLogout, token]);
 
   if (price === -1) {
