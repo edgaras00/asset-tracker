@@ -124,7 +124,7 @@ const CryptoPage = () => {
       }
     };
 
-    const getNews = async (cId) => {
+    const getNews = async (cId, token) => {
       try {
         const news = await getAssetNews(cId, token);
         setAssetNews(news);
@@ -134,7 +134,7 @@ const CryptoPage = () => {
       }
     };
     getCryptoInfo(cId, token);
-    getNews(cId);
+    getNews(cId, token);
   }, [cId, authErrorLogout, token]);
 
   useEffect(() => {
