@@ -1,9 +1,10 @@
-export const setRequestOptions = (method, body) => {
+export const setRequestOptions = (method, body, token) => {
   return {
     method,
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(body),
   };

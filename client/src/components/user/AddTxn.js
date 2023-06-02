@@ -90,15 +90,14 @@ const AddTxn = ({
       }
       // Request url
       const url = "/user/buy";
-      const requestOptions = setRequestOptions("PUT", txnObject);
-      if (token) requestOptions.headers.Authorization = `Bearer ${token}`;
-      console.log(requestOptions);
+      const requestOptions = setRequestOptions("PUT", txnObject, token);
       const response = await fetch(url, requestOptions);
-      const data = await response.json();
 
       if (!response.ok || response.status !== 200) {
         handleErrors(response);
       }
+
+      const data = await response.json();
 
       setUser(data.data.data.updatedUser);
       setPrice(0);
