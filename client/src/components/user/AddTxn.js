@@ -150,7 +150,7 @@ const AddTxn = ({
       className={`transaction-form ${
         theme === "light" ? "transaction-form-light" : null
       }`}
-      onSubmit={(e) => handleSubmitTxn(e, type, asset, price, quantity)}
+      onSubmit={(e) => handleSubmitTxn(e, type, asset, price, quantity, token)}
     >
       <div
         className={`back-button-cont ${
