@@ -12,7 +12,6 @@ const Login = () => {
   const [passwordInput, setPasswordInput] = useState("");
   const [loginError, setLoginError] = useState(null);
   const { setUser } = useContext(AppContext);
-  const token = localStorage.getItem("token");
 
   const handleLogin = async (event, email, password, token) => {
     event.preventDefault();
@@ -32,8 +31,6 @@ const Login = () => {
       );
       const response = await fetch(url, requestOptions);
 
-      const data = await response.json();
-
       if (response.status !== 200) {
         if (response.status === 401) {
           const error = new Error("Email or password is incorrect.");
@@ -44,9 +41,12 @@ const Login = () => {
         throw new Error("Something went wrong. Please try again later.");
       }
 
+      const data = await response.json();
+
       // Log in user
       setUser(data.data.user);
       localStorage.setItem("user", JSON.stringify(data.data.user));
+      localStorage.setItem("token", data.token);
     } catch (error) {
       console.error(error);
       setLoginError(error.message);
