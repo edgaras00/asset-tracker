@@ -13,7 +13,7 @@ const Login = () => {
   const [loginError, setLoginError] = useState(null);
   const { setUser } = useContext(AppContext);
 
-  const handleLogin = async (event, email, password, token) => {
+  const handleLogin = async (event, email, password) => {
     event.preventDefault();
     setLoginError(null);
     // Function that logins the user
@@ -24,11 +24,7 @@ const Login = () => {
         url = "/user/login";
       }
 
-      const requestOptions = setRequestOptions(
-        "POST",
-        { email, password },
-        token
-      );
+      const requestOptions = setRequestOptions("POST", { email, password });
       const response = await fetch(url, requestOptions);
 
       if (response.status !== 200) {
@@ -58,7 +54,7 @@ const Login = () => {
       <div className="login-wrapper"></div>
       <form
         className="login-form"
-        onSubmit={(e) => handleLogin(e, emailInput, passwordInput, token)}
+        onSubmit={(e) => handleLogin(e, emailInput, passwordInput)}
       >
         <h4>alpha</h4>
         <div className="log-input-wrapper">
