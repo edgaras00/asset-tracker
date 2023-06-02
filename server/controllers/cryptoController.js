@@ -82,6 +82,7 @@ exports.getPortfolio = catchAsync(async (req, res, next) => {
     const roi = parseFloat((((value - cost) / cost) * 100).toFixed(2));
     const logo = cryptoLogos[cid];
     return {
+      id: coin._id,
       symbol,
       cid,
       amount,
