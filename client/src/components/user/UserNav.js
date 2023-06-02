@@ -18,8 +18,11 @@ const UserNav = () => {
   const logout = async () => {
     try {
       localStorage.removeItem("user");
+      localStorage.removeItem("token");
       setUser(null);
-      const response = await fetch("/user/logout");
+      const response = await fetch(
+        "https://alpha-assets-api.onrender.com/user/logout"
+      );
       const data = await response.json();
       console.log(data);
     } catch (error) {
