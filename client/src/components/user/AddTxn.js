@@ -89,7 +89,7 @@ const AddTxn = ({
         txnObject.crypto["cid"] = asset.cid;
       }
       // Request url
-      const url = "/user/buy";
+      const url = "https://alpha-assets-api.onrender.com/user/buy";
       const requestOptions = setRequestOptions("PUT", txnObject, token);
       const response = await fetch(url, requestOptions);
 
