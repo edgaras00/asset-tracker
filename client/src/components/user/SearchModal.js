@@ -41,7 +41,7 @@ const SearchModal = ({ isModalOpen, closeModal }) => {
           url = `/${endpoint}/search?query=${search}`;
         }
         const response = await fetch(url, {
-          headers: { Authorziation: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         if (!response.ok || response.status !== 200) {
