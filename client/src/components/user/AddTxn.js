@@ -92,6 +92,7 @@ const AddTxn = ({
       const url = "/user/buy";
       const requestOptions = setRequestOptions("PUT", txnObject);
       if (token) requestOptions.headers.Authorization = `Bearer ${token}`;
+      console.log(requestOptions);
       const response = await fetch(url, requestOptions);
       const data = await response.json();
 
