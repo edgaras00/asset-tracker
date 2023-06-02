@@ -45,7 +45,11 @@ export const handleErrors = (response) => {
 
 export const getAssetNews = async (symbol, token) => {
   try {
-    const response = await fetch(`/news/${symbol}`, {
+    let url = `https://alpha-assets-api.onrender.com/news/${symbol}`;
+    if (process.env.REACT_APP_ENV === "development") {
+      url = `/news/${symbol}`;
+    }
+    const response = await fetch(url, {
       headers: { Authorization: `Bearer ${token}` },
     });
     if (!response.ok) {

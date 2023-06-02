@@ -9,8 +9,6 @@ const CompanyNews = ({ newsData }) => {
   const { theme } = useContext(AppContext);
   const [expand, setExpand] = useState(true);
 
-  // const data = news.articles;
-
   // const newsItems = data.slice(0, 5).map((article, index) => {
   const newsItems = newsData.map((article, index) => {
     return (
