@@ -12,9 +12,14 @@ import "./styles/transaction.css";
 const getPrice = async (type = "stock", symbol, token) => {
   try {
     let url = `https://alpha-assets-api.onrender.com/stocks/prices/${symbol}`;
-
+    if (process.env.REACT_APP_ENV === "development") {
+      url = `/stocks/prices/${symbol}`;
+    }
     if (type === "crypto") {
       url = `https://alpha-assets-api.onrender.com/crypto/current/${symbol}`;
+      if (process.env.REACT_APP_ENV === "development") {
+        url = `/crypto/current/${symbol}`;
+      }
     }
 
     const response = await fetch(url, {
@@ -58,9 +63,7 @@ const AddTxn = ({
   const [priceError, setPriceError] = useState("");
   const [submitError, setSubmitError] = useState("");
 
-  const { setUser, authErrorLogout } = useContext(AppContext);
-  const token = localStorage.getItem("token");
-  console.log(token);
+  const { setUser, authErrorLogout, token } = useContext(AppContext);
   const mountedRef = useRef(true);
 
   const handleSubmitTxn = async (
@@ -90,7 +93,11 @@ const AddTxn = ({
         txnObject.crypto["cid"] = asset.cid;
       }
       // Request url
-      const url = "https://alpha-assets-api.onrender.com/user/buy";
+      let url = "https://alpha-assets-api.onrender.com/user/buy";
+      if (process.env.REACT_APP_ENV === "development") {
+        url = "/user/buy";
+      }
+
       const requestOptions = setRequestOptions("PUT", txnObject, token);
       const response = await fetch(url, requestOptions);
 
@@ -135,7 +142,7 @@ const AddTxn = ({
         setPriceError("Failed to retrieve price data");
       }
     },
-    [mountedRef]
+    [mountedRef, token]
   );
 
   useEffect(() => {

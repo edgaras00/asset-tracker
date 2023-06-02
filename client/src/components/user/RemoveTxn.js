@@ -28,9 +28,8 @@ const RemoveTxn = ({
   const [txnDate, setTxnDate] = useState(dateStr);
   const [submitError, setSubmitError] = useState("");
 
-  const { theme, setUser, authErrorLogout } = useContext(AppContext);
-  const token = localStorage.getItem("token");
-  const txnAssetType = type === "stocks" ? "stock" : "crypto";
+  const { theme, setUser, authErrorLogout, token } = useContext(AppContext);
+  const txnAssetType = type === "stock" ? "stock" : "crypto";
 
   const saveTxn = async (
     event,
@@ -59,19 +58,23 @@ const RemoveTxn = ({
         savedTimestamp: Date.now(),
         sellingAll,
       };
+      console.log(txnObject);
       // Request options
       const requestOptions = setRequestOptions("PUT", txnObject, token);
 
       let url = "https://alpha-assets-api.onrender.com/user/sell";
-      if (process.env.NODE_ENV === "development") {
+      if (process.env.REACT_APP_ENV === "development") {
         url = "/user/sell";
       }
+      console.log(url);
       const response = await fetch(url, requestOptions);
-      const data = await response.json();
 
       if (!response.ok || response.status !== 200) {
         handleErrors(response);
       }
+
+      const data = await response.json();
+      console.log(data);
 
       setUser(data.data.updatedUser);
       setPrice(0);

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { AppContext } from "../../context/appContext";
 import NewsItem from "./NewsItem";
 
 import "./styles/marketNews.css";
@@ -7,13 +8,13 @@ const MarketNews = () => {
   // Component that holds links to market news articles
 
   const [newsData, setNewsData] = useState([]);
-  const token = localStorage.getItem("token");
+  const { token } = useContext(AppContext);
 
   useEffect(() => {
     const getNewsData = async () => {
       try {
         let url = "https://alpha-assets-api.onrender.com/news";
-        if (process.env.NODE_ENV === "development") {
+        if (process.env.REACT_APP_ENV === "development") {
           url = "/news";
         }
         const response = await fetch(url, {

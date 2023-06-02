@@ -20,9 +20,12 @@ const UserNav = () => {
       localStorage.removeItem("user");
       localStorage.removeItem("token");
       setUser(null);
-      const response = await fetch(
-        "https://alpha-assets-api.onrender.com/user/logout"
-      );
+      let url = "https://alpha-assets-api.onrender.com/user/logout";
+      if (process.env.REACT_APP_ENV === "development") {
+        url = "/user/logout";
+      }
+
+      const response = await fetch(url);
       const data = await response.json();
       console.log(data);
     } catch (error) {

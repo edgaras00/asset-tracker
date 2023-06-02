@@ -14,7 +14,8 @@ import "./styles/searchModal.css";
 const SearchModal = ({ isModalOpen, closeModal }) => {
   // Modal component to search for assets
 
-  const { theme, authErrorLogout } = useContext(AppContext);
+  const { theme, authErrorLogout, token } = useContext(AppContext);
+  console.log(token);
   const searchIcon = <FontAwesomeIcon icon={faSearch} />;
 
   const [search, setSearch] = useState("");
@@ -25,7 +26,6 @@ const SearchModal = ({ isModalOpen, closeModal }) => {
   const [addingTxn, setAddingTxn] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [error, setError] = useState("");
-  const token = localStorage.getItem("token");
 
   const lightModeStocks = selectedType === "stock" ? "selected-light" : null;
   const lightModeCrypto = selectedType === "crypto" ? "selected-light" : null;
@@ -37,7 +37,7 @@ const SearchModal = ({ isModalOpen, closeModal }) => {
       const endpoint = assetType === "stock" ? "stocks" : "crypto";
       if (event.keyCode === 13) {
         let url = `https://alpha-assets-api.onrender.com/${endpoint}/search?query=${search}`;
-        if (process.env.NODE_ENV === "development") {
+        if (process.env.REACT_APP_ENV === "development") {
           url = `/${endpoint}/search?query=${search}`;
         }
         const response = await fetch(url, {

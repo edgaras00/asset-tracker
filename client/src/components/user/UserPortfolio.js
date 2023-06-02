@@ -19,13 +19,13 @@ const getTransactionHistory = async (type, token) => {
   try {
     // Build URL
     let url = "https://alpha-assets-api.onrender.com/stocks/history";
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.REACT_APP_ENV === "development") {
       url = "/stocks/history";
     }
 
     if (type === "crypto") {
       url = "https://alpha-assets-api.onrender.com/crypto/history";
-      if (process.env.NODE_ENV === "development") {
+      if (process.env.REACT_APP_ENV === "development") {
         url = "/crypto/history";
       }
     }
@@ -59,13 +59,13 @@ const getPortfolio = async (type, token) => {
   try {
     // Build URL
     let url = "https://alpha-assets-api.onrender.com/stocks/portfolio";
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.REACT_APP_ENV === "development") {
       url = "/stocks/portfolio";
     }
 
     if (type === "crypto") {
       url = "https://alpha-assets-api.onrender.com/crypto/portfolio";
-      if (process.env.NODE_ENV === "development") {
+      if (process.env.REACT_APP_ENV === "development") {
         url = "/crypto/portfolio";
       }
     }
@@ -126,8 +126,7 @@ const UserPortfolio = () => {
   const [txnActivity, setTxnActivity] = useState([]);
   const [serverError, setServerError] = useState(0);
 
-  const { theme, user, authErrorLogout } = useContext(AppContext);
-  const token = localStorage.getItem("token");
+  const { theme, user, authErrorLogout, token } = useContext(AppContext);
 
   const clearPortfolio = (isError = false) => {
     // Clear portfolio state data

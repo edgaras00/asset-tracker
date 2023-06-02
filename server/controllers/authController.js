@@ -105,7 +105,6 @@ exports.protectRoute = catchAsync(async (req, res, next) => {
   } else if (req.cookies.jwt) {
     token = req.cookies.jwt;
   }
-  console.log(token);
 
   if (!token) {
     return next(new AppError("Please log in to gain access", 401));

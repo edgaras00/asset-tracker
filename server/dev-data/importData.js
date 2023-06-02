@@ -1,9 +1,10 @@
 const fs = require("fs");
 const path = require("path");
 const mongoose = require("mongoose");
-const CryptoSymbols = require("./models/cryptoSymbolsModel");
-const StockSymbols = require("./models/stockSymbolsModel");
-require("dotenv").config({ path: "./env" });
+const CryptoSymbols = require("../models/cryptoSymbolsModel");
+const StockSymbols = require("../models/stockSymbolsModel");
+const User = require("../models/userModel");
+require("dotenv").config({ path: "../env" });
 
 const readData = (path) => JSON.parse(fs.readFileSync(path, "utf-8"));
 
@@ -37,20 +38,20 @@ const uploadData = async (Model, data) => {
 const importData = async () => {
   try {
     // Read files
-    const coinInfo = readData(path.join(__dirname, "coins.json"));
+    // const coinInfo = readData(path.join(__dirname, "coins.json"));
     // const symbolInfo = readData(path.join(__dirname, "db-symbols.json"));
 
     // Connect to DB
     await connectToDB();
 
     // Clear collections
-    await clearDB(CryptoSymbols);
+    await clearDB(User);
     // await clearDB(StockSymbols);
 
     console.log("DB cleared");
 
     // Upload new data to DB
-    await uploadData(CryptoSymbols, coinInfo);
+    // await uploadData(CryptoSymbols, coinInfo);
     // await uploadData(StockSymbols, symbolInfo);
     console.log("Data imported successfully!");
     process.exit(0);

@@ -21,7 +21,7 @@ import "./styles/companyPage.css";
 const getPriceData = async (symbolId, timeFrame, token) => {
   try {
     let url = `https://alpha-assets-api.onrender.com/stocks/prices/${symbolId}?interval=${timeFrame}`;
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.REACT_APP_ENV === "development") {
       url = `/stocks/prices/${symbolId}?interval=${timeFrame}`;
     }
     const response = await fetch(url, {
@@ -45,7 +45,7 @@ const getPriceData = async (symbolId, timeFrame, token) => {
 const getMarketData = async (symbolId, timeFrame, token) => {
   try {
     let url = `https://alpha-assets-api.onrender.com/stocks/prices/${symbolId}?interval=${timeFrame}&type=market`;
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.REACT_APP_ENV === "development") {
       url = `/stocks/prices/${symbolId}?interval=${timeFrame}&type=market`;
     }
     const response = await fetch(url, {
@@ -71,22 +71,22 @@ const fetchCompanyData = async (symbolId, type, token) => {
     let url;
     if (type === "overview") {
       url = `https://alpha-assets-api.onrender.com/stocks/overview/${symbol}`;
-      if (process.env.NODE_ENV === "development") {
+      if (process.env.REACT_APP_ENV === "development") {
         url = `/stocks/overview/${symbol}`;
       }
     } else if (type === "income") {
       url = `https://alpha-assets-api.onrender.com/stocks/income/${symbol}`;
-      if (process.env.NODE_ENV === "development") {
+      if (process.env.REACT_APP_ENV === "development") {
         url = `/stocks/income/${symbol}`;
       }
     } else if (type === "cash") {
       url = `https://alpha-assets-api.onrender.com/stocks/cash/${symbol}`;
-      if (process.env.NODE_ENV === "development") {
+      if (process.env.REACT_APP_ENV === "development") {
         url = `/stocks/cash/${symbol}`;
       }
     } else if (type === "balance") {
       url = `https://alpha-assets-api.onrender.com/stocks/balance/${symbol}`;
-      if (process.env.NODE_ENV === "development") {
+      if (process.env.REACT_APP_ENV === "development") {
         url = `/stocks/balance/${symbol}`;
       }
     }
@@ -142,7 +142,7 @@ const fetchAllCompanyData = async (dataFetches) => {
 const CompanyPage = () => {
   // Component that renders company information
 
-  const { theme, authErrorLogout } = useContext(AppContext);
+  const { theme, authErrorLogout, token } = useContext(AppContext);
   const { symbolId } = useParams();
 
   const [timeFrame, setTimeFrame] = useState("week");
@@ -153,7 +153,6 @@ const CompanyPage = () => {
   const [changePercent, setChangePercent] = useState(null);
   const [marketData, setMarketData] = useState([]);
   const [assetNews, setAssetNews] = useState([]);
-  const token = localStorage.getItem("token");
 
   const handleHide = () => setHideX(false);
 

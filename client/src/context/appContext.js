@@ -4,6 +4,8 @@ const AppContext = React.createContext();
 const AppContextProvider = ({ children }) => {
   // const [theme, setTheme] = useState("dark");
   const [theme, setTheme] = useState(localStorage.getItem("theme") || null);
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
+
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
@@ -24,7 +26,15 @@ const AppContextProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{ theme, toggleTheme, user, setUser, authErrorLogout }}
+      value={{
+        theme,
+        toggleTheme,
+        user,
+        setUser,
+        authErrorLogout,
+        token,
+        setToken,
+      }}
     >
       {children}
     </AppContext.Provider>

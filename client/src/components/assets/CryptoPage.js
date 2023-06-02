@@ -19,7 +19,7 @@ import "./styles/assetInfo.css";
 const fetchPriceData = async (cId, timeFrame, token) => {
   try {
     let url = `https://alpha-assets-api.onrender.com/crypto/prices/${cId}?interval=${timeFrame}`;
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.REACT_APP_ENV === "development") {
       url = `/crypto/prices/${cId}?interval=${timeFrame}`;
     }
     const response = await fetch(url, {
@@ -42,7 +42,7 @@ const fetchPriceData = async (cId, timeFrame, token) => {
 const getCurrentPrice = async (cId, timeFrame, token) => {
   try {
     let baseUrl = "https://alpha-assets-api.onrender.com/crypto/current/";
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.REACT_APP_ENV === "development") {
       baseUrl = "/crypto/current/";
     }
     const api = `${cId}?interval=${timeFrame}`;
@@ -67,7 +67,7 @@ const getCurrentPrice = async (cId, timeFrame, token) => {
 const fetchCryptoData = async (cId, token) => {
   try {
     let url = `https://alpha-assets-api.onrender.com/crypto/data/${cId}`;
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.REACT_APP_ENV === "development") {
       url = `/crypto/data/${cId}`;
     }
     const response = await fetch(url, {
@@ -91,7 +91,7 @@ const CryptoPage = () => {
   // Component that displays information about a particular crypto asset
 
   // Set up component state
-  const { theme, authErrorLogout } = useContext(AppContext);
+  const { theme, authErrorLogout, token } = useContext(AppContext);
   // Display price info for different time intervals
   // daily, weekly, monthly, yearly
   const [timeFrame, setTimeFrame] = useState("day");
@@ -104,7 +104,6 @@ const CryptoPage = () => {
   const [asetNews, setAssetNews] = useState([]);
   const handleHide = () => setHideX(false);
   const { cId } = useParams();
-  const token = localStorage.getItem("token");
 
   const priceChangeClass = priceChange && priceChange < 0 ? "percent-dec" : "";
 
