@@ -19,8 +19,8 @@ Inspired by other asset trackers like Delta and FTX (Blockfolio).
 * Dark/light mode
 <br/>
 
-<img src="docs/portfolio.png" width="400px">
-<img src="docs/graph.png" width="400px">
-<img src="docs/distribution.png" width="500px">
-<img src="docs/data.png" width="500px">
-<img src="docs/light-mode.png" width="500px">
+<img src="docs/portfolio.png" width="700px">
+<img src="docs/graph.png" width="700px">
+<img src="docs/distribution.png" width="700px">
+<img src="docs/data.png" width="700px">
+<img src="docs/light-mode.png" width="700px">
