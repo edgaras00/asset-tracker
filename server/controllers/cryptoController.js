@@ -138,6 +138,12 @@ exports.getCurrentPrice = catchAsync(async (req, res, next) => {
   const data = await result.json();
   console.log(data);
 
+  if (data.status && data.status.error_code === 429) {
+    return next(
+      new AppError("API rate limit exceeded. Please try again later", 429)
+    );
+  }
+
   // throw error if nothing was found
   if (Object.keys(data).length === 0) {
     return next(new AppError("Coin price data not found", 404));
