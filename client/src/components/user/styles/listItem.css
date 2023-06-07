@@ -58,3 +58,14 @@
     font-size: 0.8rem;
   }
 }
+
+@media (max-width: 420px) {
+  .table-ticker img {
+    width: 35px;
+  }
+
+  .row td {
+    height: 46px;
+    font-size: 0.8rem;
+  }
+}

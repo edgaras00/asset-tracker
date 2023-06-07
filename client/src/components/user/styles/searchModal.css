@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   outline: none;
-  margin-top: 5%;
+  margin-top: 5rem;
 }
 
 .searchbar {
@@ -240,5 +240,19 @@
 @media (max-width: 1000px) {
   .modal-content {
     width: 70%;
+  }
+}
+
+@media (max-width: 420px) {
+  .modal-content {
+    width: 84%;
+    margin-top: 3.2rem;
+  }
+  .modal-asset-item {
+    height: 45px;
+  }
+
+  .modal-add {
+    font-size: 2rem;
   }
 }

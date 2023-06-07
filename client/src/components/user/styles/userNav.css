@@ -41,3 +41,9 @@
     width: 20%;
   }
 }
+
+@media (max-width: 420px) {
+  .user-nav-right {
+    width: 25%;
+  }
+}

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import RemoveTxn from "./RemoveTxn";
 
 import { numberWithCommas } from "../../utils/utils";
+import useWindowWidth from "../../hooks/useWindowWidth";
 
 import "./styles/listItem.css";
 import "./styles/valueColors.css";
@@ -28,12 +29,28 @@ const ListItem = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  const { width } = useWindowWidth();
+
+  // Booleans for classes and links
 
   let tickerClass = "table-ticker";
   // Fix GOOGLE logo
   if (ticker === "GOOGL") {
     tickerClass = "table-ticker google";
   }
+
+  // Link to stock or crypto
+  const destination =
+    type === "stock" ? `/company/${ticker}` : `/crypto/${cid}`;
+
+  // Ticker class
+  const tickerThemeClass = theme === "light" ? "ticker-light" : "ticker";
+
+  // Display price
+  const displayPrice =
+    price >= 1000
+      ? numberWithCommas(parseFloat(price.toFixed(2)))
+      : price.toFixed(2);
 
   return (
     <tr className="row">
@@ -49,25 +66,23 @@ const ListItem = ({
         assetPrice={price}
       />
       <td className={tickerClass}>
-        <Link to={type === "stock" ? `/company/${ticker}` : `/crypto/${cid}`}>
+        <Link to={destination}>
           <img src={logo} alt="symbol" />
-          <span className={theme === "light" ? "ticker-light" : "ticker"}>
-            {ticker}
+          <span className={tickerThemeClass}>
+            {width > 420 ? ticker : null}
           </span>
         </Link>
       </td>
       {amount ? <td>{numberWithCommas(amount)}</td> : null}
-      <td>
-        $
-        {price >= 1000
-          ? numberWithCommas(parseFloat(price.toFixed(2)))
-          : price.toFixed(2)}
-      </td>
+      <td>${displayPrice}</td>
       {value ? <td>${numberWithCommas(value.toFixed(2))}</td> : null}
-      <td className={dayChange >= 0 ? "value-increase" : "value-decrease"}>
-        {dayChange > 0 ? "+" : null}
-        {dayChange}%
-      </td>
+      {width > 420 ? (
+        <td className={dayChange >= 0 ? "value-increase" : "value-decrease"}>
+          {dayChange > 0 ? "+" : null}
+          {dayChange}%
+        </td>
+      ) : null}
+
       {returnOnInvestment ? (
         <td
           className={`roi-col ${
@@ -79,7 +94,7 @@ const ListItem = ({
         </td>
       ) : null}
       <td className="remove" onClick={openModal}>
-        Remove
+        {width > 420 ? "Remove" : "X"}
       </td>
     </tr>
   );

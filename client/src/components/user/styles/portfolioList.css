@@ -142,3 +142,17 @@
     padding-bottom: 5px;
   }
 }
+
+@media (max-width: 420px) {
+  .port-wrapper {
+    width: 100%;
+  }
+  .port-header button {
+    padding-top: 0.5rem;
+    padding-bottom: 0.7rem;
+  }
+
+  .port-col {
+    font-size: 0.9rem;
+  }
+}

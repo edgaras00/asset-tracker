@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import ListItem from "./ListItem";
 import SearchModal from "./SearchModal";
+import useWindowWidth from "../../hooks/useWindowWidth";
 
 import "./styles/portfolioList.css";
 
@@ -12,12 +13,10 @@ const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Sort asset list/table by property
-  // value, price, amount, 24H price change, ROI
   const [sortCol, setSortCol] = useState("value");
-  // Sort by ascending or descending values
   const [ascending, setAscending] = useState(false);
+  const { width } = useWindowWidth();
 
-  // Functions that open/close asset search modal
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
@@ -127,12 +126,14 @@ const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
               >
                 Value
               </th>
-              <th
-                className="port-col"
-                onClick={() => handleClick("dayChange", sortCol)}
-              >
-                24H
-              </th>
+              {width > 420 ? (
+                <th
+                  className="port-col"
+                  onClick={() => handleClick("dayChange", sortCol)}
+                >
+                  24H
+                </th>
+              ) : null}
 
               <th
                 className="roi-col port-col"

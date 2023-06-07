@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { AppContext } from "../../context/appContext";
 import { numberWithCommas } from "../../utils/utils";
+import useWindowWidth from "../../hooks/useWindowWidth";
 
 import "./styles/assetInfo.css";
 
@@ -8,6 +9,7 @@ const BalanceSheet = ({ balance }) => {
   // Component for company's balance sheet data
   const { theme } = useContext(AppContext);
   const [expand, setExpand] = useState(false);
+  const { width } = useWindowWidth();
 
   return (
     <div
@@ -20,7 +22,7 @@ const BalanceSheet = ({ balance }) => {
           theme === "light" ? "asset-header-light" : null
         }`}
       >
-        <h2>Balance Sheet</h2>
+        <h2>Balance {width > 420 ? "Sheet" : null}</h2>
         {expand ? (
           <span onClick={() => setExpand(false)}>Hide</span>
         ) : (

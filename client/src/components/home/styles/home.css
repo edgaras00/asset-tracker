@@ -188,3 +188,9 @@
     font-size: 3.2rem;
   }
 }
+
+@media (max-width: 420px) {
+  .home-content {
+    margin-bottom: 150px;
+  }
+}

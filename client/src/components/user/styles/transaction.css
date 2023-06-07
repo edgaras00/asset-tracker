@@ -166,3 +166,18 @@
     width: 70%;
   }
 }
+
+@media (max-width: 420px) {
+  .transaction-form {
+    width: 86%;
+  }
+
+  .txn-input input[type="date"] {
+    width: 190px;
+  }
+
+  .transaction-form button {
+    padding-bottom: 0.5rem;
+    padding-top: 0.3rem;
+  }
+}

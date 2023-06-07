@@ -2,12 +2,15 @@ import React, { useState, useContext } from "react";
 import { AppContext } from "../../context/appContext";
 import { numberWithCommas } from "../../utils/utils";
 
+import useWindowWidth from "../../hooks/useWindowWidth";
+
 import "./styles/assetInfo.css";
 
 const IncomeStatement = ({ income }) => {
   // Income statement component
   const { theme } = useContext(AppContext);
   const [expand, setExpand] = useState(false);
+  const { width } = useWindowWidth();
 
   return (
     <div
@@ -20,7 +23,7 @@ const IncomeStatement = ({ income }) => {
           theme === "light" ? "asset-header-light" : null
         }`}
       >
-        <h2>Income Statement</h2>
+        <h2>Income {width > 420 ? "Statement" : null}</h2>
         {expand ? (
           <span onClick={() => setExpand(false)}>Hide</span>
         ) : (

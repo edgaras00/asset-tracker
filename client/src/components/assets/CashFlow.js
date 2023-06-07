@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { AppContext } from "../../context/appContext";
 import { numberWithCommas } from "../../utils/utils";
+import useWindowWidth from "../../hooks/useWindowWidth";
 
 import "./styles/assetInfo.css";
 
@@ -8,6 +9,7 @@ const CashFlow = ({ cash }) => {
   // Component for company's cash flow data
   const { theme } = useContext(AppContext);
   const [expand, setExpand] = useState(false);
+  const { width } = useWindowWidth();
   return (
     <div
       className={`asset-info-container ${
@@ -19,7 +21,7 @@ const CashFlow = ({ cash }) => {
           theme === "light" ? "asset-header-light" : null
         }`}
       >
-        <h2>Cash Flow Statement</h2>
+        <h2>Cash Flow {width > 420 ? "Statement" : null}</h2>
         {expand ? (
           <span onClick={() => setExpand(false)}>Hide</span>
         ) : (
