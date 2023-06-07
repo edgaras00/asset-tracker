@@ -33,3 +33,9 @@
     color: #000000;
   }
 }
+
+@media (max-width: 420px) {
+  .summary-card {
+    font-size: 0.8rem;
+  }
+}

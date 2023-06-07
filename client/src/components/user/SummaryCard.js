@@ -17,9 +17,9 @@ const SummaryCard = ({ title, value, theme, type, increasing }) => {
     >
       <h3>{title}</h3>
       <h2 className={percentClass}>
-        {type === "usd" && value ? "$" : null}
+        {type === "usd" && value !== null ? "$" : null}
         {value}
-        {type === "percent" && value ? "%" : null}
+        {type === "percent" && value !== null ? "%" : null}
       </h2>
     </div>
   );

@@ -93,6 +93,8 @@ const getPortfolio = async (type, token) => {
     // Check if there is a positive return on investment
     const isValueIncrease = totalROI >= 0;
 
+    console.log(totalROI);
+
     return {
       totalValue,
       isValueIncrease,
@@ -119,7 +121,7 @@ const UserPortfolio = () => {
 
   const [assetCost, setAssetCost] = useState(null);
   const [assetValue, setAssetValue] = useState(0);
-  const [percentGain, setPercentGain] = useState(null);
+  const [percentGain, setPercentGain] = useState(0);
   const [increasing, setIncreasing] = useState(true);
 
   const [showGraphPercent, setShowGraphPercent] = useState(false);
@@ -136,7 +138,7 @@ const UserPortfolio = () => {
     setPortfolio([]);
     setAssetValue(0);
     setAssetCost(0);
-    setPercentGain(null);
+    setPercentGain(0);
   };
 
   // Update user and portfolio state data

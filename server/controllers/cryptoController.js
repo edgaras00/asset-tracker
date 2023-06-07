@@ -136,7 +136,6 @@ exports.getCurrentPrice = catchAsync(async (req, res, next) => {
   // Fetch current price data
   const result = await fetch(baseUrl + query);
   const data = await result.json();
-  console.log(data);
 
   if (data.status && data.status.error_code === 429) {
     return next(

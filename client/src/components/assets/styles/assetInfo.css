@@ -161,7 +161,15 @@
 }
 
 @media (max-width: 420px) {
-  /* .asset-header h2 {
-    font-size: 1.8rem;
-  } */
+  .asset-table {
+    width: 100%;
+    font-size: 0.7rem;
+  }
+  .asset-table td {
+    border: 1px solid #121212;
+    text-align: center;
+  }
+  .exchange-table-row td a {
+    font-size: 0.78rem;
+  }
 }

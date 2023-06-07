@@ -82,3 +82,33 @@
     width: 70px;
   }
 }
+
+@media (max-width: 420px) {
+  .explorers,
+  .community {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .explorers .info-title,
+  .community .info-title {
+    width: 100%;
+    margin: 0;
+  }
+
+  .explorer-links,
+  .community-links {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1.2rem;
+  }
+
+  .explorer,
+  .social {
+    margin-bottom: 1rem;
+    margin-right: 0;
+  }
+}

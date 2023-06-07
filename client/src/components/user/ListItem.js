@@ -30,6 +30,7 @@ const ListItem = ({
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const { width } = useWindowWidth();
+  console.log(returnOnInvestment);
 
   // Booleans for classes and links
 
@@ -38,6 +39,8 @@ const ListItem = ({
   if (ticker === "GOOGL") {
     tickerClass = "table-ticker google";
   }
+
+  console.log(returnOnInvestment);
 
   // Link to stock or crypto
   const destination =
@@ -83,16 +86,18 @@ const ListItem = ({
         </td>
       ) : null}
 
-      {returnOnInvestment ? (
+      {returnOnInvestment !== null ? (
         <td
           className={`roi-col ${
             returnOnInvestment >= 0 ? "value-increase" : "value-decrease"
           }`}
         >
-          {returnOnInvestment >= 0 ? "+" : null}
+          {returnOnInvestment >= 0 ? "+" : ""}
           {returnOnInvestment}%
         </td>
-      ) : null}
+      ) : (
+        0
+      )}
       <td className="remove" onClick={openModal}>
         {width > 420 ? "Remove" : "X"}
       </td>

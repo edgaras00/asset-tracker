@@ -31,7 +31,6 @@ const fetchPriceData = async (cId, timeFrame, token) => {
     }
 
     const data = await response.json();
-    console.log(data);
     return data.data;
   } catch (error) {
     console.log(error);
