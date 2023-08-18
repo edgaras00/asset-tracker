@@ -24,3 +24,7 @@ Inspired by other asset trackers like Delta and FTX (Blockfolio).
 <img src="docs/distribution.png" width="700px">
 <img src="docs/data.png" width="700px">
 <img src="docs/light-mode.png" width="700px">
+
+---
+
+<img src="docs/mobile.jpg" width="400px">
