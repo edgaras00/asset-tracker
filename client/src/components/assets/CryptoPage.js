@@ -94,7 +94,7 @@ const CryptoPage = () => {
   const { theme, authErrorLogout, token } = useContext(AppContext);
   // Display price info for different time intervals
   // daily, weekly, monthly, yearly
-  const [timeFrame, setTimeFrame] = useState("day");
+  const [timeFrame, setTimeFrame] = useState("week");
   const [expandContent, setExpandContent] = useState(false);
   const [cryptoData, setCryptoData] = useState(null);
   const [price, setPrice] = useState(null);
@@ -235,14 +235,14 @@ const CryptoPage = () => {
           </span>
         </div>
         <div className="balance-history">
-          <div
+          {/* <div
             onClick={() => {
               setHideX(true);
               setTimeFrame("day");
             }}
           >
             1D
-          </div>
+          </div> */}
           <div
             onClick={() => {
               setHideX(true);

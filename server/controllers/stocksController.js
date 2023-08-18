@@ -13,16 +13,17 @@ const {
   fetchAllStockData,
   getPreviousDate,
   getDateFromUnix,
+  getCurrentPrice,
+  formatHistoricalPrices,
 } = require("../utils/stocksUtils");
 
 const yahoo = new yahooStockAPI();
 
-const AV_API = process.env.AV_API;
+// const AV_API = process.env.AV_API;
 
 // Returns stock name and symbol
 exports.searchStocks = catchAsync(async (req, res, next) => {
   const query = req.query.query;
-  // Search db for stock
   const results = await StockSymbols.find({ $text: { $search: query } });
   res.status(200).json({ status: "Success", data: results });
 });
@@ -31,7 +32,6 @@ exports.getPrices = catchAsync(async (req, res) => {
   // Valid inputs
   const intervals = ["day", "week", "month", "year"];
   const types = ["current", "market"];
-
   const symbol = req.params.symbol || "tsla";
 
   const interval = intervals.includes(req.query.interval)
@@ -42,45 +42,21 @@ exports.getPrices = catchAsync(async (req, res) => {
   const endDate = new Date();
   const startDate = getPreviousDate(endDate, interval);
 
-  const priceData = await yahoo.getHistoricalPrices({
+  const rawPriceData = await yahoo.getHistoricalPrices({
     startDate,
     endDate,
     symbol,
     frequency: interval === "year" ? "1mo" : "1d",
   });
 
-  if (type === "current") {
-    const currentPrice = priceData.response[0].close;
-    const prevPrice = priceData.response[priceData.response.length - 1].close;
-    const priceChange = currentPrice - prevPrice;
-    const percentChange = Number(
-      ((currentPrice - prevPrice) / prevPrice) * 100
-    ).toFixed(2);
-    return res.status(200).json({
-      status: "success",
-      data: { price: currentPrice, priceChange, percentChange },
-    });
-  }
-
-  const historicalPrices = priceData.response
-    .map((dataPoint) => {
-      const date = getDateFromUnix(dataPoint.date);
-      let displayDate =
-        interval === "day" ? date : DateTime.fromSeconds(dataPoint.date);
-
-      if (interval === "week" || interval === "month") {
-        displayDate = displayDate.toFormat("d-MMMM");
-      }
-      if (interval === "year") displayDate = displayDate.toFormat("MMM-yy");
-
-      return { date, price: dataPoint.close, displayDate };
-    })
-    .filter((dataPoint) => dataPoint.price !== null)
-    .reverse();
+  const priceDataObject =
+    type === "current"
+      ? getCurrentPrice(rawPriceData)
+      : formatHistoricalPrices(rawPriceData, interval);
 
   res.status(200).json({
     status: "success",
-    data: historicalPrices,
+    data: priceDataObject,
   });
 });
 

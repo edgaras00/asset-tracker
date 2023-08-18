@@ -43,7 +43,6 @@ exports.searchCrypto = catchAsync(async (req, res, next) => {
     }
   });
 
-  // Send data to client
   res.status(200).json({
     status: "Success",
     results: finalResults.length,
@@ -184,22 +183,27 @@ exports.getPricesOnInterval = catchAsync(async (req, res, next) => {
 
   // Endpoint based on the interval query parameter
   let endpoint = "";
-  if (interval === "day") {
-    endpoint = "market_chart?vs_currency=usd&days=1&interval=hourly";
-  } else if (interval === "week") {
-    endpoint = "market_chart?vs_currency=usd&days=7&interval=daily";
-  } else if (interval === "month") {
-    endpoint = "market_chart?vs_currency=usd&days=30&interval=daily";
-  } else if (interval === "year") {
-    endpoint = "market_chart?vs_currency=usd&days=365&interval=monthly";
-  } else {
-    // Return hourly if anything else fails in case of bugs/typos
-    endpoint = "market_chart?vs_currency=usd&days=1&interval=hourly";
+
+  switch (interval) {
+    // case "day":
+    //   endpoint = "market_chart?vs_currency=usd&days=1&interval=hourly";
+    //   break;
+    case "week":
+      endpoint = "market_chart?vs_currency=usd&days=7&interval=daily";
+      break;
+    case "month":
+      endpoint = "market_chart?vs_currency=usd&days=30&interval=daily";
+      break;
+    case "year":
+      endpoint = "market_chart?vs_currency=usd&days=365&interval=daily";
+      break;
+    default:
+      endpoint = "market_chart?vs_currency=usd&days=7&interval=daily";
   }
 
   // Fetch price data
-  const result = await fetch(baseUrl + endpoint);
-  const data = await result.json();
+  const response = await fetch(baseUrl + endpoint);
+  const data = await response.json();
 
   if ("error" in data) {
     return next(new AppError("Could not find coin with the given ID", 404));
