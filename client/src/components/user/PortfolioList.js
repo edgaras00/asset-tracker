@@ -6,7 +6,7 @@ import useWindowWidth from "../../hooks/useWindowWidth";
 
 import "./styles/portfolioList.css";
 
-const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
+const PortfolioList = ({ portfolio, assetType, theme, serverError }) => {
   // Component that renders the user's asset list/table
 
   // Search / add asset modal

@@ -30,7 +30,6 @@ const ListItem = ({
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const { width } = useWindowWidth();
-  console.log(returnOnInvestment);
 
   // Booleans for classes and links
 
@@ -39,8 +38,6 @@ const ListItem = ({
   if (ticker === "GOOGL") {
     tickerClass = "table-ticker google";
   }
-
-  console.log(returnOnInvestment);
 
   // Link to stock or crypto
   const destination =

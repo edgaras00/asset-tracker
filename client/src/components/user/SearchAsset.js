@@ -23,11 +23,16 @@ const SearchModal = ({ isModalOpen, closeModal, assetType }) => {
 
   const [search, setSearch] = useState("");
 
-  // Select type of asset to search for
   const [searchData, setSearchData] = useState([]);
   const [addingTxn, setAddingTxn] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [error, setError] = useState("");
+
+  const handleCloseModal = () => {
+    setSearch("");
+    setSearchData([]);
+    closeModal();
+  };
 
   const handleKeyUp = async (event, assetType) => {
     // Function that lets user to submit search query using the Enter key
@@ -120,7 +125,7 @@ const SearchModal = ({ isModalOpen, closeModal, assetType }) => {
               className={`close-button ${
                 theme === "light" ? "close-button-light" : null
               }`}
-              onClick={closeModal}
+              onClick={handleCloseModal}
             >
               X
             </div>
