@@ -10,6 +10,15 @@
   align-items: center;
 }
 
+.txn-header {
+  background: rgb(32, 45, 58);
+  width: 100%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 150px;
+  margin-bottom: 2.3rem;
+}
+
 .form-inputs {
   width: 100%;
   display: flex;
@@ -26,6 +35,7 @@
   font-size: 1.15rem;
   color: #dadada;
   background-color: #2e2e2e;
+  background: rgb(32, 45, 58);
   border: none;
 }
 
@@ -38,7 +48,7 @@
 }
 
 .transaction-form button:hover {
-  background-color: #7a7a7a;
+  opacity: 0.8;
 }
 
 .transaction-form-light button:hover {
@@ -69,12 +79,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
   color: rgb(233, 233, 233);
-}
-
-.txn-action:hover {
-  color: rgb(199, 199, 199);
 }
 
 .txn-action-light {
@@ -142,6 +147,10 @@
   margin-left: 1.8rem;
   font-size: 1.7rem;
   cursor: pointer;
+}
+
+.back-button:hover {
+  opacity: 0.8;
 }
 
 .back-button-light {

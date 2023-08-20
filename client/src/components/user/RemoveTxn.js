@@ -120,29 +120,32 @@ const RemoveTxn = ({
           )
         }
       >
-        <div className="exit-transaction">
-          <div
-            className={`exit-button ${
-              theme === "light" ? "exit-button-light" : null
-            }`}
-            onClick={closeModal}
-          >
-            X
+        <div className="txn-header">
+          <div className="exit-transaction">
+            <div
+              className={`exit-button ${
+                theme === "light" ? "exit-button-light" : null
+              }`}
+              onClick={closeModal}
+            >
+              X
+            </div>
           </div>
-        </div>
-        <div
-          className={`txn-action-select ${
-            theme === "light" ? "txn-action-select-light" : null
-          }`}
-        >
           <div
-            className={`txn-action ${
-              theme === "light" ? "txn-action-light" : null
+            className={`txn-action-select ${
+              theme === "light" ? "txn-action-select-light" : null
             }`}
           >
-            SELL {symbol}
+            <div
+              className={`txn-action ${
+                theme === "light" ? "txn-action-light" : null
+              }`}
+            >
+              SELL {symbol}
+            </div>
           </div>
         </div>
+
         <label
           className={`txn-input ${
             theme === "light" ? "txn-input-light" : null

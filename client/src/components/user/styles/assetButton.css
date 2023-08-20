@@ -12,25 +12,30 @@
   transition: background-color 100ms ease-in;
 }
 
-.stock-button {
-  background-color: #188328;
+.stock-button,
+.stock-btn-light {
+  background: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
 }
 
 .stock-button:hover {
-  background-color: #1fa533;
+  opacity: 0.8;
 }
 
 .stock-btn-light {
-  background-color: #28b63d;
   color: #fff;
 }
 
-.crypto-button {
-  background-color: #6132e2;
+.crypto-button,
+.crypto-btn-light {
+  background: radial-gradient(
+    circle at 10% 20%,
+    rgb(111, 111, 219) 0%,
+    rgb(182, 109, 246) 72.4%
+  );
 }
 
 .crypto-button:hover {
-  background-color: #7242f8;
+  opacity: 0.8;
 }
 
 .crypto-btn-light {

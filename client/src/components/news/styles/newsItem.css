@@ -24,12 +24,13 @@
 }
 .article:hover,
 .company-article:hover {
-  background-color: #303030;
+  /* background-color: #303030; */
+  background: rgb(32, 45, 58);
 }
 
 .article-light:hover,
 .company-article-light:hover {
-  background-color: #d3d3d3;
+  background: rgb(215, 219, 224);
 }
 
 .company-article {

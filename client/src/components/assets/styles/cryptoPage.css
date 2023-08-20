@@ -77,6 +77,10 @@
   margin-right: 20px;
 }
 
+.active-interval {
+  color: red;
+}
+
 @media (max-width: 1000px) {
   .crypto-symbol img {
     width: 70px;

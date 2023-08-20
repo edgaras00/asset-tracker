@@ -6,7 +6,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgb(36, 36, 36);
+  /* background: rgb(36, 36, 36); */
+  background: radial-gradient(
+    circle at 10% 20%,
+    rgb(90, 92, 106) 0%,
+    rgb(32, 45, 58) 81.3%
+  );
+
   border-radius: 6px;
   text-transform: uppercase;
   font-size: 1.4rem;
@@ -15,7 +21,8 @@
 }
 
 .summary-card-light {
-  background-color: #5970a5;
+  /* background-color: #5970a5; */
+  background: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
   color: #fff;
 }
 

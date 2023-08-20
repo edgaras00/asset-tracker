@@ -40,7 +40,7 @@ exports.getPreviousDate = (currentDate, interval) => {
   }
 };
 
-exports.getDateFromUnix = (unixTimestamp) => {
+const getDateFromUnix = (unixTimestamp) => {
   const dateTime = DateTime.fromSeconds(unixTimestamp);
   const formattedDate = dateTime.toFormat("yyyy-MM-dd");
 
@@ -68,7 +68,6 @@ exports.formatHistoricalPrices = (priceData, interval) => {
 };
 
 exports.getCurrentPrice = (priceData) => {
-  console.log(priceData);
   const currentPrice = priceData.response[0].close;
   const prevPrice = priceData.response[priceData.response.length - 1].close;
   const priceChange = prevPrice ? currentPrice - prevPrice : 0;

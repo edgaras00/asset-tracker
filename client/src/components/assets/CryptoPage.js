@@ -92,8 +92,6 @@ const CryptoPage = () => {
 
   // Set up component state
   const { theme, authErrorLogout, token } = useContext(AppContext);
-  // Display price info for different time intervals
-  // daily, weekly, monthly, yearly
   const [timeFrame, setTimeFrame] = useState("week");
   const [expandContent, setExpandContent] = useState(false);
   const [cryptoData, setCryptoData] = useState(null);
@@ -103,6 +101,7 @@ const CryptoPage = () => {
   const [hideX, setHideX] = useState(false);
   const [asetNews, setAssetNews] = useState([]);
   const handleHide = () => setHideX(false);
+
   const { cId } = useParams();
 
   const priceChangeClass = priceChange && priceChange < 0 ? "percent-dec" : "";
@@ -210,6 +209,8 @@ const CryptoPage = () => {
     });
   }
 
+  console.log(timeFrame);
+
   return (
     <div
       className={`crypto-page-container ${
@@ -248,6 +249,7 @@ const CryptoPage = () => {
               setHideX(true);
               setTimeFrame("week");
             }}
+            className={timeFrame === "week" ? "active-interval" : null}
           >
             1W
           </div>
@@ -256,6 +258,7 @@ const CryptoPage = () => {
               setHideX(true);
               setTimeFrame("month");
             }}
+            className={timeFrame === "month" ? "active-interval" : null}
           >
             1M
           </div>
@@ -264,6 +267,7 @@ const CryptoPage = () => {
               setHideX(true);
               setTimeFrame("year");
             }}
+            className={timeFrame === "year" ? "active-interval" : null}
           >
             1Y
           </div>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import ListItem from "./ListItem";
-import SearchModal from "./SearchModal";
+import SearchAsset from "./SearchAsset";
 import useWindowWidth from "../../hooks/useWindowWidth";
 
 import "./styles/portfolioList.css";
@@ -10,27 +10,19 @@ const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
   // Component that renders the user's asset list/table
 
   // Search / add asset modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [isStockModalOpen, setIsStockModalOpen] = useState(false);
+  const [isCryptoModalOpen, setIsCryptoModalOpen] = useState(false);
 
   // Sort asset list/table by property
   const [sortCol, setSortCol] = useState("value");
   const [ascending, setAscending] = useState(false);
   const { width } = useWindowWidth();
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
-  // Button class for different theme and asset type classes
-  let btnClass = "btn-stock";
-  if (assetType === "stock" && theme !== "light") {
-    btnClass = "btn-stock";
-  } else if (assetType === "stock" && theme === "light") {
-    btnClass = "btn-stock-light";
-  } else if (assetType === "crypto" && theme !== "light") {
-    btnClass = "btn-crypto";
-  } else {
-    btnClass = "btn-crypto-light";
-  }
+  const openStockModal = () => setIsStockModalOpen(true);
+  const closeStockModal = () => setIsStockModalOpen(false);
+  const openCryptoModal = () => setIsCryptoModalOpen(true);
+  const closeCryptoModal = () => setIsCryptoModalOpen(false);
 
   const handleClick = (column, currentCol) => {
     // Function that sorts portfolio by selected column values
@@ -89,15 +81,19 @@ const PortfolioList = ({ portfolio, assetType, user, theme, serverError }) => {
         }`}
       >
         <h2>{assetType === "stock" ? "Stock" : "Crypto"} Portfolio</h2>
-        <button className={btnClass} onClick={openModal}>
+        <button
+          className={assetType === "stock" ? "btn-stock" : "btn-crypto"}
+          onClick={assetType === "stock" ? openStockModal : openCryptoModal}
+        >
           Add Asset
         </button>
       </div>
-      <SearchModal
-        isModalOpen={isModalOpen}
-        closeModal={closeModal}
-        user={user}
-        txnType="buy"
+      <SearchAsset
+        isModalOpen={
+          assetType === "stock" ? isStockModalOpen : isCryptoModalOpen
+        }
+        closeModal={assetType === "stock" ? closeStockModal : closeCryptoModal}
+        assetType={assetType}
       />
       {portfolio.length > 0 ? (
         <table

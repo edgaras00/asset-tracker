@@ -159,31 +159,35 @@ const AddTxn = ({
       }`}
       onSubmit={(e) => handleSubmitTxn(e, type, asset, price, quantity, token)}
     >
-      <div
-        className={`back-button-cont ${
-          theme === "light" ? "back-button-cont-light" : null
-        }`}
-      >
-        <div
-          className={`back-button ${
-            theme === "light" ? "back-button-light" : null
-          }`}
-          onClick={() => setAddingTxn(false)}
-        >
-          {"<<"}
-        </div>
-      </div>
-      <div
-        className={`txn-action-select ${
-          theme === "light" ? "txn-action-select-light" : null
-        }`}
-      >
-        <div
-          className={`txn-action ${
-            theme === "light" ? "txn-action-light" : null
-          }`}
-        >
-          BUY {asset.symbol}
+      <div className="txn-header">
+        <div className="txn-header=content">
+          <div
+            className={`back-button-cont ${
+              theme === "light" ? "back-button-cont-light" : null
+            }`}
+          >
+            <div
+              className={`back-button ${
+                theme === "light" ? "back-button-light" : null
+              }`}
+              onClick={() => setAddingTxn(false)}
+            >
+              {"<<"}
+            </div>
+          </div>
+          <div
+            className={`txn-action-select ${
+              theme === "light" ? "txn-action-select-light" : null
+            }`}
+          >
+            <div
+              className={`txn-action ${
+                theme === "light" ? "txn-action-light" : null
+              }`}
+            >
+              BUY {asset.symbol}
+            </div>
+          </div>
         </div>
       </div>
       <div className="form-inputs">

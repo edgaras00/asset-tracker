@@ -1,22 +1,31 @@
 .port-wrapper {
-  background-color: #242424;
+  /* background-color: #242424; */
+  background: radial-gradient(
+    circle at 10% 20%,
+    rgb(90, 92, 106) 0%,
+    rgb(32, 45, 58) 81.3%
+  );
+  background: rgb(32, 45, 58);
+
   color: rgba(255, 255, 255, 0.87);
   border-radius: 10px;
   /* width: 700px; */
-  width: 54%;
+  width: 58%;
   min-height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-bottom: 40px;
   padding-top: 1.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   margin-top: 3rem;
 }
 
 .port-wrapper-light {
   background-color: #ffffff;
   color: #000000;
-  border: 4px solid #9dabca;
+  /* border: 4px solid #9dabca; */
 }
 
 .port-header {
@@ -43,20 +52,26 @@
   font-weight: bold;
 }
 
-.btn-stock {
-  background-color: #188328;
+.btn-stock,
+.btn-stock-light {
+  background: linear-gradient(to top, #0a9257 0%, #2e9171 100%);
 }
 
 .btn-stock:hover {
-  background-color: #1fa533;
+  opacity: 0.8;
 }
 
-.btn-crypto {
-  background-color: #6132e2;
+.btn-crypto,
+.btn-crypto-light {
+  background: radial-gradient(
+    circle at 10% 20%,
+    rgb(111, 111, 219) 0%,
+    rgb(182, 109, 246) 72.4%
+  );
 }
 
 .btn-crypto:hover {
-  background-color: #7242f8;
+  opacity: 0.8;
 }
 
 .btn-stock-light {
@@ -86,14 +101,18 @@
   color: #000000;
 }
 
-.port-table td,
 .port-table th {
+  border-bottom: 3px solid rgb(27, 27, 27);
+  padding-bottom: 20px;
   text-align: right;
-  border-bottom: 3px solid rgb(51, 51, 51);
+}
+
+.port-table td {
+  text-align: right;
+  /* border-bottom: 3px solid rgb(51, 51, 51); */
   padding-bottom: 10px;
 }
 
-.port-table-light td,
 .port-table-light th {
   border-bottom: 3px solid rgb(216, 216, 216);
 }

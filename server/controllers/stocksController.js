@@ -12,7 +12,6 @@ const getTxnHistory = require("../utils/getTxnHistory");
 const {
   fetchAllStockData,
   getPreviousDate,
-  getDateFromUnix,
   getCurrentPrice,
   formatHistoricalPrices,
 } = require("../utils/stocksUtils");
