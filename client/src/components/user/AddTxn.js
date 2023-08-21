@@ -153,97 +153,86 @@ const AddTxn = ({
   }, [fetchAssetPrice, asset, type]);
 
   return (
-    <form
-      className={`transaction-form ${
-        theme === "light" ? "transaction-form-light" : null
+    <div
+      className={`transaction-form-container ${
+        theme === "light" ? "transaction-form-container-light" : null
       }`}
-      onSubmit={(e) => handleSubmitTxn(e, type, asset, price, quantity, token)}
     >
-      <div className="txn-header">
-        <div className="txn-header=content">
-          <div
-            className={`back-button-cont ${
-              theme === "light" ? "back-button-cont-light" : null
-            }`}
-          >
-            <div
-              className={`back-button ${
-                theme === "light" ? "back-button-light" : null
-              }`}
-              onClick={() => setAddingTxn(false)}
-            >
-              {"<<"}
-            </div>
-          </div>
-          <div
-            className={`txn-action-select ${
-              theme === "light" ? "txn-action-select-light" : null
-            }`}
-          >
-            <div
-              className={`txn-action ${
-                theme === "light" ? "txn-action-light" : null
-              }`}
-            >
-              BUY {asset.symbol}
-            </div>
-          </div>
+      <div
+        className={`transaction-header ${
+          theme === "light" ? "transaction-header-light" : null
+        }`}
+      >
+        <div className="navigate-form-container">
+          <span onClick={() => setAddingTxn(false)}>{"<<"}</span>
+        </div>
+        <div className="txn-header-content">
+          <div>BUY {asset.symbol}</div>
         </div>
       </div>
-      <div className="form-inputs">
-        <label
-          htmlFor="price"
-          className={`txn-input ${
-            theme === "light" ? "txn-input-light" : null
-          }`}
-        >
-          <span>Price</span>
-          <input
-            type="number"
-            name="price"
-            step="any"
-            id="price"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
-        </label>
-        <div className={`${priceError ? "form-error" : "hidden"}`}>
-          <span>{priceError}</span>
+      <form
+        className={`transaction-form ${
+          theme === "light" ? "transaction-form-light" : null
+        }`}
+        onSubmit={(e) =>
+          handleSubmitTxn(e, type, asset, price, quantity, token)
+        }
+      >
+        <div className="form-inputs">
+          <label
+            htmlFor="price"
+            className={`txn-input ${
+              theme === "light" ? "txn-input-light" : null
+            }`}
+          >
+            <span>Price</span>
+            <input
+              type="number"
+              name="price"
+              step="any"
+              id="price"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+            />
+          </label>
+          <div className={`${priceError ? "form-error" : "hidden"}`}>
+            <span>{priceError}</span>
+          </div>
+          <label
+            className={`txn-input ${
+              theme === "light" ? "txn-input-light" : null
+            }`}
+          >
+            <span>Quantity</span>
+            <input
+              type="number"
+              name="quantity"
+              value={quantity}
+              step="any"
+              min="0.000000000000000001"
+              onChange={(e) => setQuantity(e.target.value)}
+            />
+          </label>
+          <label
+            className={`txn-input ${
+              theme === "light" ? "txn-input-light" : null
+            }`}
+          >
+            <span>Date</span>
+            <input
+              type="date"
+              name="date"
+              value={txnDate}
+              onChange={(e) => setTxnDate(e.target.value)}
+            />
+          </label>
         </div>
-        <label
-          className={`txn-input ${
-            theme === "light" ? "txn-input-light" : null
-          }`}
-        >
-          <span>Quantity</span>
-          <input
-            type="number"
-            name="quantity"
-            value={quantity}
-            step="any"
-            min="0.000000000000000001"
-            onChange={(e) => setQuantity(e.target.value)}
-          />
-        </label>
-        <label
-          className={`txn-input ${
-            theme === "light" ? "txn-input-light" : null
-          }`}
-        >
-          <span>Date</span>
-          <input
-            type="date"
-            name="date"
-            value={txnDate}
-            onChange={(e) => setTxnDate(e.target.value)}
-          />
-        </label>
-      </div>
-      <div className="form-error">
-        <span>{submitError}</span>
-      </div>
-      <button>Save Transaction</button>
-    </form>
+        <div className="form-error">
+          <span>{submitError}</span>
+        </div>
+        <button>Save Transaction</button>
+      </form>
+    </div>
   );
 };
 

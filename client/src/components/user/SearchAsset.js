@@ -145,35 +145,6 @@ const SearchModal = ({ isModalOpen, closeModal, assetType }) => {
                 <img src={ethLogo} alt="ethereum" />
               </div>
             )}
-
-            {/* <div
-              className={`modal-asset-type ${
-                theme === "light" ? "modal-asset-type-light" : null
-              } ${selectedType === "stock" ? "selected" : null} ${
-                theme === "light" ? lightModeStocks : null
-              }`}
-              onClick={() => {
-                setSelectedType("stock");
-                setSearchData([]);
-                setSearch("");
-              }}
-            >
-              STOCKS
-            </div> */}
-            {/* <div
-              className={`modal-asset-type ${
-                selectedType === "crypto" ? "selected" : null
-              } ${theme === "light" ? "modal-asset-type-light" : null} ${
-                theme === "light" ? lightModeCrypto : null
-              }`}
-              onClick={() => {
-                setSelectedType("crypto");
-                setSearchData([]);
-                setSearch("");
-              }}
-            >
-              CRYPTO
-            </div> */}
           </div>
           <div className="modal-search">
             <div className="searchbar">

@@ -1,13 +1,61 @@
-.transaction-form {
+.transaction-form-container {
   width: 40%;
-  height: 498px;
+  border-radius: 15px;
   padding-bottom: 30px;
-  border-radius: 10px;
+  background-color: #464545;
+}
+
+.transaction-form-container-light {
+  background-color: rgb(185, 185, 185);
+}
+
+.transaction-header {
+  height: 120px;
+  background: rgb(32, 45, 58);
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+  padding-bottom: 0.8rem;
+  margin-bottom: 2.4rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.transaction-header-light {
+  background: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+}
+
+.navigate-form-container {
+  width: 100%;
+}
+
+.navigate-form-container span {
+  font-size: 1.5rem;
+  margin-left: 1.3rem;
+  cursor: pointer;
+}
+
+.navigate-form-container span:hover {
+  opacity: 0.6;
+}
+
+.txn-header-content {
+  text-align: center;
+  font-size: 2rem;
+}
+
+.transaction-form {
+  width: 100%;
   background-color: #464545;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.transaction-form-light {
+  background-color: rgb(185, 185, 185);
 }
 
 .txn-header {
@@ -19,11 +67,16 @@
   margin-bottom: 2.3rem;
 }
 
+.txn-header-light {
+  background: #2a5298;
+}
+
 .form-inputs {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 1.5rem;
 }
 
 .transaction-form button {
@@ -37,10 +90,6 @@
   background-color: #2e2e2e;
   background: rgb(32, 45, 58);
   border: none;
-}
-
-.transaction-form-light {
-  background-color: rgb(185, 185, 185);
 }
 
 .transaction-form-light button {
@@ -68,6 +117,7 @@
 
 .txn-action-select-light {
   background-color: rgb(185, 185, 185);
+  background: #2a5298;
 }
 
 .txn-action {
@@ -83,7 +133,7 @@
 }
 
 .txn-action-light {
-  color: #000000;
+  color: #ffffff;
 }
 
 .txn-input {
@@ -139,7 +189,9 @@
 
 .back-button-cont-light {
   background-color: rgb(185, 185, 185);
+  background: #2a5298;
   border-bottom: none;
+  color: #ffffff;
 }
 
 .back-button {
@@ -154,11 +206,11 @@
 }
 
 .back-button-light {
-  color: #000000;
+  color: #ffffff;
 }
 
 .back-button-light:hover {
-  color: #3a3a3a;
+  opacity: 0.8;
 }
 
 .back-button-cont button:hover {

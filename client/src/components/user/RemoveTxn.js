@@ -104,95 +104,89 @@ const RemoveTxn = ({
       }}
       className={`modal ${theme === "light" ? "modal-light" : null}`}
     >
-      <form
-        className={`transaction-form ${
-          theme === "light" ? "transaction-form-light" : null
+      <div
+        className={`transaction-form-container ${
+          theme === "light" ? "transaction-form-container-light" : null
         }`}
-        onSubmit={(e) =>
-          saveTxn(
-            e,
-            txnAssetType,
-            assetObjectId,
-            price,
-            quantity,
-            totalAmount,
-            token
-          )
-        }
       >
-        <div className="txn-header">
-          <div className="exit-transaction">
-            <div
-              className={`exit-button ${
-                theme === "light" ? "exit-button-light" : null
-              }`}
-              onClick={closeModal}
-            >
-              X
-            </div>
+        <div
+          className={`transaction-header ${
+            theme === "light" ? "transaction-header-light" : null
+          }`}
+        >
+          <div className="navigate-form-container">
+            <span onClick={closeModal}>{"X"}</span>
           </div>
-          <div
-            className={`txn-action-select ${
-              theme === "light" ? "txn-action-select-light" : null
-            }`}
-          >
-            <div
-              className={`txn-action ${
-                theme === "light" ? "txn-action-light" : null
-              }`}
-            >
-              SELL {symbol}
-            </div>
+          <div className="txn-header-content">
+            <div>SELL {symbol}</div>
           </div>
         </div>
-
-        <label
-          className={`txn-input ${
-            theme === "light" ? "txn-input-light" : null
+        <form
+          className={`transaction-form ${
+            theme === "light" ? "transaction-form-light" : null
           }`}
+          onSubmit={(e) =>
+            saveTxn(
+              e,
+              txnAssetType,
+              assetObjectId,
+              price,
+              quantity,
+              totalAmount,
+              token
+            )
+          }
         >
-          <span>Price</span>
-          <input
-            type="number"
-            name="price"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
-        </label>
-        <label
-          className={`txn-input ${
-            theme === "light" ? "txn-input-light" : null
-          }`}
-        >
-          <span>Quantity</span>
-          <input
-            type="number"
-            name="quantity"
-            min={0}
-            step="any"
-            max={totalAmount}
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
-          />
-        </label>
-        <label
-          className={`txn-input ${
-            theme === "light" ? "txn-input-light" : null
-          }`}
-        >
-          <span>Date</span>
-          <input
-            type="date"
-            name="date"
-            value={txnDate}
-            onChange={(e) => setTxnDate(e.target.value)}
-          />
-        </label>
-        <div className="form-error">
-          <span>{submitError}</span>
-        </div>
-        <button disabled={quantity === "0"}>Save Transaction</button>
-      </form>
+          <div className="form-inputs">
+            <label
+              className={`txn-input ${
+                theme === "light" ? "txn-input-light" : null
+              }`}
+            >
+              <span>Price</span>
+              <input
+                type="number"
+                name="price"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </label>
+            <label
+              className={`txn-input ${
+                theme === "light" ? "txn-input-light" : null
+              }`}
+            >
+              <span>Quantity</span>
+              <input
+                type="number"
+                name="quantity"
+                min={0}
+                step="any"
+                max={totalAmount}
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+              />
+            </label>
+            <label
+              className={`txn-input ${
+                theme === "light" ? "txn-input-light" : null
+              }`}
+            >
+              <span>Date</span>
+              <input
+                type="date"
+                name="date"
+                value={txnDate}
+                onChange={(e) => setTxnDate(e.target.value)}
+              />
+            </label>
+            <div className="form-error">
+              <span>{submitError}</span>
+            </div>
+            <button disabled={quantity === "0"}>Save Transaction</button>
+          </div>
+        </form>
+      </div>
     </Modal>
   );
 };

@@ -69,6 +69,7 @@
 
 .search-header-light {
   background-color: rgb(128, 128, 128);
+  background: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
 }
 
 .modal-asset-type-light {
@@ -177,6 +178,7 @@
 
 .close-modal-btn-light {
   background-color: rgb(129, 129, 129);
+  background: #2a5298;
 }
 
 .close-modal-btn button {
@@ -202,7 +204,8 @@
 }
 
 .exit-button-light {
-  color: #000000;
+  color: #ffffff;
+  background: #2a5298;
 }
 
 .close-button-light {
