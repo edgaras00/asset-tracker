@@ -249,7 +249,7 @@ const CryptoPage = () => {
               setHideX(true);
               setTimeFrame("week");
             }}
-            className={timeFrame === "week" ? "active-interval" : null}
+            // className={timeFrame === "week" ? "active-interval" : null}
           >
             1W
           </div>

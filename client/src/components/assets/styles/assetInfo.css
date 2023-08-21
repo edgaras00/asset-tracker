@@ -22,6 +22,31 @@
   background-color: #fff;
 }
 
+.intervals {
+  width: 98%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.interval {
+  font-size: 1rem;
+  margin-right: 1.2rem;
+  color: #8f8f8f;
+  font-weight: bold;
+}
+
+.active-interval {
+  color: rgb(8, 179, 8);
+}
+
+.interval-light div {
+  color: #000000;
+}
+
+.interval:hover {
+  cursor: pointer;
+}
+
 .asset-header {
   width: 100%;
   height: 40px;

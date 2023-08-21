@@ -252,12 +252,15 @@ const CompanyPage = () => {
             {changePercent ? changePercent : 0}%)
           </span>
         </div>
-        <div className="balance-history">
+        <div className="intervals">
           <div
             onClick={() => {
               setHideX(true);
               setTimeFrame("week");
             }}
+            className={`interval ${
+              timeFrame === "week" ? "active-interval" : null
+            }`}
           >
             1W
           </div>
@@ -266,6 +269,9 @@ const CompanyPage = () => {
               setHideX(true);
               setTimeFrame("month");
             }}
+            className={`interval ${
+              timeFrame === "month" ? "active-interval" : null
+            }`}
           >
             1M
           </div>
@@ -274,6 +280,9 @@ const CompanyPage = () => {
               setHideX(true);
               setTimeFrame("year");
             }}
+            className={`interval ${
+              timeFrame === "year" ? "active-interval" : null
+            }`}
           >
             1Y
           </div>

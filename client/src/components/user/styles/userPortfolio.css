@@ -146,27 +146,6 @@
   color: #c45145;
 }
 
-.balance-history {
-  width: 98%;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.balance-history div {
-  font-size: 1rem;
-  margin-right: 1.2rem;
-  color: #c5c5c5;
-  font-weight: bold;
-}
-
-.balance-history-light div {
-  color: #000000;
-}
-
-.balance-history div:hover {
-  cursor: pointer;
-}
-
 .analytics-container {
   width: 60%;
   height: 300px;
