@@ -58,6 +58,10 @@
   overflow: scroll;
 }
 
+.explorer-links::-webkit-scrollbar {
+  display: none;
+}
+
 .crypto-symbol {
   display: flex;
   align-items: center;
@@ -71,6 +75,10 @@
 .categories {
   max-width: 100%;
   overflow: scroll;
+}
+
+.categories::-webkit-scrollbar {
+  display: none;
 }
 
 .social {

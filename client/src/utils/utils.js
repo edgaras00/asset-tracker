@@ -46,7 +46,7 @@ export const handleErrors = (response) => {
 export const getAssetNews = async (symbol, token) => {
   try {
     let url = `https://alpha-assets-api.onrender.com/news/${symbol}`;
-    if (process.env.REACT_APP_ENV === "development") {
+    if (import.meta.env.REACT_APP_ENV === "development") {
       url = `/news/${symbol}`;
     }
     const response = await fetch(url, {
@@ -69,7 +69,7 @@ export const multiplyArrayContents = (array, n) => {
 
 export const getExchangeImages = (exchanges) => {
   const exchangeImages = exchanges.map((exchange) => {
-    return <img src={exchange} alt="exchange" />;
+    // return <img src={exchange} alt="exchange" />;
   });
   return exchangeImages;
 };

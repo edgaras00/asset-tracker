@@ -120,6 +120,10 @@
   overflow: scroll;
 }
 
+.company-info-content::-webkit-scrollbar {
+  display: none;
+}
+
 .company-info-content a {
   font-weight: 700;
 }
