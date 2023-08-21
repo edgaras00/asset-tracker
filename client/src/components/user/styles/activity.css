@@ -1,6 +1,4 @@
 .activity-container {
-  /* background-color: #242424; */
-  /* width: 48%; */
   background: rgb(32, 45, 58);
   width: 620px;
   min-height: 300px;
@@ -12,6 +10,10 @@
   padding-right: 1.2rem;
   margin-top: 3rem;
   color: rgba(255, 255, 255, 0.87);
+}
+
+.activity-container::-webkit-scrollbar {
+  display: none;
 }
 
 .activity-container-light {
