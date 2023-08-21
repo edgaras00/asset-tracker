@@ -1,0 +1,72 @@
+.txn-date {
+  display: flex;
+  align-items: center;
+}
+
+.date {
+  margin-left: 20px;
+  margin-right: 10px;
+  font-size: 1.02rem;
+}
+
+.month {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.buy-icon {
+  border: 1px solid rgb(155, 155, 155);
+  margin-left: 15px;
+  width: 3.3rem;
+  height: 3.3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.description {
+  margin-left: 2rem;
+  font-size: 1rem;
+}
+
+.display-amount {
+  display: flex;
+  flex-direction: column;
+}
+
+.asset-amount {
+  margin-bottom: 1rem;
+  font-size: 1.02rem;
+}
+
+.value-usd {
+  font-size: 1rem;
+}
+
+@media (max-width: 1000px) {
+  .date {
+    font-size: 0.92rem;
+  }
+
+  .month {
+    font-size: 0.9rem;
+  }
+
+  .description {
+    font-size: 0.94rem;
+  }
+
+  .asset-amount {
+    font-size: 0.9rem;
+  }
+
+  .value-usd {
+    font-size: 0.92rem;
+  }
+
+  .buy-icon {
+    width: 3rem;
+    height: 3rem;
+  }
+}

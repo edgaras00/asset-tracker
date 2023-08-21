@@ -1,0 +1,204 @@
+.asset-info-container {
+  width: 54%;
+  background-color: #121212;
+  display: flex;
+  flex-direction: column;
+  color: rgba(255, 255, 255, 0.87);
+  padding: 0 2rem;
+}
+
+.asset-info-container-light {
+  background-color: #fff;
+  color: #000;
+}
+
+.crypto-info-container {
+  width: 54%;
+  background-color: #121212;
+  padding: 0 2rem;
+}
+
+.crypto-info-container-light {
+  background-color: #fff;
+}
+
+.intervals {
+  width: 98%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.interval {
+  font-size: 1rem;
+  margin-right: 1.2rem;
+  color: #8f8f8f;
+  font-weight: bold;
+}
+
+.active-interval {
+  color: rgb(8, 179, 8);
+}
+
+.interval-light div {
+  color: #000000;
+}
+
+.interval:hover {
+  cursor: pointer;
+}
+
+.asset-header {
+  width: 100%;
+  height: 40px;
+  padding-top: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgb(56, 56, 56);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.asset-header h2 {
+  font-size: 2.27rem;
+}
+
+.asset-header span {
+  color: rgb(8, 179, 8);
+  font-size: 1.14rem;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.asset-header-light span {
+  color: #28b63d;
+}
+
+.asset-table {
+  width: 100%;
+  border-spacing: 0 1.3rem;
+  font-size: 1rem;
+}
+
+.market-table,
+.exchange-table {
+  margin-bottom: 0.4rem;
+}
+
+.exchange-table-row:hover {
+  background-color: #262626;
+  cursor: pointer;
+}
+
+.exchange-table-row-light a {
+  color: #000000;
+}
+
+.exchange-table-row-light:hover {
+  background-color: #b9b9b9;
+}
+
+.exchange-table-header {
+  font-weight: bold;
+  font-size: 1.02rem;
+}
+
+.asset-title {
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+}
+
+.crypto-table {
+  width: 100%;
+  margin-top: 2.6rem;
+}
+
+.company-info-content {
+  width: 88%;
+  margin-top: 2rem;
+  font-size: 1rem;
+  line-height: 1.8rem;
+  overflow: scroll;
+}
+
+.company-info-content::-webkit-scrollbar {
+  display: none;
+}
+
+.company-info-content a {
+  font-weight: 700;
+}
+
+.company-info-content a:hover {
+  text-decoration: underline;
+}
+
+.content-expand {
+  color: rgb(8, 179, 8);
+}
+
+.content-expand:hover {
+  cursor: pointer;
+}
+
+.info-row {
+  font-size: 1.14rem;
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.info-row a {
+  font-weight: 600;
+}
+
+.info-row a:hover {
+  text-decoration: underline;
+}
+
+.info-row div {
+  margin-right: 1.4rem;
+}
+
+.crypto-table-val {
+  padding: 0.1rem 0.8rem;
+}
+
+.info-title {
+  font-weight: 600;
+}
+
+.link-light {
+  color: #000;
+}
+
+@media (max-width: 1000px) {
+  .asset-info-container,
+  .crypto-info-container {
+    width: 90%;
+  }
+
+  .asset-header span {
+    font-size: 1rem;
+  }
+
+  .asset-table {
+    font-size: 0.8rem;
+  }
+
+  .exchange-table-row td a {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .asset-table {
+    width: 100%;
+    font-size: 0.7rem;
+  }
+  .asset-table td {
+    border: 1px solid #121212;
+    text-align: center;
+  }
+  .exchange-table-row td a {
+    font-size: 0.78rem;
+  }
+}
