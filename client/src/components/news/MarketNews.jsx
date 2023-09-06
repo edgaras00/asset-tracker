@@ -14,7 +14,7 @@ const MarketNews = () => {
     const getNewsData = async () => {
       try {
         let url = "https://alpha-assets-api.onrender.com/news";
-        if (import.meta.env.REACT_APP_ENV === "development") {
+        if (import.meta.env.DEV) {
           url = "/news";
         }
         const response = await fetch(url, {

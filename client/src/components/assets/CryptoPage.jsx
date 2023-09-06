@@ -35,6 +35,7 @@ const fetchPriceData = async (cId, timeFrame, token) => {
   } catch (error) {
     console.log(error);
     if (error.name === "authError") return "authError";
+    if (error.name === "requestLimit") return "requestLimit";
     return -1;
   }
 };
@@ -60,6 +61,7 @@ const getCurrentPrice = async (cId, timeFrame, token) => {
   } catch (error) {
     console.log(error);
     if (error.name === "authError") return "authError";
+    if (error.name === "requestLimit") return "requestLimit";
     return -1;
   }
 };
@@ -83,6 +85,7 @@ const fetchCryptoData = async (cId, token) => {
   } catch (error) {
     console.log(error);
     if (error.name === "authError") return "authError";
+    if (error.name === "requestLimit") return "requestLimit";
     return -1;
   }
 };
@@ -115,6 +118,9 @@ const CryptoPage = () => {
           authErrorLogout();
           return;
         }
+
+        if (cryptoData === "requestLimit") return;
+
         setCryptoData(cryptoData);
       } catch (error) {
         console.log(error);
@@ -142,6 +148,10 @@ const CryptoPage = () => {
 
       if (cryptoMarketData === "authError" || priceData === "authError") {
         authErrorLogout();
+        return;
+      }
+
+      if (cryptoMarketData === "requestLimit" || priceData === "requestLimit") {
         return;
       }
 

@@ -19,7 +19,7 @@ const getTransactionHistory = async (type, token) => {
   try {
     // Build URL
     let url = "https://alpha-assets-api.onrender.com/stocks/history";
-    if (import.meta.env.REACT_APP_ENV === "development") {
+    if (import.meta.env.DEV) {
       url = "/stocks/history";
     }
 
@@ -49,6 +49,7 @@ const getTransactionHistory = async (type, token) => {
     if (error.name === "authError") return "authError";
     if (error.name === "notFound") return "notFound";
     if (error.name === "serverError") return "serverError";
+    if (error.name === "requestLimit") return "requestLimit";
     return;
   }
 };
@@ -105,6 +106,7 @@ const getPortfolio = async (type, token) => {
     if (error.name === "authError") return "authError";
     if (error.name === "notFound") return "notFound";
     if (error.name === "serverError") return "serverError";
+    if (error.name === "requestLimit") return "requestLimit";
     return;
   }
 };
@@ -159,7 +161,8 @@ const UserPortfolio = () => {
       ) {
         clearPortfolio(true);
         return;
-      }
+      } else if (portfolioData === "requestLimit") return;
+
       if (portfolioData.length === 0) {
         clearPortfolio(false);
         return;
@@ -171,15 +174,18 @@ const UserPortfolio = () => {
       setPortfolio(portfolioData.portfolio);
       setAssetCost(portfolioData.cost);
     };
+
     const getTxnHistoryData = async (assetType, token) => {
       const txnHistory = await getTransactionHistory(assetType, token);
+
       if (txnHistory === "authError") {
         authErrorLogout();
         return;
       } else if (txnHistory === "notFound" || txnHistory === "serverError") {
         setTxnActivity([]);
         return;
-      }
+      } else if (txnHistory === "requestLimit") return;
+
       setTxnActivity(txnHistory);
     };
     if (token) {

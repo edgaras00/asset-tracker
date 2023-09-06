@@ -40,6 +40,12 @@ export const handleErrors = (response) => {
     throw error;
   }
 
+  if (response.status === 429) {
+    error = new Error("Exceeded API request limit.");
+    error.name = "requestLimit";
+    throw error;
+  }
+
   throw error;
 };
 
