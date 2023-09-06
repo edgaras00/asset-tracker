@@ -52,6 +52,7 @@ app.use("/crypto", cryptoRouter);
 app.use("/stocks", stocksRouter);
 app.use("/news", newsRouter);
 app.use("/user", userRouter);
+app.use("/ping", (req, res) => res.status(200).send("Welcome"));
 
 // 404 NOT FOUND routes
 app.all("*", (req, res, next) => {
